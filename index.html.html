@@ -1,0 +1,1446 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alto Impacto — Prototype</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Spectral:ital,wght@0,300;0,400;0,700;1,300;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --dark:    #0d0d0d;
+    --dark-2:  #141414;
+    --dark-3:  #1c1c1c;
+    --cream:   #f5f0e8;
+    --white:   #ffffff;
+    --red:     #c0392b;
+    --red-dim: rgba(192,57,43,0.12);
+    --border-dark:  rgba(255,255,255,0.07);
+    --border-light: #ddd5c4;
+    --muted-dark:   #555;
+    --muted-light:  #8a7f6e;
+    --serif: 'DM Serif Display', serif;
+    --mono:  'IBM Plex Mono', monospace;
+    --sans:  'Spectral', serif;
+    --transition: 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Spectral', serif;
+    background: var(--dark);
+    color: #e8e0d0;
+    overflow-x: hidden;
+  }
+
+  /* ── STICKY INDICATOR NAV ── */
+  .indicator-nav {
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    background: rgba(13,13,13,0.96);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-dark);
+    padding: 0 48px;
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .nav-brand {
+    font-family: var(--serif);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--red);
+    padding: 16px 32px 16px 0;
+    border-right: 1px solid var(--border-dark);
+    margin-right: 8px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+
+  .ind-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 12px 20px;
+    cursor: pointer;
+    border: none;
+    background: none;
+    border-bottom: 2px solid transparent;
+    transition: all var(--transition);
+    gap: 3px;
+    position: relative;
+  }
+
+  .ind-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0; right: 0;
+    height: 2px;
+    background: var(--red);
+    transform: scaleX(0);
+    transition: transform var(--transition);
+    transform-origin: left;
+  }
+
+  .ind-btn.active::after,
+  .ind-btn:hover::after {
+    transform: scaleX(1);
+  }
+
+  .ind-btn .btn-num {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--muted-dark);
+    line-height: 1;
+    transition: color var(--transition);
+  }
+
+  .ind-btn.active .btn-num { color: var(--red); }
+  .ind-btn:hover .btn-num  { color: #e8836e; }
+
+  .ind-btn .btn-label {
+    font-family: var(--mono);
+    font-size: 8px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #333;
+    line-height: 1;
+    transition: color var(--transition);
+    white-space: nowrap;
+  }
+
+  .ind-btn.active .btn-label { color: #666; }
+  .ind-btn:hover .btn-label  { color: #555; }
+
+  /* ── HERO (fixed opening — always impunity) ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 48px 64px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 72% 45%, rgba(192,57,43,0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .hero-ghost-num {
+    position: absolute;
+    right: 48px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--serif);
+    font-size: clamp(120px, 20vw, 220px);
+    font-weight: 900;
+    line-height: 1;
+    color: rgba(192,57,43,0.065);
+    pointer-events: none;
+    letter-spacing: -0.03em;
+    user-select: none;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+
+  .hero-headline {
+    font-family: var(--serif);
+    font-size: clamp(36px, 5.5vw, 72px);
+    font-weight: 400;
+    line-height: 1.08;
+    color: #f0e8d8;
+    max-width: 700px;
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.35s forwards;
+  }
+
+  .hero-headline em {
+    font-style: italic;
+    color: var(--red);
+  }
+
+  .hero-body {
+    font-size: 15px;
+    color: #666;
+    font-weight: 300;
+    font-family: 'Spectral', serif;
+    line-height: 1.8;
+    max-width: 520px;
+    margin-bottom: 52px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.5s forwards;
+  }
+
+  .hero-disclaimer {
+    font-family: 'Spectral', serif;
+    font-size: 15px;
+    font-style: italic;
+    font-weight: 300;
+    color: #888;
+    line-height: 1.7;
+    max-width: 560px;
+    margin-bottom: 36px;
+    padding-left: 16px;
+    border-left: 2px solid var(--red);
+    opacity: 0;
+    animation: fadeUp 0.8s 0.65s forwards;
+  }
+
+  .hero-cta {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: #444;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
+
+  /* ── COUNTER STRIP (indicator selector) ── */
+  .counter-strip {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--border-dark);
+    opacity: 0;
+    animation: fadeUp 0.8s 1.0s forwards;
+  }
+
+  .counter-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+    cursor: pointer;
+    border: none;
+    background: none;
+    border-right: 1px solid var(--border-dark);
+    border-bottom: 3px solid transparent;
+    transition: all 0.35s ease;
+    gap: 6px;
+    position: relative;
+  }
+
+  .counter-btn:last-child { border-right: none; }
+
+  .counter-btn:hover {
+    background: rgba(192,57,43,0.04);
+  }
+
+  .counter-btn.active {
+    background: rgba(192,57,43,0.06);
+    border-bottom-color: var(--red);
+  }
+
+  .counter-btn .c-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(22px, 3vw, 34px);
+    font-weight: 400;
+    color: #444;
+    line-height: 1;
+    transition: color 0.35s ease;
+  }
+
+  .counter-btn.active .c-num,
+  .counter-btn:hover .c-num {
+    color: var(--red);
+  }
+
+  .counter-btn .c-label {
+    font-family: var(--mono);
+    font-size: 8px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #333;
+    line-height: 1.3;
+    text-align: center;
+    transition: color 0.35s ease;
+  }
+
+  .counter-btn.active .c-label { color: #666; }
+  .counter-btn:hover .c-label  { color: #555; }
+
+  .counter-btn .c-hint {
+    font-family: var(--mono);
+    font-size: 7.5px;
+    letter-spacing: 0.08em;
+    color: #2a2a2a;
+    text-transform: uppercase;
+    transition: color 0.35s ease;
+  }
+
+  .counter-btn.active .c-hint { color: #555; }
+  .counter-btn:hover .c-hint  { color: #444; }
+
+  .hero-scroll {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    color: #333;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    opacity: 0;
+    animation: fadeUp 0.8s 1s forwards;
+  }
+
+  .hero-scroll::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: #333;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── SECTION HEADERS ── */
+  .section-wrap {
+    padding: 64px 48px;
+    border-top: 1px solid var(--border-dark);
+  }
+
+  .section-wrap.light {
+    background: var(--cream);
+    border-top: none;
+  }
+
+  .section-eyebrow {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: #f0e8d8;
+    margin-bottom: 6px;
+    line-height: 1.1;
+  }
+
+  .light .section-title { color: #1a1208; }
+
+  .section-sub {
+    font-size: 14px;
+    color: var(--muted-dark);
+    font-weight: 300;
+    font-family: 'Spectral', serif;
+    line-height: 1.7;
+    max-width: 560px;
+    margin-bottom: 36px;
+  }
+
+  .light .section-sub { color: var(--muted-light); }
+
+  /* ── INDICATOR CONTENT PANELS ── */
+  .ind-panel {
+    display: none;
+  }
+  .ind-panel.active {
+    display: block;
+    animation: panelIn 0.4s ease forwards;
+  }
+
+  @keyframes panelIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── STATE GRID MAP ── */
+  .map-layout {
+    display: grid;
+    grid-template-columns: 1fr 260px;
+    gap: 32px;
+    align-items: start;
+  }
+
+  .state-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 3px;
+  }
+
+  .state-block {
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 7.5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    position: relative;
+    text-align: center;
+    padding: 2px;
+    line-height: 1.2;
+  }
+
+  .state-block:hover {
+    transform: scale(1.18);
+    z-index: 10;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.5);
+  }
+
+  .state-tooltip {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #0d0d0d;
+    border: 1px solid var(--border-dark);
+    color: #e8e0d0;
+    padding: 8px 12px;
+    font-size: 11px;
+    white-space: nowrap;
+    z-index: 100;
+    pointer-events: none;
+    font-family: var(--sans);
+  }
+
+  .state-tooltip strong {
+    display: block;
+    font-family: var(--serif);
+    font-size: 13px;
+    margin-bottom: 2px;
+  }
+
+  .state-block:hover .state-tooltip { display: block; }
+
+  /* Map sidebar */
+  .map-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .map-stat-highlight {
+    border: 1px solid var(--border-dark);
+    padding: 20px;
+    background: var(--dark-3);
+  }
+
+  .light .map-stat-highlight {
+    border-color: var(--border-light);
+    background: white;
+  }
+
+  .msh-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted-dark);
+    margin-bottom: 6px;
+  }
+
+  .light .msh-label { color: var(--muted-light); }
+
+  .msh-value {
+    font-family: 'DM Serif Display', serif;
+    font-size: 42px;
+    font-weight: 400;
+    color: var(--red);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .msh-context {
+    font-size: 12px;
+    font-family: 'Spectral', serif;
+    color: var(--muted-dark);
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  .light .msh-context { color: var(--muted-light); }
+
+  .map-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .legend-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    color: var(--muted-dark);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .legend-bar {
+    height: 8px;
+    background: linear-gradient(to right, #f7e8e6, #e8836e, #c0392b, #7b1a12, #3d0a08);
+    margin-bottom: 4px;
+  }
+
+  .legend-labels {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 8px;
+    color: #444;
+  }
+
+  .light .legend-labels { color: var(--muted-light); }
+
+  .map-framing {
+    font-size: 13px;
+    font-family: 'Spectral', serif;
+    color: var(--muted-dark);
+    font-weight: 300;
+    line-height: 1.7;
+    font-style: italic;
+    border-left: 2px solid var(--red);
+    padding-left: 14px;
+  }
+
+  .light .map-framing { color: var(--muted-light); }
+
+  /* ── TREND CHART ── */
+  .chart-wrap {
+    background: var(--dark-3);
+    border: 1px solid var(--border-dark);
+    padding: 28px;
+    margin-bottom: 16px;
+  }
+
+  .light .chart-wrap {
+    background: white;
+    border-color: var(--border-light);
+  }
+
+  .chart-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+  }
+
+  .chart-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: #f0e8d8;
+    margin-bottom: 4px;
+  }
+
+  .light .chart-title { color: #1a1208; }
+
+  .chart-source {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--muted-dark);
+    text-align: right;
+    line-height: 1.5;
+  }
+
+  svg.trend { overflow: visible; width: 100%; }
+
+  /* ── CASES ── */
+  .cases-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .case-row {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    gap: 24px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border-light);
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .case-row:last-child { border-bottom: none; }
+
+  .case-year {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--red);
+    line-height: 1;
+    padding-top: 2px;
+  }
+
+  .case-info h4 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: #1a1208;
+    margin-bottom: 4px;
+  }
+
+  .case-info p {
+    font-size: 13px;
+    font-family: 'Spectral', serif;
+    color: var(--muted-light);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .case-tag {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 2px 8px;
+    font-family: var(--mono);
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 1px solid var(--border-light);
+    color: var(--muted-light);
+  }
+
+  /* ── TRANSITION ZONE ── */
+  .transition-zone {
+    height: 120px;
+    background: linear-gradient(to bottom, var(--dark) 0%, var(--cream) 100%);
+  }
+
+  /* ── FOOTER ── */
+  .site-footer {
+    background: var(--dark-2);
+    border-top: 1px solid var(--border-dark);
+    padding: 20px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .site-footer span {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: #333;
+    text-transform: uppercase;
+  }
+
+  /* ── PROTOTYPE BADGE ── */
+  .proto-badge {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--dark-3);
+    border: 1px solid var(--border-dark);
+    padding: 8px 14px;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    color: #444;
+    text-transform: uppercase;
+    z-index: 999;
+  }
+
+  @media (max-width: 768px) {
+    .indicator-nav { padding: 0 16px; overflow-x: auto; }
+    .nav-brand { display: none; }
+    .hero { padding: 80px 20px 48px; }
+    .section-wrap { padding: 48px 20px; }
+    .map-layout { grid-template-columns: 1fr; }
+    .state-grid { grid-template-columns: repeat(6, 1fr); }
+    .site-footer { flex-direction: column; gap: 8px; padding: 16px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════
+     STICKY NAV — brand + active indicator
+══════════════════════════════ -->
+<nav class="indicator-nav" id="indicatorNav">
+  <div class="nav-brand">Alto Impacto</div>
+  <div style="display:flex;align-items:center;gap:24px;margin-left:24px;">
+    <span id="navActiveLabel" style="font-family:var(--mono);font-size:10px;letter-spacing:0.15em;color:#555;text-transform:uppercase;">— Selecciona un indicador</span>
+    <button id="navBackBtn" onclick="clearIndicator()" style="display:none;padding:6px 14px;border:1px solid #2a2a2a;background:none;color:#555;font-family:var(--mono);font-size:9px;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;">← Vista general</button>
+  </div>
+</nav>
+
+
+<!-- ══════════════════════════════
+     HERO — fixed impunity opening
+══════════════════════════════ -->
+<section class="hero" id="hero">
+  <div class="hero-bg-glow"></div>
+  <div class="hero-ghost-num">93%</div>
+
+  <div class="hero-eyebrow">México · Violencia &amp; Seguridad · 2024</div>
+
+  <h1 class="hero-headline">
+    De cada 100 delitos,<br>
+    <em>93 quedan sin investigar.</em>
+  </h1>
+
+  <p class="hero-body">
+    En 2024, se cometieron más de 33 millones de delitos en México.
+    Solo el 6.8% derivó en una investigación. Esta es la historia
+    de lo que sabemos — y de lo que no.
+  </p>
+
+  <p class="hero-disclaimer">
+    Esta no es una base de datos. Es un intento de hacer visible lo que el Estado prefiere que no veas — y de nombrar a quienes el sistema ha fallado.
+  </p>
+
+  <p class="hero-cta">Selecciona un indicador para explorar ↓</p>
+
+  <!-- COUNTER STRIP — indicator selector lives inside the hero -->
+  <div class="counter-strip" id="counterStrip"></div>
+</section>
+
+
+<!-- ══════════════════════════════
+     MAP SECTION (dark)
+══════════════════════════════ -->
+<section class="section-wrap" id="mapSection">
+  <div class="section-eyebrow" id="mapEyebrow">Indicador seleccionado</div>
+  <h2 class="section-title" id="mapTitle">Por estado</h2>
+  <p class="section-sub" id="mapSub">Haz clic en un indicador arriba para cambiar lo que muestra el mapa.</p>
+
+  <div id="mapPanels"></div>
+</section>
+
+
+<!-- ══════════════════════════════
+     TRANSITION
+══════════════════════════════ -->
+<div class="transition-zone" id="transitionZone"></div>
+
+
+<!-- ══════════════════════════════
+     TREND SECTION (light)
+══════════════════════════════ -->
+<section class="section-wrap light" id="trendSection">
+  <div class="section-eyebrow" id="trendEyebrow">Tendencia</div>
+  <h2 class="section-title" id="trendTitle">Evolución histórica</h2>
+  <p class="section-sub" id="trendSub"></p>
+
+  <div id="trendPanels"></div>
+</section>
+
+
+<!-- ══════════════════════════════
+     CASES SECTION (light)
+══════════════════════════════ -->
+<section class="section-wrap light" id="casesSection" style="border-top:1px solid var(--border-light);">
+  <div class="section-eyebrow" id="casesEyebrow">Casos</div>
+  <h2 class="section-title" id="casesTitle">Casos relacionados</h2>
+  <p class="section-sub" id="casesSub"></p>
+
+  <div id="casesPanels"></div>
+</section>
+
+
+<footer class="site-footer">
+  <span>Alto Impacto · Prototipo interactivo</span>
+  <span>Datos: SESNSP · RNPDNO · Artículo 19 · ENVIPE (INEGI)</span>
+</footer>
+
+<div class="proto-badge">Prototype · Sample data</div>
+
+
+<script>
+// ════════════════════════════════════════
+// DATA
+// ════════════════════════════════════════
+
+const INDICATORS = [
+  {
+    id: 'homicidio',
+    navNum: '33.1k',
+    navLabel: 'Homicidio doloso',
+    heroGhost: '33k',
+    heroEm: '33,141 homicidios en 2023.',
+    heroHeadline: 'En México, cada día <em>mueren 90 personas</em> por homicidio doloso.',
+    heroBody: 'El país acumula más de 180,000 homicidios desde 2019. La tasa nacional — 27.8 por cada 100,000 habitantes — triplica el umbral que la OMS considera epidemia de violencia.',
+    mapEyebrow: 'Homicidio doloso · Tasa por 100,000 hab.',
+    mapTitle: 'Los estados más letales',
+    mapSub: 'Tasa de homicidio doloso por cada 100,000 habitantes. Colima encabeza la lista nacional con una tasa 10 veces mayor al promedio de Europa occidental.',
+    mapFraming: '«La tasa nacional de 27.8 triplica el umbral de epidemia de violencia definido por la OMS (10/100k).»',
+    mapHighlightValue: '88',
+    mapHighlightLabel: 'Colima — tasa más alta',
+    mapHighlightContext: '88 homicidios por cada 100,000 habitantes. El estado más violento del país por amplio margen.',
+    trendTitle: 'Homicidio doloso, 2000–2023',
+    trendSub: 'La escalada comenzó con la declaración de guerra contra el narco en 2006. El pico histórico llegó en 2019 con 35,964 víctimas.',
+    trendSource: 'INEGI (2000–2014) · SESNSP (2015–2023)',
+    trendData: [10.0,10.5,11.1,11.4,11.0,10.5,11.2,12.9,14.0,19.8,23.0,27.2,26.0,23.0,20.0,20.8,24.6,29.2,33.3,36.0,35.0,34.5,33.5,33.1],
+    trendYears: Array.from({length:24},(_,i)=>2000+i),
+    trendAnnotations: [
+      {year:2006, label:'Guerra contra\nel narco'},
+      {year:2011, label:'Primer pico'},
+      {year:2019, label:'Pico histórico\n35,964'},
+    ],
+    casesEyebrow: 'Homicidio doloso · Casos de alto impacto',
+    casesTitle: 'Cuando las cifras tienen nombre',
+    casesSub: 'Eventos que marcaron la historia de la violencia en México.',
+    cases: [
+      { year:'2011', name:'Ciudad Juárez — capital mundial del crimen', desc:'Con 3,622 homicidios en un año, Juárez se convirtió en la ciudad más violenta del mundo. La guerra entre Sinaloa y el Cártel de Juárez cobró más vidas civiles que muchos conflictos armados activos.', tag:'Cártel de Juárez · Sinaloa' },
+      { year:'2019', name:'El Culiacanazo', desc:'Tras la captura de Ovidio Guzmán, el Cártel de Sinaloa tomó Culiacán. El gobierno lo liberó horas después para detener la masacre. El Estado cedió ante el crimen organizado en tiempo real.', tag:'Sinaloa · Fallo del Estado' },
+      { year:'2019', name:'Masacre de la familia LeBarón', desc:'Tres madres y seis niños de la familia LeBarón — ciudadanos dual México-EE.UU. — fueron emboscados en Sonora. El ataque desencadenó llamados internacionales de intervención estadounidense.', tag:'Sonora · Ciudadanos EE.UU.' },
+    ]
+  },
+  {
+    id: 'feminicidio',
+    navNum: '827',
+    navLabel: 'Feminicidio',
+    heroGhost: '2/día',
+    heroEm: 'dos mujeres son asesinadas por el hecho de ser mujeres.',
+    heroHeadline: 'En México, <em>cada día</em>',
+    heroBody: '827 feminicidios fueron registrados en 2023. Pero la cifra real es mayor — la definición legal se aplica de forma inconsistente entre estados, y muchos casos se clasifican como homicidio simple para evitar el protocolo.',
+    mapEyebrow: 'Feminicidio · Tasa por 100,000 mujeres',
+    mapTitle: 'El mapa del feminicidio',
+    mapSub: 'Tasa de feminicidio por cada 100,000 mujeres. La comparación entre estados revela no solo distintos niveles de violencia, sino distintos criterios de clasificación.',
+    mapFraming: '«La inconsistencia en la definición legal entre estados hace que el mapa muestre tanto violencia real como subregistro institucional.»',
+    mapHighlightValue: '827',
+    mapHighlightLabel: 'Víctimas en 2023',
+    mapHighlightContext: 'Equivale a 2.3 feminicidios por día. Una disminución del 13.7% respecto a 2022, aunque expertos cuestionan si refleja mejoras reales o cambios en clasificación.',
+    trendTitle: 'Feminicidio registrado, 2015–2023',
+    trendSub: 'La tipificación como delito autónomo comenzó a estandarizarse a partir de 2012. Los datos anteriores son menos comparables entre estados.',
+    trendSource: 'SESNSP (2015–2023)',
+    trendData: [411,604,742,898,1006,940,1004,959,827],
+    trendYears: Array.from({length:9},(_,i)=>2015+i),
+    trendAnnotations: [
+      {year:2020, label:'Pico: 1,006'},
+      {year:2023, label:'827 · último dato'},
+    ],
+    casesEyebrow: 'Feminicidio · Casos y patrones',
+    casesTitle: 'Las víctimas tienen nombre',
+    casesSub: 'Casos que visibilizaron la dimensión sistémica del feminicidio en México.',
+    cases: [
+      { year:'2020', name:'#UnDíaSinNosotras — Paro Nacional', desc:'El 9 de marzo de 2020, un día después del Día de la Mujer, miles de mujeres se ausentaron de trabajos, escuelas y espacios públicos. El movimiento respondió al pico de feminicidios y la falta de respuesta institucional.', tag:'Movimiento · Nacional' },
+      { year:'2020', name:'Ingrid Escamilla', desc:'El feminicidio de Ingrid Escamilla en febrero de 2020 — y la filtración de sus fotos por parte de medios y policías — desencadenó protestas masivas y exhibió la violencia institucional hacia las víctimas.', tag:'CDMX · Violencia mediática' },
+      { year:'2022', name:'Caso Debanhi Escobar', desc:'La desaparición y muerte de Debanhi Escobar en Nuevo León — cuyo cuerpo fue encontrado en una cisterna de hotel tras una búsqueda de 13 días — generó un debate nacional sobre la búsqueda de mujeres desaparecidas.', tag:'Nuevo León · Desaparición' },
+    ]
+  },
+  {
+    id: 'desaparicion',
+    navNum: '13.6k',
+    navLabel: 'Desaparición',
+    heroGhost: '37/día',
+    heroEm: '37 personas desaparecen cada día en México.',
+    heroHeadline: 'Más de <em>115,000 personas</em><br>están desaparecidas en México.',
+    heroBody: 'El Registro Nacional de Personas Desaparecidas contabiliza 115,000 casos acumulados. En 2024 se reportaron 13,627 nuevas desapariciones — un récord histórico. La mayoría de los casos permanecen sin resolución.',
+    mapEyebrow: 'Desaparición · Casos nuevos por estado · 2024',
+    mapTitle: 'El país de los desaparecidos',
+    mapSub: 'Nuevos registros de personas desaparecidas por estado en 2024. Jalisco, Tamaulipas y Sinaloa concentran los números más altos, reflejando la presencia de grupos criminales activos.',
+    mapFraming: '«115,000 personas desaparecidas en México. Una cifra que crece cada día y que el Estado no ha logrado detener.»',
+    mapHighlightValue: '115k',
+    mapHighlightLabel: 'Desaparecidos acumulados',
+    mapHighlightContext: '13,627 nuevos casos en 2024 — el año con más desapariciones registradas en la historia del país.',
+    trendTitle: 'Nuevas desapariciones por año, 2010–2024',
+    trendSub: 'El número de nuevos casos anuales no ha dejado de crecer desde 2014. El RNPDNO comenzó operaciones formales en 2017.',
+    trendSource: 'RNPDNO · Comisión Nacional de Búsqueda (2024)',
+    trendData: [1200,1400,1800,2200,3100,4200,5800,7200,8500,9800,10200,11400,12100,12800,13627],
+    trendYears: Array.from({length:15},(_,i)=>2010+i),
+    trendAnnotations: [
+      {year:2014, label:'Ayotzinapa'},
+      {year:2017, label:'Inicia RNPDNO'},
+      {year:2024, label:'Récord: 13,627'},
+    ],
+    casesEyebrow: 'Desaparición forzada · Casos emblemáticos',
+    casesTitle: 'Los que el Estado no ha encontrado',
+    casesSub: 'Casos que definieron la crisis de desapariciones en México.',
+    cases: [
+      { year:'2014', name:'Caso Ayotzinapa — 43 normalistas', desc:'43 estudiantes de la Normal Rural de Ayotzinapa fueron desaparecidos en Iguala, Guerrero. La policía municipal los entregó al cartel Guerreros Unidos. Caso sin resolución definitiva, símbolo global de impunidad y colusión Estado-crimen.', tag:'Guerrero · Estado-Crimen' },
+      { year:'2010', name:'Masacre de San Fernando', desc:'72 migrantes centroamericanos y sudamericanos ejecutados por Los Zetas en Tamaulipas. Un sobreviviente guió a las autoridades al lugar. Al año siguiente se encontró una segunda fosa con 193 cuerpos más.', tag:'Tamaulipas · Migrantes · Zetas' },
+      { year:'2022', name:'Crisis de fosas en Jalisco', desc:'Jalisco acumula el mayor número de personas desaparecidas del país. Las brigadas de búsqueda de madres y familiares han encontrado cientos de fosas clandestinas en los últimos años, en terrenos que las autoridades no habían rastreado.', tag:'Jalisco · CJNG · Fosas' },
+    ]
+  },
+  {
+    id: 'periodistas',
+    navNum: '639',
+    navLabel: 'Periodistas',
+    heroGhost: '1/14h',
+    heroEm: 'un periodista es agredido en México.',
+    heroHeadline: 'Cada 14 horas,',
+    heroBody: 'En 2024, Artículo 19 documentó 639 agresiones contra periodistas — un incremento del 13.9% respecto al año anterior. Cinco periodistas fueron asesinados. México es el país más peligroso del mundo para ejercer el periodismo fuera de zonas de guerra.',
+    mapEyebrow: 'Agresiones a periodistas · Por estado · 2024',
+    mapTitle: 'Periodismo bajo fuego',
+    mapSub: 'Agresiones documentadas por Artículo 19 por estado en 2024. Ciudad de México concentra el mayor número absoluto; Guerrero, Veracruz y Tamaulipas tienen las tasas más altas relativas a su población periodística.',
+    mapFraming: '«México es el país más peligroso del mundo para el periodismo fuera de zonas de guerra activa. — Artículo 19»',
+    mapHighlightValue: '639',
+    mapHighlightLabel: 'Agresiones en 2024',
+    mapHighlightContext: 'Un ataque cada 14 horas. 5 periodistas asesinados. 47% de las agresiones provienen de funcionarios públicos.',
+    trendTitle: 'Agresiones a periodistas, 2010–2024',
+    trendSub: '47% de las agresiones documentadas en 2024 provienen de funcionarios públicos — no de grupos criminales. El Estado es el principal agresor.',
+    trendSource: 'Artículo 19 · Informe anual (2024)',
+    trendData: [207,218,259,330,326,392,426,507,489,565,544,612,588,561,639],
+    trendYears: Array.from({length:15},(_,i)=>2010+i),
+    trendAnnotations: [
+      {year:2017, label:'507 — primer\nrecord'},
+      {year:2024, label:'639 — máximo\nhistórico'},
+    ],
+    casesEyebrow: 'Periodistas · Casos documentados',
+    casesTitle: 'Los silencios que el crimen impone',
+    casesSub: 'Periodistas asesinados y casos que ejemplifican la crisis de libertad de prensa.',
+    cases: [
+      { year:'2022', name:'Asesinato de 11 periodistas en un año', desc:'2022 fue el año más letal para la prensa en México desde que existen registros. Once periodistas fueron asesinados, varios de ellos cubriendo crimen organizado en estados como Veracruz, Guerrero y Oaxaca.', tag:'Nacional · 11 asesinados' },
+      { year:'2017', name:'Javier Valdez — Ríodoce', desc:'El periodista sinaloense fue asesinado a plena luz del día en Culiacán, meses después de publicar su libro sobre el Cártel de Sinaloa. Su muerte se convirtió en símbolo de la violencia contra la prensa.', tag:'Sinaloa · Crimen organizado' },
+      { year:'2019', name:'Miroslava Breach — El Norte', desc:'Corresponsal asesinada en 2017 en Chihuahua, pero cuyo caso fue sentenciado en 2019. Primer caso en México donde se vinculó directamente a un político local con el asesinato de una periodista.', tag:'Chihuahua · Impunidad rota' },
+    ]
+  },
+  {
+    id: 'extorsion',
+    navNum: '97.9%',
+    navLabel: 'Extorsión',
+    heroGhost: '98%',
+    heroEm: 'nunca llegan a una investigación.',
+    heroHeadline: 'De cada 100 extorsiones,<br><em>98</em>',
+    heroBody: 'La extorsión tiene la cifra negra más alta de todos los delitos en México: 97.9% de los casos no son investigados. No porque no ocurran — sino porque las víctimas no denuncian por miedo, desconfianza o certeza de que no servirá de nada.',
+    mapEyebrow: 'Extorsión · Tasa de victimización por estado',
+    mapTitle: 'Lo que no se denuncia',
+    mapSub: 'Tasa de victimización por extorsión por cada 100,000 habitantes según ENVIPE. Esta encuesta captura lo que las estadísticas oficiales no ven — porque pregunta directamente a los hogares.',
+    mapFraming: '«La cifra negra de la extorsión es del 97.9%. Solo 2 de cada 100 víctimas presentan denuncia. Solo 2 de cada 100 casos llegan a una investigación.»',
+    mapHighlightValue: '97.9%',
+    mapHighlightLabel: 'Cifra negra · Extorsión',
+    mapHighlightContext: 'La más alta de todos los delitos graves. Refleja no solo miedo a represalias, sino desconfianza total en las instituciones.',
+    trendTitle: 'Cifra negra de la extorsión, 2013–2023',
+    trendSub: 'La cifra negra mide qué porcentaje de delitos no llega a denuncia. Para la extorsión, nunca ha bajado del 95%. El dato viene de encuestas directas a hogares, no de reportes policiales.',
+    trendSource: 'ENVIPE · INEGI (2013–2023)',
+    trendData: [98.1,98.0,97.6,97.9,97.5,97.8,97.5,97.9,97.7,98.1,97.9],
+    trendYears: Array.from({length:11},(_,i)=>2013+i),
+    trendAnnotations: [
+      {year:2016, label:'97.5% — mínimo'},
+      {year:2021, label:'98.1% — máximo'},
+    ],
+    casesEyebrow: 'Extorsión · Patrones y contexto',
+    casesTitle: 'El crimen que todos conocen y nadie denuncia',
+    casesSub: 'La extorsión como sistema: del cobro de piso al secuestro express.',
+    cases: [
+      { year:'2023', name:'Cobro de piso en mercados y transporte', desc:'En estados como Michoacán, Guerrero y Veracruz, el cobro de piso por parte del crimen organizado a comerciantes, transportistas y agricultores es práctica cotidiana. Quienes no pagan enfrentan violencia directa. Casi ninguno denuncia.', tag:'Nacional · Crimen organizado' },
+      { year:'2021', name:'Extorsión telefónica masiva', desc:'Durante la pandemia, los llamados de extorsión telefónica aumentaron 30%. Las organizaciones criminales operan call centers desde penales con listas de números robadas. El 97% de las víctimas no denuncia.', tag:'Nacional · Pandemia · Penales' },
+      { year:'2019', name:'Huachicol — extorsión sobre extorsión', desc:'Los grupos que roban combustible de PEMEX también extorsionan a comunidades cercanas a los ductos para garantizar silencio. El Estado perdió 87,000 millones de pesos en robo de combustible en un solo año.', tag:'Hidalgo · Puebla · PEMEX' },
+    ]
+  }
+];
+
+// ════════════════════════════════════════
+// STATE DATA per indicator (sample)
+// ════════════════════════════════════════
+
+const STATE_DATA = {
+  homicidio: [
+    {name:'Baja California',abbr:'BCN',rate:50},
+    {name:'Sonora',abbr:'SON',rate:18},
+    {name:'Chihuahua',abbr:'CHI',rate:44},
+    {name:'Coahuila',abbr:'COA',rate:14},
+    {name:'Nuevo León',abbr:'NL',rate:8},
+    {name:'Tamaulipas',abbr:'TAM',rate:32},
+    {name:'Sinaloa',abbr:'SIN',rate:38},
+    {name:'Durango',abbr:'DUR',rate:20},
+    {name:'Zacatecas',abbr:'ZAC',rate:58},
+    {name:'San Luis Potosí',abbr:'SLP',rate:15},
+    {name:'Jalisco',abbr:'JAL',rate:22},
+    {name:'Guanajuato',abbr:'GTO',rate:45},
+    {name:'Querétaro',abbr:'QRO',rate:9},
+    {name:'Hidalgo',abbr:'HGO',rate:11},
+    {name:'CDMX',abbr:'CDM',rate:8},
+    {name:'Colima',abbr:'COL',rate:88},
+    {name:'Michoacán',abbr:'MCH',rate:42},
+    {name:'Estado de México',abbr:'MEX',rate:16},
+    {name:'Tlaxcala',abbr:'TLX',rate:6},
+    {name:'Puebla',abbr:'PUE',rate:12},
+    {name:'Guerrero',abbr:'GRO',rate:62},
+    {name:'Oaxaca',abbr:'OAX',rate:20},
+    {name:'Veracruz',abbr:'VER',rate:24},
+    {name:'Tabasco',abbr:'TAB',rate:18},
+    {name:'Chiapas',abbr:'CHP',rate:10},
+    {name:'Campeche',abbr:'CAM',rate:7},
+    {name:'Yucatán',abbr:'YUC',rate:4},
+    {name:'Quintana Roo',abbr:'QRO2',rate:18},
+    {name:'Baja California Sur',abbr:'BCS',rate:30},
+    {name:'Nayarit',abbr:'NAY',rate:28},
+    {name:'Aguascalientes',abbr:'AGS',rate:11},
+    {name:'Morelos',abbr:'MOR',rate:36},
+  ],
+  feminicidio: [
+    {name:'Baja California',abbr:'BCN',rate:2.1},
+    {name:'Sonora',abbr:'SON',rate:1.4},
+    {name:'Chihuahua',abbr:'CHI',rate:3.2},
+    {name:'Coahuila',abbr:'COA',rate:0.9},
+    {name:'Nuevo León',abbr:'NL',rate:0.8},
+    {name:'Tamaulipas',abbr:'TAM',rate:1.6},
+    {name:'Sinaloa',abbr:'SIN',rate:1.9},
+    {name:'Durango',abbr:'DUR',rate:1.8},
+    {name:'Zacatecas',abbr:'ZAC',rate:2.8},
+    {name:'San Luis Potosí',abbr:'SLP',rate:1.1},
+    {name:'Jalisco',abbr:'JAL',rate:1.5},
+    {name:'Guanajuato',abbr:'GTO',rate:2.2},
+    {name:'Querétaro',abbr:'QRO',rate:0.6},
+    {name:'Hidalgo',abbr:'HGO',rate:0.9},
+    {name:'CDMX',abbr:'CDM',rate:0.7},
+    {name:'Colima',abbr:'COL',rate:3.8},
+    {name:'Michoacán',abbr:'MCH',rate:2.5},
+    {name:'Estado de México',abbr:'MEX',rate:1.3},
+    {name:'Tlaxcala',abbr:'TLX',rate:0.5},
+    {name:'Puebla',abbr:'PUE',rate:1.0},
+    {name:'Guerrero',abbr:'GRO',rate:3.1},
+    {name:'Oaxaca',abbr:'OAX',rate:1.7},
+    {name:'Veracruz',abbr:'VER',rate:2.0},
+    {name:'Tabasco',abbr:'TAB',rate:1.4},
+    {name:'Chiapas',abbr:'CHP',rate:0.8},
+    {name:'Campeche',abbr:'CAM',rate:0.6},
+    {name:'Yucatán',abbr:'YUC',rate:0.3},
+    {name:'Quintana Roo',abbr:'QRO2',rate:1.2},
+    {name:'Baja California Sur',abbr:'BCS',rate:2.4},
+    {name:'Nayarit',abbr:'NAY',rate:2.0},
+    {name:'Aguascalientes',abbr:'AGS',rate:0.7},
+    {name:'Morelos',abbr:'MOR',rate:2.6},
+  ],
+  desaparicion: [
+    {name:'Baja California',abbr:'BCN',rate:420},
+    {name:'Sonora',abbr:'SON',rate:380},
+    {name:'Chihuahua',abbr:'CHI',rate:610},
+    {name:'Coahuila',abbr:'COA',rate:290},
+    {name:'Nuevo León',abbr:'NL',rate:340},
+    {name:'Tamaulipas',abbr:'TAM',rate:890},
+    {name:'Sinaloa',abbr:'SIN',rate:520},
+    {name:'Durango',abbr:'DUR',rate:180},
+    {name:'Zacatecas',abbr:'ZAC',rate:310},
+    {name:'San Luis Potosí',abbr:'SLP',rate:210},
+    {name:'Jalisco',abbr:'JAL',rate:1240},
+    {name:'Guanajuato',abbr:'GTO',rate:480},
+    {name:'Querétaro',abbr:'QRO',rate:90},
+    {name:'Hidalgo',abbr:'HGO',rate:120},
+    {name:'CDMX',abbr:'CDM',rate:680},
+    {name:'Colima',abbr:'COL',rate:140},
+    {name:'Michoacán',abbr:'MCH',rate:420},
+    {name:'Estado de México',abbr:'MEX',rate:760},
+    {name:'Tlaxcala',abbr:'TLX',rate:45},
+    {name:'Puebla',abbr:'PUE',rate:230},
+    {name:'Guerrero',abbr:'GRO',rate:390},
+    {name:'Oaxaca',abbr:'OAX',rate:160},
+    {name:'Veracruz',abbr:'VER',rate:580},
+    {name:'Tabasco',abbr:'TAB',rate:140},
+    {name:'Chiapas',abbr:'CHP',rate:180},
+    {name:'Campeche',abbr:'CAM',rate:40},
+    {name:'Yucatán',abbr:'YUC',rate:30},
+    {name:'Quintana Roo',abbr:'QRO2',rate:120},
+    {name:'Baja California Sur',abbr:'BCS',rate:95},
+    {name:'Nayarit',abbr:'NAY',rate:160},
+    {name:'Aguascalientes',abbr:'AGS',rate:70},
+    {name:'Morelos',abbr:'MOR',rate:210},
+  ],
+  periodistas: [
+    {name:'Baja California',abbr:'BCN',rate:18},
+    {name:'Sonora',abbr:'SON',rate:22},
+    {name:'Chihuahua',abbr:'CHI',rate:28},
+    {name:'Coahuila',abbr:'COA',rate:14},
+    {name:'Nuevo León',abbr:'NL',rate:16},
+    {name:'Tamaulipas',abbr:'TAM',rate:34},
+    {name:'Sinaloa',abbr:'SIN',rate:30},
+    {name:'Durango',abbr:'DUR',rate:12},
+    {name:'Zacatecas',abbr:'ZAC',rate:20},
+    {name:'San Luis Potosí',abbr:'SLP',rate:10},
+    {name:'Jalisco',abbr:'JAL',rate:24},
+    {name:'Guanajuato',abbr:'GTO',rate:16},
+    {name:'Querétaro',abbr:'QRO',rate:6},
+    {name:'Hidalgo',abbr:'HGO',rate:8},
+    {name:'CDMX',abbr:'CDM',rate:95},
+    {name:'Colima',abbr:'COL',rate:14},
+    {name:'Michoacán',abbr:'MCH',rate:26},
+    {name:'Estado de México',abbr:'MEX',rate:30},
+    {name:'Tlaxcala',abbr:'TLX',rate:4},
+    {name:'Puebla',abbr:'PUE',rate:18},
+    {name:'Guerrero',abbr:'GRO',rate:38},
+    {name:'Oaxaca',abbr:'OAX',rate:32},
+    {name:'Veracruz',abbr:'VER',rate:36},
+    {name:'Tabasco',abbr:'TAB',rate:12},
+    {name:'Chiapas',abbr:'CHP',rate:20},
+    {name:'Campeche',abbr:'CAM',rate:6},
+    {name:'Yucatán',abbr:'YUC',rate:4},
+    {name:'Quintana Roo',abbr:'QRO2',rate:10},
+    {name:'Baja California Sur',abbr:'BCS',rate:8},
+    {name:'Nayarit',abbr:'NAY',rate:14},
+    {name:'Aguascalientes',abbr:'AGS',rate:6},
+    {name:'Morelos',abbr:'MOR',rate:18},
+  ],
+  extorsion: [
+    {name:'Baja California',abbr:'BCN',rate:3800},
+    {name:'Sonora',abbr:'SON',rate:2900},
+    {name:'Chihuahua',abbr:'CHI',rate:4200},
+    {name:'Coahuila',abbr:'COA',rate:2600},
+    {name:'Nuevo León',abbr:'NL',rate:3100},
+    {name:'Tamaulipas',abbr:'TAM',rate:4800},
+    {name:'Sinaloa',abbr:'SIN',rate:3500},
+    {name:'Durango',abbr:'DUR',rate:2200},
+    {name:'Zacatecas',abbr:'ZAC',rate:3900},
+    {name:'San Luis Potosí',abbr:'SLP',rate:2400},
+    {name:'Jalisco',abbr:'JAL',rate:3600},
+    {name:'Guanajuato',abbr:'GTO',rate:4100},
+    {name:'Querétaro',abbr:'QRO',rate:1800},
+    {name:'Hidalgo',abbr:'HGO',rate:2100},
+    {name:'CDMX',abbr:'CDM',rate:5200},
+    {name:'Colima',abbr:'COL',rate:3800},
+    {name:'Michoacán',abbr:'MCH',rate:4300},
+    {name:'Estado de México',abbr:'MEX',rate:4900},
+    {name:'Tlaxcala',abbr:'TLX',rate:1600},
+    {name:'Puebla',abbr:'PUE',rate:2800},
+    {name:'Guerrero',abbr:'GRO',rate:4600},
+    {name:'Oaxaca',abbr:'OAX',rate:2500},
+    {name:'Veracruz',abbr:'VER',rate:3700},
+    {name:'Tabasco',abbr:'TAB',rate:2900},
+    {name:'Chiapas',abbr:'CHP',rate:2200},
+    {name:'Campeche',abbr:'CAM',rate:1900},
+    {name:'Yucatán',abbr:'YUC',rate:1400},
+    {name:'Quintana Roo',abbr:'QRO2',rate:3200},
+    {name:'Baja California Sur',abbr:'BCS',rate:2800},
+    {name:'Nayarit',abbr:'NAY',rate:2600},
+    {name:'Aguascalientes',abbr:'AGS',rate:2000},
+    {name:'Morelos',abbr:'MOR',rate:3400},
+  ]
+};
+
+// ════════════════════════════════════════
+// STATE: active indicator
+// ════════════════════════════════════════
+
+let activeId = 'homicidio';
+
+function getActive() {
+  return INDICATORS.find(i => i.id === activeId);
+}
+
+// ════════════════════════════════════════
+// RENDER COUNTER STRIP (inside hero)
+// ════════════════════════════════════════
+
+function renderCounterStrip() {
+  const strip = document.getElementById('counterStrip');
+  strip.innerHTML = '';
+
+  INDICATORS.forEach(ind => {
+    const btn = document.createElement('button');
+    btn.className = 'counter-btn' + (activeId === ind.id ? ' active' : '');
+    btn.dataset.id = ind.id;
+    btn.innerHTML = `
+      <span class="c-num">${ind.navNum}</span>
+      <span class="c-label">${ind.navLabel}</span>
+      <span class="c-hint">Explorar →</span>
+    `;
+    btn.addEventListener('click', () => setIndicator(ind.id));
+    strip.appendChild(btn);
+  });
+}
+
+// ════════════════════════════════════════
+// CLEAR INDICATOR — back to overview
+// ════════════════════════════════════════
+
+function clearIndicator() {
+  activeId = null;
+  renderCounterStrip();
+
+  // Hide content sections
+  document.getElementById('mapSection').style.display = 'none';
+  document.getElementById('trendSection').style.display = 'none';
+  document.getElementById('casesSection').style.display = 'none';
+  document.getElementById('transitionZone').style.display = 'none';
+
+  // Update nav
+  document.getElementById('navActiveLabel').textContent = '— Selecciona un indicador';
+  document.getElementById('navBackBtn').style.display = 'none';
+
+  // Scroll to hero
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ════════════════════════════════════════
+// COLOR SCALE
+// ════════════════════════════════════════
+
+function rateToColor(rate, min, max) {
+  const t = Math.max(0, Math.min(1, (rate - min) / (max - min)));
+  // white → light red → red → dark red
+  if (t < 0.25) {
+    const s = t / 0.25;
+    return `rgb(${Math.round(247 - s*14)}, ${Math.round(232 - s*68)}, ${Math.round(230 - s*66)})`;
+  } else if (t < 0.55) {
+    const s = (t - 0.25) / 0.30;
+    return `rgb(${Math.round(233 - s*41)}, ${Math.round(164 - s*107)}, ${Math.round(164 - s*107)})`;
+  } else if (t < 0.80) {
+    const s = (t - 0.55) / 0.25;
+    return `rgb(${Math.round(192 - s*69)}, ${Math.round(57 - s*34)}, ${Math.round(43 - s*31)})`;
+  } else {
+    const s = (t - 0.80) / 0.20;
+    return `rgb(${Math.round(123 - s*62)}, ${Math.round(23 - s*12)}, ${Math.round(12 - s*4)})`;
+  }
+}
+
+function textColorForBg(rate, min, max) {
+  const t = (rate - min) / (max - min);
+  return t > 0.3 ? 'white' : '#1a1208';
+}
+
+// ════════════════════════════════════════
+// RENDER MAP PANEL
+// ════════════════════════════════════════
+
+function renderMap(ind) {
+  const states = STATE_DATA[ind.id];
+  const rates = states.map(s => s.rate);
+  const min = Math.min(...rates);
+  const max = Math.max(...rates);
+
+  const unitLabel = ind.id === 'extorsion' ? 'víctimas/100k' :
+                    ind.id === 'desaparicion' ? 'casos' :
+                    ind.id === 'periodistas' ? 'agresiones' :
+                    ind.id === 'feminicidio' ? 'por 100k mujeres' :
+                    'por 100k hab.';
+
+  let gridHTML = '';
+  states.forEach(s => {
+    const color = rateToColor(s.rate, min, max);
+    const textColor = textColorForBg(s.rate, min, max);
+    const displayRate = ind.id === 'feminicidio' ? s.rate.toFixed(1) :
+                        s.rate >= 1000 ? (s.rate/1000).toFixed(1)+'k' : s.rate;
+    gridHTML += `
+      <div class="state-block" style="background:${color};color:${textColor};">
+        ${s.abbr}
+        <div class="state-tooltip">
+          <strong>${s.name}</strong>
+          ${displayRate} ${unitLabel}
+        </div>
+      </div>`;
+  });
+
+  return `
+    <div class="map-layout">
+      <div>
+        <div class="state-grid">${gridHTML}</div>
+      </div>
+      <div class="map-sidebar">
+        <div class="map-stat-highlight">
+          <div class="msh-label">${ind.mapHighlightLabel}</div>
+          <div class="msh-value">${ind.mapHighlightValue}</div>
+          <div class="msh-context">${ind.mapHighlightContext}</div>
+        </div>
+        <div class="map-legend">
+          <div class="legend-label">Escala · ${unitLabel}</div>
+          <div class="legend-bar"></div>
+          <div class="legend-labels">
+            <span>Menor</span>
+            <span>Mayor</span>
+          </div>
+        </div>
+        <div class="map-framing">${ind.mapFraming}</div>
+      </div>
+    </div>`;
+}
+
+// ════════════════════════════════════════
+// RENDER TREND CHART
+// ════════════════════════════════════════
+
+function renderTrend(ind) {
+  const data = ind.trendData;
+  const years = ind.trendYears;
+  const W = 800, H = 260;
+  const padL = 52, padR = 24, padT = 24, padB = 36;
+  const w = W - padL - padR;
+  const h = H - padT - padB;
+
+  const minV = Math.min(...data) * 0.92;
+  const maxV = Math.max(...data) * 1.06;
+
+  const xScale = i => padL + (i / (data.length - 1)) * w;
+  const yScale = v => padT + h - ((v - minV) / (maxV - minV)) * h;
+
+  // Grid
+  const gridSteps = 4;
+  let gridHTML = '';
+  for (let i = 0; i <= gridSteps; i++) {
+    const v = minV + (maxV - minV) * (i / gridSteps);
+    const y = yScale(v);
+    const label = v >= 10000 ? (v/1000).toFixed(0)+'k' :
+                  v >= 1000  ? (v/1000).toFixed(1)+'k' :
+                  v.toFixed(ind.id === 'feminicidio' ? 1 : 0);
+    gridHTML += `
+      <line x1="${padL}" y1="${y}" x2="${padL+w}" y2="${y}" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+      <text x="${padL-8}" y="${y+4}" text-anchor="end" font-family="IBM Plex Mono" font-size="9" fill="#444">${label}</text>`;
+  }
+
+  // Area path
+  let aPath = `M ${xScale(0)} ${yScale(data[0])}`;
+  data.forEach((v, i) => { if(i>0) aPath += ` L ${xScale(i)} ${yScale(v)}`; });
+  aPath += ` L ${xScale(data.length-1)} ${padT+h} L ${xScale(0)} ${padT+h} Z`;
+
+  // Line path
+  let lPath = `M ${xScale(0)} ${yScale(data[0])}`;
+  data.forEach((v, i) => { if(i>0) lPath += ` L ${xScale(i)} ${yScale(v)}`; });
+
+  // Year labels
+  const labelEvery = data.length <= 12 ? 1 : data.length <= 20 ? 2 : 4;
+  let labelsHTML = '';
+  years.forEach((yr, i) => {
+    if (i % labelEvery === 0 || i === data.length - 1) {
+      labelsHTML += `<text x="${xScale(i)}" y="${padT+h+20}" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#444">${yr}</text>`;
+    }
+  });
+
+  // Annotations
+  let annoHTML = '';
+  (ind.trendAnnotations || []).forEach(a => {
+    const i = years.indexOf(a.year);
+    if (i < 0) return;
+    const x = xScale(i);
+    const y = yScale(data[i]);
+    const lines = a.label.split('\n');
+    annoHTML += `
+      <line x1="${x}" y1="${y-6}" x2="${x}" y2="${padT}" stroke="rgba(192,57,43,0.3)" stroke-width="1" stroke-dasharray="3,3"/>
+      <circle cx="${x}" cy="${y}" r="4" fill="#c0392b"/>`;
+    lines.forEach((line, li) => {
+      annoHTML += `<text x="${x}" y="${padT - 8 + li * 13}" text-anchor="middle" font-family="IBM Plex Mono" font-size="8.5" fill="#c0392b">${line}</text>`;
+    });
+  });
+
+  // Unique ID for clip/gradient
+  const uid = 'trend_' + ind.id;
+
+  return `
+    <div class="chart-wrap" style="background:white;border-color:#ddd5c4;">
+      <div class="chart-meta">
+        <div>
+          <div class="chart-title" style="color:#1a1208;">${ind.trendTitle}</div>
+        </div>
+        <div class="chart-source" style="color:#aaa;">${ind.trendSource}</div>
+      </div>
+      <svg class="trend" viewBox="0 0 ${W} ${H}" height="${H}">
+        <defs>
+          <linearGradient id="${uid}_grad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#c0392b" stop-opacity="0.18"/>
+            <stop offset="100%" stop-color="#c0392b" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        ${gridHTML}
+        ${labelsHTML}
+        <path d="${aPath}" fill="url(#${uid}_grad)"/>
+        <path d="${lPath}" fill="none" stroke="#c0392b" stroke-width="2.5"/>
+        ${annoHTML}
+      </svg>
+    </div>`;
+}
+
+// ════════════════════════════════════════
+// RENDER CASES
+// ════════════════════════════════════════
+
+function renderCases(ind) {
+  const rows = ind.cases.map(c => `
+    <div class="case-row">
+      <div class="case-year">${c.year}</div>
+      <div class="case-info">
+        <h4>${c.name}</h4>
+        <p>${c.desc}</p>
+        <span class="case-tag">${c.tag}</span>
+      </div>
+    </div>
+  `).join('');
+
+  return `<div class="cases-list">${rows}</div>`;
+}
+
+// ════════════════════════════════════════
+// SET INDICATOR — main orchestrator
+// ════════════════════════════════════════
+
+function setIndicator(id, init = false) {
+  activeId = id;
+  const ind = getActive();
+
+  // Update counter strip active state
+  document.querySelectorAll('.counter-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.id === id);
+  });
+
+  // Update sticky nav label + back button
+  document.getElementById('navActiveLabel').textContent = '— ' + ind.navLabel;
+  document.getElementById('navBackBtn').style.display = 'inline-block';
+
+  // Show content sections
+  document.getElementById('mapSection').style.display = 'block';
+  document.getElementById('trendSection').style.display = 'block';
+  document.getElementById('casesSection').style.display = 'block';
+  document.getElementById('transitionZone').style.display = 'block';
+
+  // Update map section text
+  document.getElementById('mapEyebrow').textContent = ind.mapEyebrow;
+  document.getElementById('mapTitle').textContent = ind.mapTitle;
+  document.getElementById('mapSub').textContent = ind.mapSub;
+
+  // Update trend section text
+  document.getElementById('trendEyebrow').textContent = 'Tendencia · ' + ind.navLabel;
+  document.getElementById('trendTitle').textContent = ind.trendTitle;
+  document.getElementById('trendSub').textContent = ind.trendSub;
+
+  // Update cases section text
+  document.getElementById('casesEyebrow').textContent = ind.casesEyebrow;
+  document.getElementById('casesTitle').textContent = ind.casesTitle;
+  document.getElementById('casesSub').textContent = ind.casesSub;
+
+  // Render panels
+  document.getElementById('mapPanels').innerHTML = renderMap(ind);
+  document.getElementById('trendPanels').innerHTML = renderTrend(ind);
+  document.getElementById('casesPanels').innerHTML = renderCases(ind);
+
+  // Scroll to map section smoothly (not on init)
+  if (!init) {
+    setTimeout(() => {
+      document.getElementById('mapSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 80);
+  }
+}
+
+// ════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════
+
+activeId = null;
+renderCounterStrip();
+
+// Hide content sections on load — revealed only after selection
+document.getElementById('mapSection').style.display = 'none';
+document.getElementById('trendSection').style.display = 'none';
+document.getElementById('casesSection').style.display = 'none';
+document.getElementById('transitionZone').style.display = 'none';
+</script>
+</body>
+</html>
