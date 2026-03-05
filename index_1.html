@@ -785,28 +785,27 @@
 const INDICATORS = [
   {
     id: 'homicidio',
-    navNum: '33.1k',
+    navNum: '30,060',
     navLabel: 'Homicidio doloso',
-    heroGhost: '33k',
-    heroEm: '33,141 homicidios en 2023.',
-    heroHeadline: 'En México, cada día <em>mueren 90 personas</em> por homicidio doloso.',
-    heroBody: 'El país acumula más de 180,000 homicidios desde 2019. La tasa nacional — 27.8 por cada 100,000 habitantes — triplica el umbral que la OMS considera epidemia de violencia.',
-    mapEyebrow: 'Homicidio doloso · Tasa por 100,000 hab.',
+    heroGhost: '30k',
+    heroEm: '30,060 homicidios en 2024.',
+    heroHeadline: 'En México, cada día <em>mueren 82 personas</em> por homicidio doloso.',
+    heroBody: 'En 2024 se registraron 30,060 víctimas de homicidio doloso. El pico fue 2019, con 34,721. Desde entonces ha bajado — pero seguimos por encima de los niveles previos a la guerra contra el narco.',
+    mapEyebrow: 'Homicidio doloso · Víctimas por estado · 2024',
     mapTitle: 'Los estados más letales',
-    mapSub: 'Tasa de homicidio doloso por cada 100,000 habitantes. Colima encabeza la lista nacional con una tasa 10 veces mayor al promedio de Europa occidental.',
-    mapFraming: '«La tasa nacional de 27.8 triplica el umbral de epidemia de violencia definido por la OMS (10/100k).»',
-    mapHighlightValue: '88',
-    mapHighlightLabel: 'Colima — tasa más alta',
-    mapHighlightContext: '88 homicidios por cada 100,000 habitantes. El estado más violento del país por amplio margen.',
-    trendTitle: 'Homicidio doloso, 2000–2023',
-    trendSub: 'La escalada comenzó con la declaración de guerra contra el narco en 2006. El pico histórico llegó en 2019 con 35,964 víctimas.',
-    trendSource: 'INEGI (2000–2014) · SESNSP (2015–2023)',
-    trendData: [10.0,10.5,11.1,11.4,11.0,10.5,11.2,12.9,14.0,19.8,23.0,27.2,26.0,23.0,20.0,20.8,24.6,29.2,33.3,36.0,35.0,34.5,33.5,33.1],
-    trendYears: Array.from({length:24},(_,i)=>2000+i),
+    mapSub: 'Víctimas de homicidio doloso por estado en 2024. Guanajuato encabeza la lista con 3,151 — casi el triple de Zacatecas, que ocupa el segundo lugar en tasa relativa.',
+    mapFraming: '«Guanajuato, Estado de México, Baja California, Chihuahua y Jalisco concentran más de un tercio de todos los homicidios del país.»',
+    mapHighlightValue: '3,151',
+    mapHighlightLabel: 'Guanajuato — 2024',
+    mapHighlightContext: 'El estado más letal del país en números absolutos. La disputa entre el Cártel de Santa Rosa de Lima y el CJNG ha convertido a Guanajuato en el epicentro de la violencia nacional.',
+    trendTitle: 'Homicidio doloso, 2015–2024',
+    trendSub: 'El pico histórico fue 2019 con 34,721 víctimas. Desde entonces hay una reducción gradual, aunque 2024 muestra un ligero repunte respecto a 2023.',
+    trendSource: 'SESNSP · Víctimas nueva metodología (2015–2024)',
+    trendData: [17884,22540,28867,33738,34721,34572,33359,30986,29732,30060],
+    trendYears: Array.from({length:10},(_,i)=>2015+i),
     trendAnnotations: [
-      {year:2006, label:'Guerra contra\nel narco'},
-      {year:2011, label:'Primer pico'},
-      {year:2019, label:'Pico histórico\n35,964'},
+      {year:2019, label:'Pico histórico\n34,721'},
+      {year:2024, label:'30,060'},
     ],
     casesEyebrow: 'Homicidio doloso · Casos de alto impacto',
     casesTitle: 'Cuando las cifras tienen nombre',
@@ -819,35 +818,37 @@ const INDICATORS = [
   },
   {
     id: 'feminicidio',
-    navNum: '827',
+    navNum: '855',
     navLabel: 'Feminicidio',
-    heroGhost: '2/día',
-    heroEm: 'dos mujeres son asesinadas por el hecho de ser mujeres.',
-    heroHeadline: 'En México, <em>cada día</em>',
-    heroBody: '827 feminicidios fueron registrados en 2023. Pero la cifra real es mayor — la definición legal se aplica de forma inconsistente entre estados, y muchos casos se clasifican como homicidio simple para evitar el protocolo.',
-    mapEyebrow: 'Feminicidio · Tasa por 100,000 mujeres',
+    heroGhost: '1 de 4',
+    heroEm: 'solo 1 de cada 4 feminicidios registrados termina en una condena.',
+    heroHeadline: 'En México,',
+    heroBody: '855 feminicidios fueron registrados en 2024. Solo 208 terminaron en una sentencia condenatoria ese mismo año — y esos 208 no son siquiera los casos de 2024: son años anteriores que el sistema apenas alcanzó a procesar. La cifra real de feminicidios es mayor: muchos se clasifican como homicidio simple antes de que ningún censo los cuente.',
+    mapEyebrow: 'Feminicidio · Por estado · 2024',
     mapTitle: 'El mapa del feminicidio',
-    mapSub: 'Tasa de feminicidio por cada 100,000 mujeres. La comparación entre estados revela no solo distintos niveles de violencia, sino distintos criterios de clasificación.',
-    mapFraming: '«La inconsistencia en la definición legal entre estados hace que el mapa muestre tanto violencia real como subregistro institucional.»',
-    mapHighlightValue: '827',
-    mapHighlightLabel: 'Víctimas en 2023',
-    mapHighlightContext: 'Equivale a 2.3 feminicidios por día. Una disminución del 13.7% respecto a 2022, aunque expertos cuestionan si refleja mejoras reales o cambios en clasificación.',
-    trendTitle: 'Feminicidio registrado, 2015–2023',
-    trendSub: 'La tipificación como delito autónomo comenzó a estandarizarse a partir de 2012. Los datos anteriores son menos comparables entre estados.',
-    trendSource: 'SESNSP (2015–2023)',
-    trendData: [411,604,742,898,1006,940,1004,959,827],
-    trendYears: Array.from({length:9},(_,i)=>2015+i),
+    mapSub: 'Registrados (SESNSP) vs. condenas (CNIJE) por estado en 2024. Usa el toggle para cambiar la vista. Los estados en gris oscuro registraron feminicidios pero produjeron cero condenas.',
+    mapFraming: '«Los 208 casos con sentencia condenatoria en 2024 no son los mismos 855 registrados ese año. El sistema judicial procesa casos de años anteriores. La comparación mide la capacidad estructural del sistema para producir justicia — no casos individuales.»',
+    mapHighlightValue: '208 / 855',
+    mapHighlightLabel: 'Condenas vs. registrados · 2024',
+    mapHighlightContext: 'Solo el 24% de los feminicidios registrados termina en condena. 12 estados produjeron cero condenas — entre ellos Estado de México, con 76 casos registrados.',
+    mapHasImpunityToggle: true,
+    trendTitle: 'Feminicidio registrado, 2015–2024',
+    trendSub: 'La tipificación como delito autónomo comenzó a estandarizarse a partir de 2012. El pico fue 2021 con 1,021 víctimas. Los datos reflejan tanto la violencia real como los cambios en clasificación por entidad.',
+    trendSource: 'SESNSP · Víctimas nueva metodología (2015–2024)',
+    trendData: [428,648,769,924,973,976,1021,983,853,855],
+    trendYears: Array.from({length:10},(_,i)=>2015+i),
     trendAnnotations: [
-      {year:2020, label:'Pico: 1,006'},
-      {year:2023, label:'827 · último dato'},
+      {year:2021, label:'Pico: 1,021'},
+      {year:2024, label:'855'},
     ],
+    methodologyNote: 'Registros SESNSP (víctimas clasificadas como feminicidio por fiscalías). Condenas: CNIJE/INEGI 2025 (sentencias condenatorias por feminicidio pronunciadas en 2024). Los 208 casos sentenciados en 2024 corresponden a casos abiertos en años anteriores — el sistema judicial no resuelve en el mismo año que registra. La comparación mide throughput estructural, no resolución de casos individuales. Subregistro real desconocido: casos clasificados como homicidio simple no aparecen en ninguna de las dos fuentes.',
     casesEyebrow: 'Feminicidio · Casos y patrones',
     casesTitle: 'Las víctimas tienen nombre',
     casesSub: 'Casos que visibilizaron la dimensión sistémica del feminicidio en México.',
     cases: [
-      { year:'2020', name:'#UnDíaSinNosotras — Paro Nacional', desc:'El 9 de marzo de 2020, un día después del Día de la Mujer, miles de mujeres se ausentaron de trabajos, escuelas y espacios públicos. El movimiento respondió al pico de feminicidios y la falta de respuesta institucional.', tag:'Movimiento · Nacional' },
-      { year:'2020', name:'Ingrid Escamilla', desc:'El feminicidio de Ingrid Escamilla en febrero de 2020 — y la filtración de sus fotos por parte de medios y policías — desencadenó protestas masivas y exhibió la violencia institucional hacia las víctimas.', tag:'CDMX · Violencia mediática' },
-      { year:'2022', name:'Caso Debanhi Escobar', desc:'La desaparición y muerte de Debanhi Escobar en Nuevo León — cuyo cuerpo fue encontrado en una cisterna de hotel tras una búsqueda de 13 días — generó un debate nacional sobre la búsqueda de mujeres desaparecidas.', tag:'Nuevo León · Desaparición' },
+      { year:'2020', name:'Ingrid Escamilla', desc:'El feminicidio de Ingrid Escamilla en febrero de 2020 — y la filtración de sus fotos por parte de medios y policías — desencadenó protestas masivas y exhibió la violencia institucional hacia las víctimas. Su caso tardó más de un año en llegar a sentencia.', tag:'CDMX · Violencia institucional' },
+      { year:'2020', name:'#UnDíaSinNosotras — Paro Nacional', desc:'El 9 de marzo de 2020, miles de mujeres se ausentaron de trabajos, escuelas y espacios públicos. El movimiento respondió directamente al pico de feminicidios y a la certeza de que el Estado no investigaba, no condenaba, no protegía.', tag:'Movimiento · Nacional' },
+      { year:'2022', name:'Caso Debanhi Escobar', desc:'La desaparición y muerte de Debanhi Escobar en Nuevo León generó un debate nacional sobre la búsqueda de mujeres desaparecidas. Su caso también reveló la cadena de errores institucionales: desde la primera denuncia hasta el hallazgo del cuerpo en una cisterna de hotel.', tag:'Nuevo León · Falla institucional' },
     ]
   },
   {
@@ -958,72 +959,108 @@ const INDICATORS = [
 
 const STATE_DATA = {
   homicidio: [
-    {name:'Baja California',abbr:'BCN',rate:50},
-    {name:'Sonora',abbr:'SON',rate:18},
-    {name:'Chihuahua',abbr:'CHI',rate:44},
-    {name:'Coahuila',abbr:'COA',rate:14},
-    {name:'Nuevo León',abbr:'NL',rate:8},
-    {name:'Tamaulipas',abbr:'TAM',rate:32},
-    {name:'Sinaloa',abbr:'SIN',rate:38},
-    {name:'Durango',abbr:'DUR',rate:20},
-    {name:'Zacatecas',abbr:'ZAC',rate:58},
-    {name:'San Luis Potosí',abbr:'SLP',rate:15},
-    {name:'Jalisco',abbr:'JAL',rate:22},
-    {name:'Guanajuato',abbr:'GTO',rate:45},
-    {name:'Querétaro',abbr:'QRO',rate:9},
-    {name:'Hidalgo',abbr:'HGO',rate:11},
-    {name:'CDMX',abbr:'CDM',rate:8},
-    {name:'Colima',abbr:'COL',rate:88},
-    {name:'Michoacán',abbr:'MCH',rate:42},
-    {name:'Estado de México',abbr:'MEX',rate:16},
-    {name:'Tlaxcala',abbr:'TLX',rate:6},
-    {name:'Puebla',abbr:'PUE',rate:12},
-    {name:'Guerrero',abbr:'GRO',rate:62},
-    {name:'Oaxaca',abbr:'OAX',rate:20},
-    {name:'Veracruz',abbr:'VER',rate:24},
-    {name:'Tabasco',abbr:'TAB',rate:18},
-    {name:'Chiapas',abbr:'CHP',rate:10},
-    {name:'Campeche',abbr:'CAM',rate:7},
-    {name:'Yucatán',abbr:'YUC',rate:4},
-    {name:'Quintana Roo',abbr:'QRO2',rate:18},
-    {name:'Baja California Sur',abbr:'BCS',rate:30},
-    {name:'Nayarit',abbr:'NAY',rate:28},
-    {name:'Aguascalientes',abbr:'AGS',rate:11},
-    {name:'Morelos',abbr:'MOR',rate:36},
+    {name:'Aguascalientes',abbr:'AGS',rate:119},
+    {name:'Baja California',abbr:'BCN',rate:2369},
+    {name:'Baja California Sur',abbr:'BCS',rate:69},
+    {name:'Campeche',abbr:'CAM',rate:98},
+    {name:'Chiapas',abbr:'CHP',rate:894},
+    {name:'Chihuahua',abbr:'CHI',rate:2040},
+    {name:'Ciudad de México',abbr:'CDM',rate:914},
+    {name:'Coahuila',abbr:'COA',rate:111},
+    {name:'Colima',abbr:'COL',rate:838},
+    {name:'Durango',abbr:'DUR',rate:69},
+    {name:'Guanajuato',abbr:'GTO',rate:3151},
+    {name:'Guerrero',abbr:'GRO',rate:1738},
+    {name:'Hidalgo',abbr:'HGO',rate:264},
+    {name:'Jalisco',abbr:'JAL',rate:1798},
+    {name:'Estado de México',abbr:'MEX',rate:2258},
+    {name:'Michoacán',abbr:'MCH',rate:1490},
+    {name:'Morelos',abbr:'MOR',rate:1520},
+    {name:'Nayarit',abbr:'NAY',rate:182},
+    {name:'Nuevo León',abbr:'NL',rate:1539},
+    {name:'Oaxaca',abbr:'OAX',rate:984},
+    {name:'Puebla',abbr:'PUE',rate:999},
+    {name:'Querétaro',abbr:'QRO',rate:214},
+    {name:'Quintana Roo',abbr:'QR',rate:676},
+    {name:'San Luis Potosí',abbr:'SLP',rate:444},
+    {name:'Sinaloa',abbr:'SIN',rate:994},
+    {name:'Sonora',abbr:'SON',rate:1417},
+    {name:'Tabasco',abbr:'TAB',rate:892},
+    {name:'Tamaulipas',abbr:'TAM',rate:385},
+    {name:'Tlaxcala',abbr:'TLX',rate:142},
+    {name:'Veracruz',abbr:'VER',rate:908},
+    {name:'Yucatán',abbr:'YUC',rate:44},
+    {name:'Zacatecas',abbr:'ZAC',rate:500},
   ],
   feminicidio: [
-    {name:'Baja California',abbr:'BCN',rate:2.1},
-    {name:'Sonora',abbr:'SON',rate:1.4},
-    {name:'Chihuahua',abbr:'CHI',rate:3.2},
-    {name:'Coahuila',abbr:'COA',rate:0.9},
-    {name:'Nuevo León',abbr:'NL',rate:0.8},
-    {name:'Tamaulipas',abbr:'TAM',rate:1.6},
-    {name:'Sinaloa',abbr:'SIN',rate:1.9},
-    {name:'Durango',abbr:'DUR',rate:1.8},
-    {name:'Zacatecas',abbr:'ZAC',rate:2.8},
-    {name:'San Luis Potosí',abbr:'SLP',rate:1.1},
-    {name:'Jalisco',abbr:'JAL',rate:1.5},
-    {name:'Guanajuato',abbr:'GTO',rate:2.2},
-    {name:'Querétaro',abbr:'QRO',rate:0.6},
-    {name:'Hidalgo',abbr:'HGO',rate:0.9},
-    {name:'CDMX',abbr:'CDM',rate:0.7},
-    {name:'Colima',abbr:'COL',rate:3.8},
-    {name:'Michoacán',abbr:'MCH',rate:2.5},
-    {name:'Estado de México',abbr:'MEX',rate:1.3},
-    {name:'Tlaxcala',abbr:'TLX',rate:0.5},
-    {name:'Puebla',abbr:'PUE',rate:1.0},
-    {name:'Guerrero',abbr:'GRO',rate:3.1},
-    {name:'Oaxaca',abbr:'OAX',rate:1.7},
-    {name:'Veracruz',abbr:'VER',rate:2.0},
-    {name:'Tabasco',abbr:'TAB',rate:1.4},
-    {name:'Chiapas',abbr:'CHP',rate:0.8},
-    {name:'Campeche',abbr:'CAM',rate:0.6},
-    {name:'Yucatán',abbr:'YUC',rate:0.3},
-    {name:'Quintana Roo',abbr:'QRO2',rate:1.2},
-    {name:'Baja California Sur',abbr:'BCS',rate:2.4},
-    {name:'Nayarit',abbr:'NAY',rate:2.0},
-    {name:'Aguascalientes',abbr:'AGS',rate:0.7},
-    {name:'Morelos',abbr:'MOR',rate:2.6},
+    {name:'Aguascalientes',abbr:'AGS',rate:7},
+    {name:'Baja California',abbr:'BCN',rate:38},
+    {name:'Baja California Sur',abbr:'BCS',rate:9},
+    {name:'Campeche',abbr:'CAM',rate:7},
+    {name:'Chiapas',abbr:'CHP',rate:35},
+    {name:'Chihuahua',abbr:'CHI',rate:48},
+    {name:'Ciudad de México',abbr:'CDM',rate:71},
+    {name:'Coahuila',abbr:'COA',rate:20},
+    {name:'Colima',abbr:'COL',rate:6},
+    {name:'Durango',abbr:'DUR',rate:11},
+    {name:'Guanajuato',abbr:'GTO',rate:16},
+    {name:'Guerrero',abbr:'GRO',rate:23},
+    {name:'Hidalgo',abbr:'HGO',rate:20},
+    {name:'Jalisco',abbr:'JAL',rate:39},
+    {name:'Estado de México',abbr:'MEX',rate:76},
+    {name:'Michoacán',abbr:'MCH',rate:18},
+    {name:'Morelos',abbr:'MOR',rate:51},
+    {name:'Nayarit',abbr:'NAY',rate:11},
+    {name:'Nuevo León',abbr:'NL',rate:60},
+    {name:'Oaxaca',abbr:'OAX',rate:20},
+    {name:'Puebla',abbr:'PUE',rate:43},
+    {name:'Querétaro',abbr:'QRO',rate:4},
+    {name:'Quintana Roo',abbr:'QR',rate:13},
+    {name:'San Luis Potosí',abbr:'SLP',rate:15},
+    {name:'Sinaloa',abbr:'SIN',rate:28},
+    {name:'Sonora',abbr:'SON',rate:26},
+    {name:'Tabasco',abbr:'TAB',rate:29},
+    {name:'Tamaulipas',abbr:'TAM',rate:27},
+    {name:'Tlaxcala',abbr:'TLX',rate:14},
+    {name:'Veracruz',abbr:'VER',rate:55},
+    {name:'Yucatán',abbr:'YUC',rate:7},
+    {name:'Zacatecas',abbr:'ZAC',rate:8},
+  ],
+  // CNIJE 2025 — sentencias condenatorias por feminicidio, 2024
+  // condenas = sentenced that year (from prior years' cases)
+  feminicidio_condenas: [
+    {name:'Aguascalientes',abbr:'AGS',registered:7,condenas:11},
+    {name:'Baja California',abbr:'BCN',registered:38,condenas:7},
+    {name:'Baja California Sur',abbr:'BCS',registered:9,condenas:0},
+    {name:'Campeche',abbr:'CAM',registered:7,condenas:0},
+    {name:'Chiapas',abbr:'CHP',registered:35,condenas:10},
+    {name:'Chihuahua',abbr:'CHI',registered:48,condenas:22},
+    {name:'Ciudad de México',abbr:'CDM',registered:71,condenas:35},
+    {name:'Coahuila',abbr:'COA',registered:20,condenas:8},
+    {name:'Colima',abbr:'COL',registered:6,condenas:0},
+    {name:'Durango',abbr:'DUR',registered:11,condenas:0},
+    {name:'Guanajuato',abbr:'GTO',registered:16,condenas:2},
+    {name:'Guerrero',abbr:'GRO',registered:23,condenas:3},
+    {name:'Hidalgo',abbr:'HGO',registered:20,condenas:16},
+    {name:'Jalisco',abbr:'JAL',registered:39,condenas:7},
+    {name:'Estado de México',abbr:'MEX',registered:76,condenas:0},
+    {name:'Michoacán',abbr:'MCH',registered:18,condenas:7},
+    {name:'Morelos',abbr:'MOR',registered:51,condenas:3},
+    {name:'Nayarit',abbr:'NAY',registered:11,condenas:0},
+    {name:'Nuevo León',abbr:'NL',registered:60,condenas:16},
+    {name:'Oaxaca',abbr:'OAX',registered:20,condenas:0},
+    {name:'Puebla',abbr:'PUE',registered:43,condenas:0},
+    {name:'Querétaro',abbr:'QRO',registered:4,condenas:1},
+    {name:'Quintana Roo',abbr:'QR',registered:13,condenas:0},
+    {name:'San Luis Potosí',abbr:'SLP',registered:15,condenas:3},
+    {name:'Sinaloa',abbr:'SIN',registered:28,condenas:9},
+    {name:'Sonora',abbr:'SON',registered:26,condenas:27},
+    {name:'Tabasco',abbr:'TAB',registered:29,condenas:16},
+    {name:'Tamaulipas',abbr:'TAM',registered:27,condenas:0},
+    {name:'Tlaxcala',abbr:'TLX',registered:14,condenas:1},
+    {name:'Veracruz',abbr:'VER',registered:55,condenas:0},
+    {name:'Yucatán',abbr:'YUC',registered:7,condenas:4},
+    {name:'Zacatecas',abbr:'ZAC',registered:8,condenas:0},
   ],
   desaparicion: [
     {name:'Baja California',abbr:'BCN',rate:420},
@@ -1214,7 +1251,12 @@ function textColorForBg(rate, min, max) {
 // RENDER MAP PANEL
 // ════════════════════════════════════════
 
+// feminicidio impunity map view mode
+let femMapView = 'registered'; // 'registered' | 'condenas'
+
 function renderMap(ind) {
+  if (ind.id === 'feminicidio') return renderFeminicidioMap(ind);
+
   const states = STATE_DATA[ind.id];
   const rates = states.map(s => s.rate);
   const min = Math.min(...rates);
@@ -1223,15 +1265,13 @@ function renderMap(ind) {
   const unitLabel = ind.id === 'extorsion' ? 'víctimas/100k' :
                     ind.id === 'desaparicion' ? 'casos' :
                     ind.id === 'periodistas' ? 'agresiones' :
-                    ind.id === 'feminicidio' ? 'por 100k mujeres' :
-                    'por 100k hab.';
+                    'víctimas 2024';
 
   let gridHTML = '';
   states.forEach(s => {
     const color = rateToColor(s.rate, min, max);
     const textColor = textColorForBg(s.rate, min, max);
-    const displayRate = ind.id === 'feminicidio' ? s.rate.toFixed(1) :
-                        s.rate >= 1000 ? (s.rate/1000).toFixed(1)+'k' : s.rate;
+    const displayRate = s.rate >= 1000 ? (s.rate/1000).toFixed(1)+'k' : s.rate;
     gridHTML += `
       <div class="state-block" style="background:${color};color:${textColor};">
         ${s.abbr}
@@ -1263,7 +1303,126 @@ function renderMap(ind) {
         </div>
         <div class="map-framing">${ind.mapFraming}</div>
       </div>
-    </div>`;
+    </div>
+    ${ind.methodologyNote ? `
+    <div style="margin-top:32px;padding-top:20px;border-top:1px solid var(--border-dark);">
+      <p style="font-family:'Spectral',serif;font-size:12px;color:#3a3a3a;font-weight:300;line-height:1.7;font-style:italic;">${ind.methodologyNote}</p>
+    </div>` : ''}`;
+}
+
+function renderFeminicidioMap(ind) {
+  femMapView = femMapView || 'registered';
+  const data = STATE_DATA['feminicidio_condenas'];
+
+  // Build grid based on current view
+  const isCondenas = femMapView === 'condenas';
+  const values = data.map(s => isCondenas ? s.condenas : s.registered);
+  const min = 0;
+  const max = Math.max(...values);
+
+  // Special color for condenas view: gray = zero, blue-ish scale for >0
+  function condenasColor(val, max) {
+    if (val === 0) return '#1a1a1a'; // near-black for zero
+    const t = val / max;
+    // cream → orange → red
+    if (t < 0.4) {
+      const s = t / 0.4;
+      return `rgb(${Math.round(247 - s*55)}, ${Math.round(232 - s*126)}, ${Math.round(230 - s*187)})`;
+    } else {
+      const s = (t - 0.4) / 0.6;
+      return `rgb(${Math.round(192 - s*69)}, ${Math.round(106 - s*83)}, ${Math.round(43 - s*31)})`;
+    }
+  }
+
+  let gridHTML = '';
+  data.forEach(s => {
+    const val = isCondenas ? s.condenas : s.registered;
+    const color = isCondenas ? condenasColor(val, max) : rateToColor(val, 0, max);
+    const textColor = (isCondenas && val === 0) ? '#444' :
+                      textColorForBg(val, 0, max);
+    const ratio = s.registered > 0 ? Math.round(s.condenas / s.registered * 100) : 0;
+    gridHTML += `
+      <div class="state-block" style="background:${color};color:${textColor};">
+        ${s.abbr}
+        <div class="state-tooltip">
+          <strong>${s.name}</strong>
+          Registrados: ${s.registered}<br>
+          Condenas: ${s.condenas}<br>
+          Ratio: ${ratio}%
+        </div>
+      </div>`;
+  });
+
+  const toggleRegistered = femMapView === 'registered';
+
+  return `
+    <div class="map-layout">
+      <div>
+        <div style="display:flex;gap:0;margin-bottom:16px;">
+          <button onclick="setFemMapView('registered')" style="
+            padding:8px 18px;border:1px solid ${toggleRegistered ? 'var(--red)' : 'rgba(255,255,255,0.1)'};
+            background:${toggleRegistered ? 'rgba(192,57,43,0.12)' : 'none'};
+            color:${toggleRegistered ? 'var(--red)' : '#555'};
+            font-family:var(--mono);font-size:9px;letter-spacing:0.12em;text-transform:uppercase;
+            cursor:pointer;transition:all 0.2s;">
+            Registrados · SESNSP
+          </button>
+          <button onclick="setFemMapView('condenas')" style="
+            padding:8px 18px;border:1px solid ${!toggleRegistered ? 'var(--red)' : 'rgba(255,255,255,0.1)'};
+            background:${!toggleRegistered ? 'rgba(192,57,43,0.12)' : 'none'};
+            color:${!toggleRegistered ? 'var(--red)' : '#555'};
+            font-family:var(--mono);font-size:9px;letter-spacing:0.12em;text-transform:uppercase;
+            cursor:pointer;transition:all 0.2s;margin-left:-1px;">
+            Condenas · CNIJE
+          </button>
+        </div>
+        <div class="state-grid">${gridHTML}</div>
+        ${isCondenas ? `<p style="margin-top:12px;font-family:var(--mono);font-size:9px;color:#444;letter-spacing:0.08em;">
+          Negro = cero condenas en 2024 · ${data.filter(s=>s.condenas===0).length} estados · ${data.filter(s=>s.condenas===0).reduce((a,s)=>a+s.registered,0)} feminicidios registrados sin ninguna condena
+        </p>` : ''}
+      </div>
+      <div class="map-sidebar">
+        <div class="map-stat-highlight" style="border-color:var(--border-dark);background:var(--dark-3);">
+          <div class="msh-label" style="color:var(--muted-dark);">Registrados vs. Condenas · 2024</div>
+          <div style="display:flex;align-items:baseline;gap:8px;margin:8px 0 4px;">
+            <span style="font-family:var(--serif);font-size:36px;color:#e8e0d0;line-height:1;">855</span>
+            <span style="font-family:var(--mono);font-size:9px;color:#444;text-transform:uppercase;letter-spacing:0.1em;">registrados</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:12px;">
+            <span style="font-family:var(--serif);font-size:36px;color:var(--red);line-height:1;">208</span>
+            <span style="font-family:var(--mono);font-size:9px;color:#444;text-transform:uppercase;letter-spacing:0.1em;">condenas</span>
+          </div>
+          <div style="height:1px;background:rgba(255,255,255,0.06);margin-bottom:12px;"></div>
+          <div class="msh-context" style="color:var(--muted-dark);">Solo el 24% de los feminicidios registrados termina en condena. Y esos 208 casos no son los del mismo año — son casos de años anteriores que el sistema finalmente procesó.</div>
+        </div>
+        <div class="map-legend">
+          <div class="legend-label" style="color:var(--muted-dark);">
+            ${isCondenas ? 'Condenas pronunciadas · Negro = cero' : 'Feminicidios registrados · Escala de volumen'}
+          </div>
+          <div class="legend-bar" style="background:${isCondenas ?
+            'linear-gradient(to right, #1a1a1a, #c06428, #c0392b)' :
+            'linear-gradient(to right, #f7e8e6, #e8836e, #c0392b, #7b1a12)'};">
+          </div>
+          <div class="legend-labels" style="color:#444;">
+            <span>${isCondenas ? 'Cero' : 'Menor'}</span>
+            <span>Mayor</span>
+          </div>
+        </div>
+        <div class="map-framing" style="color:var(--muted-dark);">${ind.mapFraming}</div>
+      </div>
+    </div>
+    ${ind.methodologyNote ? `
+    <div style="margin-top:32px;padding-top:20px;border-top:1px solid var(--border-dark);">
+      <p style="font-family:'Spectral',serif;font-size:12px;color:#3a3a3a;font-weight:300;line-height:1.7;font-style:italic;">${ind.methodologyNote}</p>
+    </div>` : ''}`;
+}
+
+function setFemMapView(view) {
+  femMapView = view;
+  const ind = getActive();
+  if (ind && ind.id === 'feminicidio') {
+    document.getElementById('mapPanels').innerHTML = renderFeminicidioMap(ind);
+  }
 }
 
 // ════════════════════════════════════════
@@ -1384,6 +1543,7 @@ function renderCases(ind) {
 
 function setIndicator(id, init = false) {
   activeId = id;
+  femMapView = 'registered'; // reset toggle on indicator switch
   const ind = getActive();
 
   // Update counter strip active state
