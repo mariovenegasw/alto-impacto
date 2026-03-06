@@ -820,17 +820,17 @@ const INDICATORS = [
     id: 'feminicidio',
     navNum: '855',
     navLabel: 'Feminicidio',
-    heroGhost: '1 de 4',
-    heroEm: 'solo 1 de cada 4 feminicidios registrados termina en una condena.',
+    heroGhost: '2 de 5',
+    heroEm: 'solo 2 de cada 5 feminicidios registrados termina en una condena.',
     heroHeadline: 'En México,',
-    heroBody: '855 feminicidios fueron registrados en 2024. Solo 208 terminaron en una sentencia condenatoria ese mismo año — y esos 208 no son siquiera los casos de 2024: son años anteriores que el sistema apenas alcanzó a procesar. La cifra real de feminicidios es mayor: muchos se clasifican como homicidio simple antes de que ningún censo los cuente.',
+    heroBody: '855 feminicidios fueron registrados en 2024. Solo 360 terminaron en una sentencia condenatoria ese mismo año — vía juicio oral (208) o procedimiento abreviado (152). Y esas 360 condenas no son de los casos de 2024: son años anteriores que el sistema apenas alcanzó a procesar. La cifra real de feminicidios es mayor: muchos se clasifican como homicidio simple antes de que ningún censo los cuente.',
     mapEyebrow: 'Feminicidio · Por estado · 2024',
     mapTitle: 'El mapa del feminicidio',
     mapSub: 'Registrados (SESNSP) vs. condenas (CNIJE) por estado en 2024. Usa el toggle para cambiar la vista. Los estados en gris oscuro registraron feminicidios pero produjeron cero condenas.',
     mapFraming: '«Los 208 casos con sentencia condenatoria en 2024 no son los mismos 855 registrados ese año. El sistema judicial procesa casos de años anteriores. La comparación mide la capacidad estructural del sistema para producir justicia — no casos individuales.»',
-    mapHighlightValue: '208 / 855',
+    mapHighlightValue: '360 / 855',
     mapHighlightLabel: 'Condenas vs. registrados · 2024',
-    mapHighlightContext: 'Solo el 24% de los feminicidios registrados termina en condena. 12 estados produjeron cero condenas — entre ellos Estado de México, con 76 casos registrados.',
+    mapHighlightContext: 'El 42% de los feminicidios registrados termina en condena — 208 vía juicio oral, 152 vía procedimiento abreviado. 8 estados produjeron cero condenas en ambas vías, incluyendo Estado de México (76 registrados) y Veracruz (55).',
     mapHasImpunityToggle: true,
     trendTitle: 'Feminicidio registrado, 2015–2024',
     trendSub: 'La tipificación como delito autónomo comenzó a estandarizarse a partir de 2012. El pico fue 2021 con 1,021 víctimas. Los datos reflejan tanto la violencia real como los cambios en clasificación por entidad.',
@@ -841,7 +841,7 @@ const INDICATORS = [
       {year:2021, label:'Pico: 1,021'},
       {year:2024, label:'855'},
     ],
-    methodologyNote: 'Registros SESNSP (víctimas clasificadas como feminicidio por fiscalías). Condenas: CNIJE/INEGI 2025 (sentencias condenatorias por feminicidio pronunciadas en 2024). Los 208 casos sentenciados en 2024 corresponden a casos abiertos en años anteriores — el sistema judicial no resuelve en el mismo año que registra. La comparación mide throughput estructural, no resolución de casos individuales. Subregistro real desconocido: casos clasificados como homicidio simple no aparecen en ninguna de las dos fuentes.',
+    methodologyNote: 'Registros SESNSP (víctimas clasificadas como feminicidio por fiscalías). Condenas: CNIJE/INEGI 2025, dos fuentes combinadas — sentencias condenatorias en juicio oral (jueces de enjuiciamiento, sheet 9: 208 condenas) más sentencias en procedimiento abreviado (jueces de control, sheet 8: 152 condenas) = 360 condenas totales. Los casos sentenciados en 2024 corresponden a investigaciones abiertas en años anteriores — el sistema no resuelve en el mismo año que registra. La comparación mide throughput estructural, no resolución de casos individuales. Subregistro real desconocido: casos clasificados como homicidio simple no aparecen en ninguna de las dos fuentes.',
     casesEyebrow: 'Feminicidio · Casos y patrones',
     casesTitle: 'Las víctimas tienen nombre',
     casesSub: 'Casos que visibilizaron la dimensión sistémica del feminicidio en México.',
@@ -1026,41 +1026,41 @@ const STATE_DATA = {
     {name:'Yucatán',abbr:'YUC',rate:7},
     {name:'Zacatecas',abbr:'ZAC',rate:8},
   ],
-  // CNIJE 2025 — sentencias condenatorias por feminicidio, 2024
-  // condenas = sentenced that year (from prior years' cases)
+  // CNIJE 2025 — condenas por feminicidio 2024, combinando jueces de control (proc. abreviado)
+  // y jueces de enjuiciamiento (juicio oral). Fuente: sheets 8 + 9, cnije2025_just_penal.xlsx
   feminicidio_condenas: [
-    {name:'Aguascalientes',abbr:'AGS',registered:7,condenas:11},
-    {name:'Baja California',abbr:'BCN',registered:38,condenas:7},
+    {name:'Aguascalientes',abbr:'AGS',registered:7,condenas:12},
+    {name:'Baja California',abbr:'BCN',registered:38,condenas:9},
     {name:'Baja California Sur',abbr:'BCS',registered:9,condenas:0},
-    {name:'Campeche',abbr:'CAM',registered:7,condenas:0},
-    {name:'Chiapas',abbr:'CHP',registered:35,condenas:10},
-    {name:'Chihuahua',abbr:'CHI',registered:48,condenas:22},
-    {name:'Ciudad de México',abbr:'CDM',registered:71,condenas:35},
-    {name:'Coahuila',abbr:'COA',registered:20,condenas:8},
+    {name:'Campeche',abbr:'CAM',registered:7,condenas:1},
+    {name:'Chiapas',abbr:'CHP',registered:35,condenas:13},
+    {name:'Chihuahua',abbr:'CHI',registered:48,condenas:46},
+    {name:'Ciudad de México',abbr:'CDM',registered:71,condenas:68},
+    {name:'Coahuila',abbr:'COA',registered:20,condenas:9},
     {name:'Colima',abbr:'COL',registered:6,condenas:0},
-    {name:'Durango',abbr:'DUR',registered:11,condenas:0},
+    {name:'Durango',abbr:'DUR',registered:11,condenas:10},
     {name:'Guanajuato',abbr:'GTO',registered:16,condenas:2},
-    {name:'Guerrero',abbr:'GRO',registered:23,condenas:3},
-    {name:'Hidalgo',abbr:'HGO',registered:20,condenas:16},
-    {name:'Jalisco',abbr:'JAL',registered:39,condenas:7},
+    {name:'Guerrero',abbr:'GRO',registered:23,condenas:4},
+    {name:'Hidalgo',abbr:'HGO',registered:20,condenas:23},
+    {name:'Jalisco',abbr:'JAL',registered:39,condenas:10},
     {name:'Estado de México',abbr:'MEX',registered:76,condenas:0},
-    {name:'Michoacán',abbr:'MCH',registered:18,condenas:7},
+    {name:'Michoacán',abbr:'MCH',registered:18,condenas:9},
     {name:'Morelos',abbr:'MOR',registered:51,condenas:3},
-    {name:'Nayarit',abbr:'NAY',registered:11,condenas:0},
-    {name:'Nuevo León',abbr:'NL',registered:60,condenas:16},
+    {name:'Nayarit',abbr:'NAY',registered:11,condenas:7},
+    {name:'Nuevo León',abbr:'NL',registered:60,condenas:18},
     {name:'Oaxaca',abbr:'OAX',registered:20,condenas:0},
     {name:'Puebla',abbr:'PUE',registered:43,condenas:0},
-    {name:'Querétaro',abbr:'QRO',registered:4,condenas:1},
+    {name:'Querétaro',abbr:'QRO',registered:4,condenas:7},
     {name:'Quintana Roo',abbr:'QR',registered:13,condenas:0},
     {name:'San Luis Potosí',abbr:'SLP',registered:15,condenas:3},
-    {name:'Sinaloa',abbr:'SIN',registered:28,condenas:9},
-    {name:'Sonora',abbr:'SON',registered:26,condenas:27},
+    {name:'Sinaloa',abbr:'SIN',registered:28,condenas:26},
+    {name:'Sonora',abbr:'SON',registered:26,condenas:34},
     {name:'Tabasco',abbr:'TAB',registered:29,condenas:16},
     {name:'Tamaulipas',abbr:'TAM',registered:27,condenas:0},
     {name:'Tlaxcala',abbr:'TLX',registered:14,condenas:1},
     {name:'Veracruz',abbr:'VER',registered:55,condenas:0},
-    {name:'Yucatán',abbr:'YUC',registered:7,condenas:4},
-    {name:'Zacatecas',abbr:'ZAC',registered:8,condenas:0},
+    {name:'Yucatán',abbr:'YUC',registered:7,condenas:5},
+    {name:'Zacatecas',abbr:'ZAC',registered:8,condenas:24},
   ],
   desaparicion: [
     {name:'Baja California',abbr:'BCN',rate:420},
@@ -1389,11 +1389,11 @@ function renderFeminicidioMap(ind) {
             <span style="font-family:var(--mono);font-size:9px;color:#444;text-transform:uppercase;letter-spacing:0.1em;">registrados</span>
           </div>
           <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:12px;">
-            <span style="font-family:var(--serif);font-size:36px;color:var(--red);line-height:1;">208</span>
+            <span style="font-family:var(--serif);font-size:36px;color:var(--red);line-height:1;">360</span>
             <span style="font-family:var(--mono);font-size:9px;color:#444;text-transform:uppercase;letter-spacing:0.1em;">condenas</span>
           </div>
           <div style="height:1px;background:rgba(255,255,255,0.06);margin-bottom:12px;"></div>
-          <div class="msh-context" style="color:var(--muted-dark);">Solo el 24% de los feminicidios registrados termina en condena. Y esos 208 casos no son los del mismo año — son casos de años anteriores que el sistema finalmente procesó.</div>
+          <div class="msh-context" style="color:var(--muted-dark);">El 42% de los feminicidios registrados termina en condena — 208 en juicio oral, 152 vía procedimiento abreviado. Ninguna de esas 360 condenas es de un caso abierto en 2024.</div>
         </div>
         <div class="map-legend">
           <div class="legend-label" style="color:var(--muted-dark);">
