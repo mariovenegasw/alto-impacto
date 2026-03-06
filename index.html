@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Alto Impacto — Prototype</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Spectral:ital,wght@0,300;0,400;0,700;1,300;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <style>
   :root {
     --dark:    #0d0d0d;
@@ -379,7 +380,7 @@
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  /* ── STATE GRID MAP ── */
+  /* ── SVG MAP ── */
   .map-layout {
     display: grid;
     grid-template-columns: 1fr 260px;
@@ -387,60 +388,91 @@
     align-items: start;
   }
 
-  .state-grid {
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    gap: 3px;
-  }
-
-  .state-block {
-    aspect-ratio: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--mono);
-    font-size: 7.5px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: transform 0.15s, box-shadow 0.15s;
+  .svg-map-wrap {
     position: relative;
+    width: 100%;
+  }
+
+  .svg-map-wrap svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .map-state {
+    stroke: rgba(0,0,0,0.18);
+    stroke-width: 0.5;
+    transition: opacity 0.15s;
+    cursor: pointer;
+  }
+
+  .map-state:hover {
+    opacity: 0.82;
+    stroke: rgba(255,255,255,0.3);
+    stroke-width: 1;
+  }
+
+  .light .map-state:hover {
+    stroke: rgba(0,0,0,0.35);
+  }
+
+  .map-loading {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: #333;
+    text-transform: uppercase;
+    padding: 48px 0;
     text-align: center;
-    padding: 2px;
-    line-height: 1.2;
   }
 
-  .state-block:hover {
-    transform: scale(1.18);
-    z-index: 10;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.5);
-  }
-
-  .state-tooltip {
+  /* SVG tooltip */
+  .map-tooltip {
     display: none;
-    position: absolute;
-    bottom: calc(100% + 8px);
-    left: 50%;
-    transform: translateX(-50%);
+    position: fixed;
     background: #0d0d0d;
-    border: 1px solid var(--border-dark);
+    border: 1px solid rgba(255,255,255,0.1);
     color: #e8e0d0;
-    padding: 8px 12px;
-    font-size: 11px;
-    white-space: nowrap;
-    z-index: 100;
-    pointer-events: none;
+    padding: 10px 14px;
     font-family: var(--sans);
+    font-size: 12px;
+    pointer-events: none;
+    z-index: 500;
+    min-width: 160px;
+    line-height: 1.5;
   }
 
-  .state-tooltip strong {
+  .map-tooltip strong {
     display: block;
     font-family: var(--serif);
+    font-size: 14px;
+    margin-bottom: 4px;
+    color: #f0e8d8;
+  }
+
+  .map-tooltip .tt-val {
+    font-family: var(--mono);
     font-size: 13px;
+    color: var(--red);
     margin-bottom: 2px;
   }
 
-  .state-block:hover .state-tooltip { display: block; }
+  .map-tooltip .tt-sub {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: #444;
+    text-transform: uppercase;
+  }
+
+  .light .map-tooltip {
+    background: white;
+    border-color: var(--border-light);
+    color: #1a1208;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  }
+
+  .light .map-tooltip strong { color: #1a1208; }
 
   /* Map sidebar */
   .map-sidebar {
@@ -677,7 +709,6 @@
     .hero { padding: 80px 20px 48px; }
     .section-wrap { padding: 48px 20px; }
     .map-layout { grid-template-columns: 1fr; }
-    .state-grid { grid-template-columns: repeat(6, 1fr); }
     .site-footer { flex-direction: column; gap: 8px; padding: 16px 20px; }
   }
 </style>
@@ -776,6 +807,9 @@
 
 <div class="proto-badge">Prototype · Sample data</div>
 
+<!-- SVG map tooltip — lives outside map section to avoid clipping -->
+<div id="mapTooltip" class="map-tooltip"></div>
+
 
 <script>
 // ════════════════════════════════════════
@@ -820,20 +854,19 @@ const INDICATORS = [
     id: 'feminicidio',
     navNum: '855',
     navLabel: 'Feminicidio',
-    heroGhost: '2 de 5',
-    heroEm: 'solo 2 de cada 5 feminicidios registrados termina en una condena.',
-    heroHeadline: 'En México,',
-    heroBody: '855 feminicidios fueron registrados en 2024. Solo 360 terminaron en una sentencia condenatoria ese mismo año — vía juicio oral (208) o procedimiento abreviado (152). Y esas 360 condenas no son de los casos de 2024: son años anteriores que el sistema apenas alcanzó a procesar. La cifra real de feminicidios es mayor: muchos se clasifican como homicidio simple antes de que ningún censo los cuente.',
-    mapEyebrow: 'Feminicidio · Por estado · 2024',
+    heroGhost: '2/día',
+    heroEm: 'dos mujeres son asesinadas por el hecho de ser mujeres.',
+    heroHeadline: 'En México, <em>cada día</em>',
+    heroBody: '855 feminicidios fueron registrados en 2024. El pico fue 2021 con 1,021 víctimas. La cifra real es mayor — la definición legal se aplica de forma inconsistente entre estados, y muchos casos se clasifican como homicidio simple.',
+    mapEyebrow: 'Feminicidio · Víctimas por estado · 2024',
     mapTitle: 'El mapa del feminicidio',
-    mapSub: 'Registrados (SESNSP) vs. condenas (CNIJE) por estado en 2024. Usa el toggle para cambiar la vista. Los estados en gris oscuro registraron feminicidios pero produjeron cero condenas.',
-    mapFraming: '«Los 208 casos con sentencia condenatoria en 2024 no son los mismos 855 registrados ese año. El sistema judicial procesa casos de años anteriores. La comparación mide la capacidad estructural del sistema para producir justicia — no casos individuales.»',
-    mapHighlightValue: '360 / 855',
-    mapHighlightLabel: 'Condenas vs. registrados · 2024',
-    mapHighlightContext: 'El 42% de los feminicidios registrados termina en condena — 208 vía juicio oral, 152 vía procedimiento abreviado. 8 estados produjeron cero condenas en ambas vías, incluyendo Estado de México (76 registrados) y Veracruz (55).',
-    mapHasImpunityToggle: true,
+    mapSub: 'Víctimas de feminicidio por estado en 2024. Estado de México y Ciudad de México concentran el mayor número absoluto. La comparación entre estados también refleja distintos criterios de clasificación.',
+    mapFraming: '«La inconsistencia en la definición legal entre estados hace que el mapa muestre tanto violencia real como subregistro institucional.»',
+    mapHighlightValue: '855',
+    mapHighlightLabel: 'Víctimas en 2024',
+    mapHighlightContext: 'Equivale a 2.3 feminicidios por día. El pico fue 2021 con 1,021 víctimas. Estado de México lidera con 76 casos, seguido de Ciudad de México con 71.',
     trendTitle: 'Feminicidio registrado, 2015–2024',
-    trendSub: 'La tipificación como delito autónomo comenzó a estandarizarse a partir de 2012. El pico fue 2021 con 1,021 víctimas. Los datos reflejan tanto la violencia real como los cambios en clasificación por entidad.',
+    trendSub: 'La tipificación como delito autónomo comenzó a estandarizarse a partir de 2012. El pico fue 2021. Los datos reflejan tanto la violencia real como los cambios en clasificación por entidad.',
     trendSource: 'SESNSP · Víctimas nueva metodología (2015–2024)',
     trendData: [428,648,769,924,973,976,1021,983,853,855],
     trendYears: Array.from({length:10},(_,i)=>2015+i),
@@ -841,14 +874,13 @@ const INDICATORS = [
       {year:2021, label:'Pico: 1,021'},
       {year:2024, label:'855'},
     ],
-    methodologyNote: 'Registros SESNSP (víctimas clasificadas como feminicidio por fiscalías). Condenas: CNIJE/INEGI 2025, dos fuentes combinadas — sentencias condenatorias en juicio oral (jueces de enjuiciamiento, sheet 9: 208 condenas) más sentencias en procedimiento abreviado (jueces de control, sheet 8: 152 condenas) = 360 condenas totales. Los casos sentenciados en 2024 corresponden a investigaciones abiertas en años anteriores — el sistema no resuelve en el mismo año que registra. La comparación mide throughput estructural, no resolución de casos individuales. Subregistro real desconocido: casos clasificados como homicidio simple no aparecen en ninguna de las dos fuentes.',
     casesEyebrow: 'Feminicidio · Casos y patrones',
     casesTitle: 'Las víctimas tienen nombre',
     casesSub: 'Casos que visibilizaron la dimensión sistémica del feminicidio en México.',
     cases: [
-      { year:'2020', name:'Ingrid Escamilla', desc:'El feminicidio de Ingrid Escamilla en febrero de 2020 — y la filtración de sus fotos por parte de medios y policías — desencadenó protestas masivas y exhibió la violencia institucional hacia las víctimas. Su caso tardó más de un año en llegar a sentencia.', tag:'CDMX · Violencia institucional' },
-      { year:'2020', name:'#UnDíaSinNosotras — Paro Nacional', desc:'El 9 de marzo de 2020, miles de mujeres se ausentaron de trabajos, escuelas y espacios públicos. El movimiento respondió directamente al pico de feminicidios y a la certeza de que el Estado no investigaba, no condenaba, no protegía.', tag:'Movimiento · Nacional' },
-      { year:'2022', name:'Caso Debanhi Escobar', desc:'La desaparición y muerte de Debanhi Escobar en Nuevo León generó un debate nacional sobre la búsqueda de mujeres desaparecidas. Su caso también reveló la cadena de errores institucionales: desde la primera denuncia hasta el hallazgo del cuerpo en una cisterna de hotel.', tag:'Nuevo León · Falla institucional' },
+      { year:'2020', name:'#UnDíaSinNosotras — Paro Nacional', desc:'El 9 de marzo de 2020, un día después del Día de la Mujer, miles de mujeres se ausentaron de trabajos, escuelas y espacios públicos. El movimiento respondió al pico de feminicidios y la falta de respuesta institucional.', tag:'Movimiento · Nacional' },
+      { year:'2020', name:'Ingrid Escamilla', desc:'El feminicidio de Ingrid Escamilla en febrero de 2020 — y la filtración de sus fotos por parte de medios y policías — desencadenó protestas masivas y exhibió la violencia institucional hacia las víctimas.', tag:'CDMX · Violencia mediática' },
+      { year:'2022', name:'Caso Debanhi Escobar', desc:'La desaparición y muerte de Debanhi Escobar en Nuevo León — cuyo cuerpo fue encontrado en una cisterna de hotel tras una búsqueda de 13 días — generó un debate nacional sobre la búsqueda de mujeres desaparecidas.', tag:'Nuevo León · Desaparición' },
     ]
   },
   {
@@ -1025,42 +1057,6 @@ const STATE_DATA = {
     {name:'Veracruz',abbr:'VER',rate:55},
     {name:'Yucatán',abbr:'YUC',rate:7},
     {name:'Zacatecas',abbr:'ZAC',rate:8},
-  ],
-  // CNIJE 2025 — condenas por feminicidio 2024, combinando jueces de control (proc. abreviado)
-  // y jueces de enjuiciamiento (juicio oral). Fuente: sheets 8 + 9, cnije2025_just_penal.xlsx
-  feminicidio_condenas: [
-    {name:'Aguascalientes',abbr:'AGS',registered:7,condenas:12},
-    {name:'Baja California',abbr:'BCN',registered:38,condenas:9},
-    {name:'Baja California Sur',abbr:'BCS',registered:9,condenas:0},
-    {name:'Campeche',abbr:'CAM',registered:7,condenas:1},
-    {name:'Chiapas',abbr:'CHP',registered:35,condenas:13},
-    {name:'Chihuahua',abbr:'CHI',registered:48,condenas:46},
-    {name:'Ciudad de México',abbr:'CDM',registered:71,condenas:68},
-    {name:'Coahuila',abbr:'COA',registered:20,condenas:9},
-    {name:'Colima',abbr:'COL',registered:6,condenas:0},
-    {name:'Durango',abbr:'DUR',registered:11,condenas:10},
-    {name:'Guanajuato',abbr:'GTO',registered:16,condenas:2},
-    {name:'Guerrero',abbr:'GRO',registered:23,condenas:4},
-    {name:'Hidalgo',abbr:'HGO',registered:20,condenas:23},
-    {name:'Jalisco',abbr:'JAL',registered:39,condenas:10},
-    {name:'Estado de México',abbr:'MEX',registered:76,condenas:0},
-    {name:'Michoacán',abbr:'MCH',registered:18,condenas:9},
-    {name:'Morelos',abbr:'MOR',registered:51,condenas:3},
-    {name:'Nayarit',abbr:'NAY',registered:11,condenas:7},
-    {name:'Nuevo León',abbr:'NL',registered:60,condenas:18},
-    {name:'Oaxaca',abbr:'OAX',registered:20,condenas:0},
-    {name:'Puebla',abbr:'PUE',registered:43,condenas:0},
-    {name:'Querétaro',abbr:'QRO',registered:4,condenas:7},
-    {name:'Quintana Roo',abbr:'QR',registered:13,condenas:0},
-    {name:'San Luis Potosí',abbr:'SLP',registered:15,condenas:3},
-    {name:'Sinaloa',abbr:'SIN',registered:28,condenas:26},
-    {name:'Sonora',abbr:'SON',registered:26,condenas:34},
-    {name:'Tabasco',abbr:'TAB',registered:29,condenas:16},
-    {name:'Tamaulipas',abbr:'TAM',registered:27,condenas:0},
-    {name:'Tlaxcala',abbr:'TLX',registered:14,condenas:1},
-    {name:'Veracruz',abbr:'VER',registered:55,condenas:0},
-    {name:'Yucatán',abbr:'YUC',registered:7,condenas:5},
-    {name:'Zacatecas',abbr:'ZAC',registered:8,condenas:24},
   ],
   desaparicion: [
     {name:'Baja California',abbr:'BCN',rate:420},
@@ -1248,44 +1244,90 @@ function textColorForBg(rate, min, max) {
 }
 
 // ════════════════════════════════════════
+// GEO DATA — loaded once, cached
+// ════════════════════════════════════════
+
+let _geoCache = null;
+let _geoLoading = false;
+let _geoCallbacks = [];
+
+// hc-key → canonical state name
+const HC_KEY_MAP = {
+  'mx-ag': 'Aguascalientes',
+  'mx-bc': 'Baja California',
+  'mx-bs': 'Baja California Sur',
+  'mx-cm': 'Campeche',
+  'mx-cs': 'Chiapas',
+  'mx-ch': 'Chihuahua',
+  'mx-df': 'Ciudad de México',
+  'mx-co': 'Coahuila',
+  'mx-cl': 'Colima',
+  'mx-dg': 'Durango',
+  'mx-gj': 'Guanajuato',
+  'mx-gr': 'Guerrero',
+  'mx-hg': 'Hidalgo',
+  'mx-ja': 'Jalisco',
+  'mx-mx': 'Estado de México',
+  'mx-mi': 'Michoacán',
+  'mx-mo': 'Morelos',
+  'mx-na': 'Nayarit',
+  'mx-nl': 'Nuevo León',
+  'mx-oa': 'Oaxaca',
+  'mx-pu': 'Puebla',
+  'mx-qt': 'Querétaro',
+  'mx-qr': 'Quintana Roo',
+  'mx-sl': 'San Luis Potosí',
+  'mx-si': 'Sinaloa',
+  'mx-so': 'Sonora',
+  'mx-tb': 'Tabasco',
+  'mx-tm': 'Tamaulipas',
+  'mx-tl': 'Tlaxcala',
+  'mx-ve': 'Veracruz',
+  'mx-yu': 'Yucatán',
+  'mx-za': 'Zacatecas',
+};
+
+function loadGeo(cb) {
+  if (_geoCache) { cb(_geoCache); return; }
+  _geoCallbacks.push(cb);
+  if (_geoLoading) return;
+  _geoLoading = true;
+  fetch('https://unpkg.com/@highcharts/map-collection@2.0.1/countries/mx/mx-all.geo.json')
+    .then(r => r.json())
+    .then(geo => {
+      _geoCache = geo;
+      _geoCallbacks.forEach(fn => fn(geo));
+      _geoCallbacks = [];
+    })
+    .catch(() => {
+      _geoCallbacks.forEach(fn => fn(null));
+      _geoCallbacks = [];
+    });
+}
+
+// ════════════════════════════════════════
 // RENDER MAP PANEL
 // ════════════════════════════════════════
 
-// feminicidio impunity map view mode
-let femMapView = 'registered'; // 'registered' | 'condenas'
-
 function renderMap(ind) {
-  if (ind.id === 'feminicidio') return renderFeminicidioMap(ind);
-
   const states = STATE_DATA[ind.id];
   const rates = states.map(s => s.rate);
   const min = Math.min(...rates);
   const max = Math.max(...rates);
 
-  const unitLabel = ind.id === 'extorsion' ? 'víctimas/100k' :
-                    ind.id === 'desaparicion' ? 'casos' :
-                    ind.id === 'periodistas' ? 'agresiones' :
+  const unitLabel = ind.id === 'extorsion'   ? 'víctimas/100k' :
+                    ind.id === 'desaparicion' ? 'casos nuevos' :
+                    ind.id === 'periodistas'  ? 'agresiones' :
                     'víctimas 2024';
 
-  let gridHTML = '';
-  states.forEach(s => {
-    const color = rateToColor(s.rate, min, max);
-    const textColor = textColorForBg(s.rate, min, max);
-    const displayRate = s.rate >= 1000 ? (s.rate/1000).toFixed(1)+'k' : s.rate;
-    gridHTML += `
-      <div class="state-block" style="background:${color};color:${textColor};">
-        ${s.abbr}
-        <div class="state-tooltip">
-          <strong>${s.name}</strong>
-          ${displayRate} ${unitLabel}
-        </div>
-      </div>`;
-  });
+  const lookup = {};
+  states.forEach(s => { lookup[s.name] = s; });
 
-  return `
+  const mapHTML = `
     <div class="map-layout">
-      <div>
-        <div class="state-grid">${gridHTML}</div>
+      <div class="svg-map-wrap">
+        <div class="map-loading" id="mapLoading_${ind.id}">Cargando mapa…</div>
+        <svg id="svgMap_${ind.id}" style="display:none;" viewBox="0 0 800 560"></svg>
       </div>
       <div class="map-sidebar">
         <div class="map-stat-highlight">
@@ -1303,126 +1345,57 @@ function renderMap(ind) {
         </div>
         <div class="map-framing">${ind.mapFraming}</div>
       </div>
-    </div>
-    ${ind.methodologyNote ? `
-    <div style="margin-top:32px;padding-top:20px;border-top:1px solid var(--border-dark);">
-      <p style="font-family:'Spectral',serif;font-size:12px;color:#3a3a3a;font-weight:300;line-height:1.7;font-style:italic;">${ind.methodologyNote}</p>
-    </div>` : ''}`;
-}
+    </div>`;
 
-function renderFeminicidioMap(ind) {
-  femMapView = femMapView || 'registered';
-  const data = STATE_DATA['feminicidio_condenas'];
+  setTimeout(() => {
+    const svgEl = document.getElementById(`svgMap_${ind.id}`);
+    const loadingEl = document.getElementById(`mapLoading_${ind.id}`);
+    if (!svgEl) return;
 
-  // Build grid based on current view
-  const isCondenas = femMapView === 'condenas';
-  const values = data.map(s => isCondenas ? s.condenas : s.registered);
-  const min = 0;
-  const max = Math.max(...values);
+    loadGeo(geo => {
+      if (!geo) {
+        if (loadingEl) loadingEl.textContent = 'No se pudo cargar el mapa.';
+        return;
+      }
 
-  // Special color for condenas view: gray = zero, blue-ish scale for >0
-  function condenasColor(val, max) {
-    if (val === 0) return '#1a1a1a'; // near-black for zero
-    const t = val / max;
-    // cream → orange → red
-    if (t < 0.4) {
-      const s = t / 0.4;
-      return `rgb(${Math.round(247 - s*55)}, ${Math.round(232 - s*126)}, ${Math.round(230 - s*187)})`;
-    } else {
-      const s = (t - 0.4) / 0.6;
-      return `rgb(${Math.round(192 - s*69)}, ${Math.round(106 - s*83)}, ${Math.round(43 - s*31)})`;
-    }
-  }
+      const features = geo.features.filter(f => HC_KEY_MAP[f.properties['hc-key']]);
+      const projection = d3.geoMercator().fitSize([800, 560], { type: 'FeatureCollection', features });
+      const path = d3.geoPath().projection(projection);
+      const tooltip = document.getElementById('mapTooltip');
 
-  let gridHTML = '';
-  data.forEach(s => {
-    const val = isCondenas ? s.condenas : s.registered;
-    const color = isCondenas ? condenasColor(val, max) : rateToColor(val, 0, max);
-    const textColor = (isCondenas && val === 0) ? '#444' :
-                      textColorForBg(val, 0, max);
-    const ratio = s.registered > 0 ? Math.round(s.condenas / s.registered * 100) : 0;
-    gridHTML += `
-      <div class="state-block" style="background:${color};color:${textColor};">
-        ${s.abbr}
-        <div class="state-tooltip">
-          <strong>${s.name}</strong>
-          Registrados: ${s.registered}<br>
-          Condenas: ${s.condenas}<br>
-          Ratio: ${ratio}%
-        </div>
-      </div>`;
-  });
+      const svg = d3.select(svgEl);
+      svg.selectAll('*').remove();
 
-  const toggleRegistered = femMapView === 'registered';
+      features.forEach(feature => {
+        const stateName = HC_KEY_MAP[feature.properties['hc-key']];
+        const stateData = lookup[stateName];
+        const val = stateData ? stateData.rate : 0;
+        const color = stateData ? rateToColor(val, min, max) : '#2a2a2a';
+        const displayVal = val >= 1000 ? (val/1000).toFixed(1)+'k' : val;
 
-  return `
-    <div class="map-layout">
-      <div>
-        <div style="display:flex;gap:0;margin-bottom:16px;">
-          <button onclick="setFemMapView('registered')" style="
-            padding:8px 18px;border:1px solid ${toggleRegistered ? 'var(--red)' : 'rgba(255,255,255,0.1)'};
-            background:${toggleRegistered ? 'rgba(192,57,43,0.12)' : 'none'};
-            color:${toggleRegistered ? 'var(--red)' : '#555'};
-            font-family:var(--mono);font-size:9px;letter-spacing:0.12em;text-transform:uppercase;
-            cursor:pointer;transition:all 0.2s;">
-            Registrados · SESNSP
-          </button>
-          <button onclick="setFemMapView('condenas')" style="
-            padding:8px 18px;border:1px solid ${!toggleRegistered ? 'var(--red)' : 'rgba(255,255,255,0.1)'};
-            background:${!toggleRegistered ? 'rgba(192,57,43,0.12)' : 'none'};
-            color:${!toggleRegistered ? 'var(--red)' : '#555'};
-            font-family:var(--mono);font-size:9px;letter-spacing:0.12em;text-transform:uppercase;
-            cursor:pointer;transition:all 0.2s;margin-left:-1px;">
-            Condenas · CNIJE
-          </button>
-        </div>
-        <div class="state-grid">${gridHTML}</div>
-        ${isCondenas ? `<p style="margin-top:12px;font-family:var(--mono);font-size:9px;color:#444;letter-spacing:0.08em;">
-          Negro = cero condenas en 2024 · ${data.filter(s=>s.condenas===0).length} estados · ${data.filter(s=>s.condenas===0).reduce((a,s)=>a+s.registered,0)} feminicidios registrados sin ninguna condena
-        </p>` : ''}
-      </div>
-      <div class="map-sidebar">
-        <div class="map-stat-highlight" style="border-color:var(--border-dark);background:var(--dark-3);">
-          <div class="msh-label" style="color:var(--muted-dark);">Registrados vs. Condenas · 2024</div>
-          <div style="display:flex;align-items:baseline;gap:8px;margin:8px 0 4px;">
-            <span style="font-family:var(--serif);font-size:36px;color:#e8e0d0;line-height:1;">855</span>
-            <span style="font-family:var(--mono);font-size:9px;color:#444;text-transform:uppercase;letter-spacing:0.1em;">registrados</span>
-          </div>
-          <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:12px;">
-            <span style="font-family:var(--serif);font-size:36px;color:var(--red);line-height:1;">360</span>
-            <span style="font-family:var(--mono);font-size:9px;color:#444;text-transform:uppercase;letter-spacing:0.1em;">condenas</span>
-          </div>
-          <div style="height:1px;background:rgba(255,255,255,0.06);margin-bottom:12px;"></div>
-          <div class="msh-context" style="color:var(--muted-dark);">El 42% de los feminicidios registrados termina en condena — 208 en juicio oral, 152 vía procedimiento abreviado. Ninguna de esas 360 condenas es de un caso abierto en 2024.</div>
-        </div>
-        <div class="map-legend">
-          <div class="legend-label" style="color:var(--muted-dark);">
-            ${isCondenas ? 'Condenas pronunciadas · Negro = cero' : 'Feminicidios registrados · Escala de volumen'}
-          </div>
-          <div class="legend-bar" style="background:${isCondenas ?
-            'linear-gradient(to right, #1a1a1a, #c06428, #c0392b)' :
-            'linear-gradient(to right, #f7e8e6, #e8836e, #c0392b, #7b1a12)'};">
-          </div>
-          <div class="legend-labels" style="color:#444;">
-            <span>${isCondenas ? 'Cero' : 'Menor'}</span>
-            <span>Mayor</span>
-          </div>
-        </div>
-        <div class="map-framing" style="color:var(--muted-dark);">${ind.mapFraming}</div>
-      </div>
-    </div>
-    ${ind.methodologyNote ? `
-    <div style="margin-top:32px;padding-top:20px;border-top:1px solid var(--border-dark);">
-      <p style="font-family:'Spectral',serif;font-size:12px;color:#3a3a3a;font-weight:300;line-height:1.7;font-style:italic;">${ind.methodologyNote}</p>
-    </div>` : ''}`;
-}
+        svg.append('path')
+          .datum(feature)
+          .attr('class', 'map-state')
+          .attr('d', path)
+          .attr('fill', color)
+          .on('mousemove', function(event) {
+            tooltip.style.display = 'block';
+            tooltip.style.left = (event.clientX + 16) + 'px';
+            tooltip.style.top  = (event.clientY - 48) + 'px';
+            tooltip.innerHTML = `
+              <strong>${stateName}</strong>
+              <div class="tt-val">${displayVal}</div>
+              <div class="tt-sub">${unitLabel}</div>`;
+          })
+          .on('mouseleave', () => { tooltip.style.display = 'none'; });
+      });
 
-function setFemMapView(view) {
-  femMapView = view;
-  const ind = getActive();
-  if (ind && ind.id === 'feminicidio') {
-    document.getElementById('mapPanels').innerHTML = renderFeminicidioMap(ind);
-  }
+      svgEl.style.display = 'block';
+      if (loadingEl) loadingEl.style.display = 'none';
+    });
+  }, 0);
+
+  return mapHTML;
 }
 
 // ════════════════════════════════════════
@@ -1543,7 +1516,6 @@ function renderCases(ind) {
 
 function setIndicator(id, init = false) {
   activeId = id;
-  femMapView = 'registered'; // reset toggle on indicator switch
   const ind = getActive();
 
   // Update counter strip active state
