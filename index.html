@@ -388,33 +388,16 @@
     align-items: start;
   }
 
-  .svg-map-wrap {
-    position: relative;
-    width: 100%;
-  }
-
-  .svg-map-wrap svg {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
+  .svg-map-wrap { position: relative; width: 100%; }
+  .svg-map-wrap svg { width: 100%; height: auto; display: block; }
 
   .map-state {
-    stroke: rgba(0,0,0,0.18);
-    stroke-width: 0.5;
-    transition: opacity 0.15s;
+    stroke: rgba(0,0,0,0.2);
+    stroke-width: 0.6;
     cursor: pointer;
+    transition: opacity 0.12s;
   }
-
-  .map-state:hover {
-    opacity: 0.82;
-    stroke: rgba(255,255,255,0.3);
-    stroke-width: 1;
-  }
-
-  .light .map-state:hover {
-    stroke: rgba(0,0,0,0.35);
-  }
+  .map-state:hover { opacity: 0.78; stroke-width: 1.2; stroke: rgba(255,255,255,0.4); }
 
   .map-loading {
     font-family: var(--mono);
@@ -426,7 +409,6 @@
     text-align: center;
   }
 
-  /* SVG tooltip */
   .map-tooltip {
     display: none;
     position: fixed;
@@ -437,42 +419,13 @@
     font-family: var(--sans);
     font-size: 12px;
     pointer-events: none;
-    z-index: 500;
+    z-index: 9999;
     min-width: 160px;
     line-height: 1.5;
   }
-
-  .map-tooltip strong {
-    display: block;
-    font-family: var(--serif);
-    font-size: 14px;
-    margin-bottom: 4px;
-    color: #f0e8d8;
-  }
-
-  .map-tooltip .tt-val {
-    font-family: var(--mono);
-    font-size: 13px;
-    color: var(--red);
-    margin-bottom: 2px;
-  }
-
-  .map-tooltip .tt-sub {
-    font-family: var(--mono);
-    font-size: 9px;
-    letter-spacing: 0.1em;
-    color: #444;
-    text-transform: uppercase;
-  }
-
-  .light .map-tooltip {
-    background: white;
-    border-color: var(--border-light);
-    color: #1a1208;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
-  }
-
-  .light .map-tooltip strong { color: #1a1208; }
+  .map-tooltip strong { display:block; font-family:var(--serif); font-size:14px; margin-bottom:4px; color:#f0e8d8; }
+  .map-tooltip .tt-val { font-family:var(--mono); font-size:13px; color:var(--red); margin-bottom:2px; }
+  .map-tooltip .tt-sub { font-family:var(--mono); font-size:9px; letter-spacing:0.1em; color:#555; text-transform:uppercase; }
 
   /* Map sidebar */
   .map-sidebar {
@@ -806,8 +759,6 @@
 </footer>
 
 <div class="proto-badge">Prototype · Sample data</div>
-
-<!-- SVG map tooltip — lives outside map section to avoid clipping -->
 <div id="mapTooltip" class="map-tooltip"></div>
 
 
@@ -1244,65 +1195,64 @@ function textColorForBg(rate, min, max) {
 }
 
 // ════════════════════════════════════════
-// GEO DATA — loaded once, cached
+// GEO — cached GeoJSON, loaded once
 // ════════════════════════════════════════
 
 let _geoCache = null;
 let _geoLoading = false;
-let _geoCallbacks = [];
+let _geoCbs = [];
 
-// hc-key → canonical state name
+// hc-key → state name
 const HC_KEY_MAP = {
-  'mx-ag': 'Aguascalientes',
-  'mx-bc': 'Baja California',
-  'mx-bs': 'Baja California Sur',
-  'mx-cm': 'Campeche',
-  'mx-cs': 'Chiapas',
-  'mx-ch': 'Chihuahua',
-  'mx-df': 'Ciudad de México',
-  'mx-co': 'Coahuila',
-  'mx-cl': 'Colima',
-  'mx-dg': 'Durango',
-  'mx-gj': 'Guanajuato',
-  'mx-gr': 'Guerrero',
-  'mx-hg': 'Hidalgo',
-  'mx-ja': 'Jalisco',
-  'mx-mx': 'Estado de México',
-  'mx-mi': 'Michoacán',
-  'mx-mo': 'Morelos',
-  'mx-na': 'Nayarit',
-  'mx-nl': 'Nuevo León',
-  'mx-oa': 'Oaxaca',
-  'mx-pu': 'Puebla',
-  'mx-qt': 'Querétaro',
-  'mx-qr': 'Quintana Roo',
-  'mx-sl': 'San Luis Potosí',
-  'mx-si': 'Sinaloa',
-  'mx-so': 'Sonora',
-  'mx-tb': 'Tabasco',
-  'mx-tm': 'Tamaulipas',
-  'mx-tl': 'Tlaxcala',
-  'mx-ve': 'Veracruz',
-  'mx-yu': 'Yucatán',
-  'mx-za': 'Zacatecas',
+  'mx-ag':'Aguascalientes','mx-bc':'Baja California','mx-bs':'Baja California Sur',
+  'mx-cm':'Campeche','mx-cs':'Chiapas','mx-ch':'Chihuahua','mx-df':'Ciudad de México',
+  'mx-co':'Coahuila','mx-cl':'Colima','mx-dg':'Durango','mx-gj':'Guanajuato',
+  'mx-gr':'Guerrero','mx-hg':'Hidalgo','mx-ja':'Jalisco','mx-mx':'Estado de México',
+  'mx-mi':'Michoacán','mx-mo':'Morelos','mx-na':'Nayarit','mx-nl':'Nuevo León',
+  'mx-oa':'Oaxaca','mx-pu':'Puebla','mx-qt':'Querétaro','mx-qr':'Quintana Roo',
+  'mx-sl':'San Luis Potosí','mx-si':'Sinaloa','mx-so':'Sonora','mx-tb':'Tabasco',
+  'mx-tm':'Tamaulipas','mx-tl':'Tlaxcala','mx-ve':'Veracruz','mx-yu':'Yucatán',
+  'mx-za':'Zacatecas'
 };
 
 function loadGeo(cb) {
   if (_geoCache) { cb(_geoCache); return; }
-  _geoCallbacks.push(cb);
+  _geoCbs.push(cb);
   if (_geoLoading) return;
   _geoLoading = true;
   fetch('https://unpkg.com/@highcharts/map-collection@2.0.1/countries/mx/mx-all.geo.json')
     .then(r => r.json())
-    .then(geo => {
-      _geoCache = geo;
-      _geoCallbacks.forEach(fn => fn(geo));
-      _geoCallbacks = [];
-    })
-    .catch(() => {
-      _geoCallbacks.forEach(fn => fn(null));
-      _geoCallbacks = [];
-    });
+    .then(geo => { _geoCache = geo; _geoCbs.forEach(fn => fn(geo)); _geoCbs = []; })
+    .catch(() => { _geoCbs.forEach(fn => fn(null)); _geoCbs = []; });
+}
+
+// Convert source pixel-space coords (x: -999→9851, y: 3028→9851, Y-flipped) to SVG viewport
+const SRC_MINX = -999, SRC_MAXX = 9851, SRC_MINY = 3028, SRC_MAXY = 9851;
+const MAP_W = 800, MAP_H = 500, MAP_PAD = 12;
+const _scaleX = (MAP_W - MAP_PAD*2) / (SRC_MAXX - SRC_MINX);
+const _scaleY = (MAP_H - MAP_PAD*2) / (SRC_MAXY - SRC_MINY);
+const _scale  = Math.min(_scaleX, _scaleY);
+
+function srcToSvg(x, y) {
+  // Y is flipped: larger source-y = further south = larger SVG-y
+  return [
+    MAP_PAD + (x - SRC_MINX) * _scale,
+    MAP_H - MAP_PAD - (y - SRC_MINY) * _scale  // flip Y
+  ];
+}
+
+function geomToPath(geom) {
+  function ringToD(ring) {
+    return ring.map(([x,y], i) => {
+      const [sx, sy] = srcToSvg(x, y);
+      return `${i===0?'M':'L'}${sx.toFixed(1)},${sy.toFixed(1)}`;
+    }).join('') + 'Z';
+  }
+  if (geom.type === 'Polygon') {
+    return geom.coordinates.map(ringToD).join('');
+  } else {
+    return geom.coordinates.map(p => p.map(ringToD).join('')).join('');
+  }
 }
 
 // ════════════════════════════════════════
@@ -1311,23 +1261,22 @@ function loadGeo(cb) {
 
 function renderMap(ind) {
   const states = STATE_DATA[ind.id];
-  const rates = states.map(s => s.rate);
-  const min = Math.min(...rates);
-  const max = Math.max(...rates);
+  const rates  = states.map(s => s.rate);
+  const min    = Math.min(...rates);
+  const max    = Math.max(...rates);
 
   const unitLabel = ind.id === 'extorsion'   ? 'víctimas/100k' :
-                    ind.id === 'desaparicion' ? 'casos nuevos' :
-                    ind.id === 'periodistas'  ? 'agresiones' :
-                    'víctimas 2024';
+                    ind.id === 'desaparicion' ? 'casos nuevos'  :
+                    ind.id === 'periodistas'  ? 'agresiones'    : 'víctimas 2024';
 
   const lookup = {};
   states.forEach(s => { lookup[s.name] = s; });
 
-  const mapHTML = `
+  const html = `
     <div class="map-layout">
       <div class="svg-map-wrap">
         <div class="map-loading" id="mapLoading_${ind.id}">Cargando mapa…</div>
-        <svg id="svgMap_${ind.id}" style="display:none;" viewBox="0 0 800 560"></svg>
+        <svg id="svgMap_${ind.id}" viewBox="0 0 ${MAP_W} ${MAP_H}" style="display:none;"></svg>
       </div>
       <div class="map-sidebar">
         <div class="map-stat-highlight">
@@ -1338,10 +1287,7 @@ function renderMap(ind) {
         <div class="map-legend">
           <div class="legend-label">Escala · ${unitLabel}</div>
           <div class="legend-bar"></div>
-          <div class="legend-labels">
-            <span>Menor</span>
-            <span>Mayor</span>
-          </div>
+          <div class="legend-labels"><span>Menor</span><span>Mayor</span></div>
         </div>
         <div class="map-framing">${ind.mapFraming}</div>
       </div>
@@ -1349,53 +1295,45 @@ function renderMap(ind) {
 
   setTimeout(() => {
     const svgEl = document.getElementById(`svgMap_${ind.id}`);
-    const loadingEl = document.getElementById(`mapLoading_${ind.id}`);
+    const loadEl = document.getElementById(`mapLoading_${ind.id}`);
     if (!svgEl) return;
 
     loadGeo(geo => {
-      if (!geo) {
-        if (loadingEl) loadingEl.textContent = 'No se pudo cargar el mapa.';
-        return;
-      }
+      if (!geo) { if (loadEl) loadEl.textContent = 'No se pudo cargar el mapa.'; return; }
 
       const features = geo.features.filter(f => HC_KEY_MAP[f.properties['hc-key']]);
-      const projection = d3.geoMercator().fitSize([800, 560], { type: 'FeatureCollection', features });
-      const path = d3.geoPath().projection(projection);
-      const tooltip = document.getElementById('mapTooltip');
-
-      const svg = d3.select(svgEl);
-      svg.selectAll('*').remove();
+      const tooltip  = document.getElementById('mapTooltip');
+      const svg      = svgEl;
+      svg.innerHTML  = '';
 
       features.forEach(feature => {
-        const stateName = HC_KEY_MAP[feature.properties['hc-key']];
-        const stateData = lookup[stateName];
-        const val = stateData ? stateData.rate : 0;
-        const color = stateData ? rateToColor(val, min, max) : '#2a2a2a';
-        const displayVal = val >= 1000 ? (val/1000).toFixed(1)+'k' : val;
+        const name  = HC_KEY_MAP[feature.properties['hc-key']];
+        const sd    = lookup[name];
+        const val   = sd ? sd.rate : 0;
+        const color = sd ? rateToColor(val, min, max) : '#2a2a2a';
+        const disp  = val >= 1000 ? (val/1000).toFixed(1)+'k' : val;
+        const d     = geomToPath(feature.geometry);
 
-        svg.append('path')
-          .datum(feature)
-          .attr('class', 'map-state')
-          .attr('d', path)
-          .attr('fill', color)
-          .on('mousemove', function(event) {
-            tooltip.style.display = 'block';
-            tooltip.style.left = (event.clientX + 16) + 'px';
-            tooltip.style.top  = (event.clientY - 48) + 'px';
-            tooltip.innerHTML = `
-              <strong>${stateName}</strong>
-              <div class="tt-val">${displayVal}</div>
-              <div class="tt-sub">${unitLabel}</div>`;
-          })
-          .on('mouseleave', () => { tooltip.style.display = 'none'; });
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('d', d);
+        path.setAttribute('fill', color);
+        path.setAttribute('class', 'map-state');
+        path.addEventListener('mousemove', e => {
+          tooltip.style.display = 'block';
+          tooltip.style.left = (e.clientX + 16) + 'px';
+          tooltip.style.top  = (e.clientY - 52) + 'px';
+          tooltip.innerHTML = `<strong>${name}</strong><div class="tt-val">${disp}</div><div class="tt-sub">${unitLabel}</div>`;
+        });
+        path.addEventListener('mouseleave', () => { tooltip.style.display = 'none'; });
+        svg.appendChild(path);
       });
 
       svgEl.style.display = 'block';
-      if (loadingEl) loadingEl.style.display = 'none';
+      if (loadEl) loadEl.style.display = 'none';
     });
   }, 0);
 
-  return mapHTML;
+  return html;
 }
 
 // ════════════════════════════════════════
