@@ -909,36 +909,37 @@ const INDICATORS = [
   },
   {
     id: 'desaparicion',
-    navNum: '13.6k',
+    navNum: '131,999',
     navLabel: 'Desaparición',
-    heroGhost: '37/día',
-    heroEm: '37 personas desaparecen cada día en México.',
-    heroHeadline: 'Más de <em>115,000 personas</em><br>están desaparecidas en México.',
-    heroBody: 'El Registro Nacional de Personas Desaparecidas contabiliza 115,000 casos acumulados. En 2024 se reportaron 13,627 nuevas desapariciones — un récord histórico. La mayoría de los casos permanecen sin resolución.',
-    mapEyebrow: 'Desaparición · Casos nuevos por estado · 2024',
+    heroGhost: '35/día',
+    heroEm: '35 personas desaparecen cada día.',
+    heroHeadline: '<em>131,999 personas</em><br>siguen sin ser encontradas.',
+    heroBody: 'Desde 1964, el RNPDNO registra 131,999 personas desaparecidas y no localizadas. En 2024 se reportaron 12,772 nuevos casos — el año con más desapariciones de la historia. La curva nunca baja.',
+    mapEyebrow: 'Desaparición · Acumulado histórico por estado · RNPDNO',
     mapTitle: 'El país de los desaparecidos',
-    mapSub: 'Nuevos registros de personas desaparecidas por estado en 2024. Jalisco, Tamaulipas y Sinaloa concentran los números más altos, reflejando la presencia de grupos criminales activos.',
-    mapFraming: '«115,000 personas desaparecidas en México. Una cifra que crece cada día y que el Estado no ha logrado detener.»',
-    mapHighlightValue: '115k',
-    mapHighlightLabel: 'Desaparecidos acumulados',
-    mapHighlightContext: '13,627 nuevos casos en 2024 — el año con más desapariciones registradas en la historia del país.',
-    trendTitle: 'Nuevas desapariciones por año, 2010–2024',
-    trendSub: 'El número de nuevos casos anuales no ha dejado de crecer desde 2014. El RNPDNO comenzó operaciones formales en 2017.',
-    trendSource: 'RNPDNO · Comisión Nacional de Búsqueda (2024)',
-    trendData: [1200,1400,1800,2200,3100,4200,5800,7200,8500,9800,10200,11400,12100,12800,13627],
+    mapSub: 'Total histórico de personas desaparecidas y no localizadas por estado. Estado de México (14,683), Tamaulipas (13,680) y Jalisco (12,566) concentran más de un tercio del total nacional.',
+    mapFraming: '«El Estado no sabe cuántos son. Y los que sí sabe, no los ha encontrado.»',
+    mapHighlightValue: '131,999',
+    mapHighlightLabel: 'Personas aún desaparecidas',
+    mapHighlightContext: 'Total acumulado histórico según el RNPDNO al 10 de marzo de 2026. 77.9% son hombres; 21.8% mujeres. Esta cifra solo refleja casos formalmente reportados — el subregistro es estructural.',
+    trendTitle: 'Nuevas desapariciones reportadas por año, 2010–2024',
+    trendSub: 'Casos nuevos registrados cada año. La curva nunca baja. Cada gobierno, cada sexenio, cada estrategia de seguridad — y el número sigue subiendo.',
+    trendSource: 'RNPDNO · Comisión Nacional de Búsqueda · Consulta: 10/03/2026',
+    trendData: [4189,5169,4203,4568,4575,4139,5537,6915,6821,8329,7841,7910,8129,10320,12772],
     trendYears: Array.from({length:15},(_,i)=>2010+i),
     trendAnnotations: [
       {year:2014, label:'Ayotzinapa'},
-      {year:2017, label:'Inicia RNPDNO'},
-      {year:2024, label:'Récord: 13,627'},
+      {year:2019, label:'8,329'},
+      {year:2023, label:'10,320'},
+      {year:2024, label:'12,772'},
     ],
-    casesEyebrow: 'Desaparición forzada · Casos emblemáticos',
+    casesEyebrow: 'Desaparición · Casos que nombraron la crisis',
     casesTitle: 'Los que el Estado no ha encontrado',
-    casesSub: 'Casos que definieron la crisis de desapariciones en México.',
+    casesSub: 'Eventos que visibilizaron la dimensión sistémica de las desapariciones en México.',
     cases: [
-      { year:'2014', name:'Caso Ayotzinapa — 43 normalistas', desc:'43 estudiantes de la Normal Rural de Ayotzinapa fueron desaparecidos en Iguala, Guerrero. La policía municipal los entregó al cartel Guerreros Unidos. Caso sin resolución definitiva, símbolo global de impunidad y colusión Estado-crimen.', tag:'Guerrero · Estado-Crimen' },
-      { year:'2010', name:'Masacre de San Fernando', desc:'72 migrantes centroamericanos y sudamericanos ejecutados por Los Zetas en Tamaulipas. Un sobreviviente guió a las autoridades al lugar. Al año siguiente se encontró una segunda fosa con 193 cuerpos más.', tag:'Tamaulipas · Migrantes · Zetas' },
-      { year:'2022', name:'Crisis de fosas en Jalisco', desc:'Jalisco acumula el mayor número de personas desaparecidas del país. Las brigadas de búsqueda de madres y familiares han encontrado cientos de fosas clandestinas en los últimos años, en terrenos que las autoridades no habían rastreado.', tag:'Jalisco · CJNG · Fosas' },
+      { year:'2014', name:'Caso Ayotzinapa — 43 normalistas', desc:'43 estudiantes de la Normal Rural de Ayotzinapa fueron desaparecidos en Iguala, Guerrero. La policía municipal los entregó al cartel Guerreros Unidos. Más de una década después, el caso sigue sin resolución definitiva. Se convirtió en símbolo global de la colusión entre Estado y crimen organizado.', tag:'Guerrero · Estado-Crimen · Sin resolver' },
+      { year:'2010', name:'Fosas de San Fernando, Tamaulipas', desc:'72 migrantes ejecutados por Los Zetas. Un sobreviviente guió a las autoridades al sitio. Al año siguiente se encontraron fosas adicionales con 193 cuerpos más. La mayoría nunca fueron identificados. Sus familias siguen esperando.', tag:'Tamaulipas · Migrantes · Zetas' },
+      { year:'2022', name:'Las Madres Buscadoras', desc:'Ante la inacción del Estado, madres de personas desaparecidas organizaron brigadas de búsqueda en Jalisco, Sonora y Sinaloa. Han encontrado cientos de fosas clandestinas que las autoridades no habían rastreado. No son héroas — son la evidencia de un Estado ausente.', tag:'Nacional · Jalisco · Sonora' },
     ]
   },
   {
@@ -1083,38 +1084,38 @@ const STATE_DATA = {
     {name:'Zacatecas',abbr:'ZAC',rate:8},
   ],
   desaparicion: [
-    {name:'Baja California',abbr:'BCN',rate:420},
-    {name:'Sonora',abbr:'SON',rate:380},
-    {name:'Chihuahua',abbr:'CHI',rate:610},
-    {name:'Coahuila',abbr:'COA',rate:290},
-    {name:'Nuevo León',abbr:'NL',rate:340},
-    {name:'Tamaulipas',abbr:'TAM',rate:890},
-    {name:'Sinaloa',abbr:'SIN',rate:520},
-    {name:'Durango',abbr:'DUR',rate:180},
-    {name:'Zacatecas',abbr:'ZAC',rate:310},
-    {name:'San Luis Potosí',abbr:'SLP',rate:210},
-    {name:'Jalisco',abbr:'JAL',rate:1240},
-    {name:'Guanajuato',abbr:'GTO',rate:480},
-    {name:'Querétaro',abbr:'QRO',rate:90},
-    {name:'Hidalgo',abbr:'HGO',rate:120},
-    {name:'CDMX',abbr:'CDM',rate:680},
-    {name:'Colima',abbr:'COL',rate:140},
-    {name:'Michoacán',abbr:'MCH',rate:420},
-    {name:'Estado de México',abbr:'MEX',rate:760},
-    {name:'Tlaxcala',abbr:'TLX',rate:45},
-    {name:'Puebla',abbr:'PUE',rate:230},
-    {name:'Guerrero',abbr:'GRO',rate:390},
-    {name:'Oaxaca',abbr:'OAX',rate:160},
-    {name:'Veracruz',abbr:'VER',rate:580},
-    {name:'Tabasco',abbr:'TAB',rate:140},
-    {name:'Chiapas',abbr:'CHP',rate:180},
-    {name:'Campeche',abbr:'CAM',rate:40},
-    {name:'Yucatán',abbr:'YUC',rate:30},
-    {name:'Quintana Roo',abbr:'QRO2',rate:120},
-    {name:'Baja California Sur',abbr:'BCS',rate:95},
-    {name:'Nayarit',abbr:'NAY',rate:160},
-    {name:'Aguascalientes',abbr:'AGS',rate:70},
-    {name:'Morelos',abbr:'MOR',rate:210},
+    {name:'Aguascalientes',abbr:'AGS',rate:501},
+    {name:'Baja California',abbr:'BCN',rate:4846},
+    {name:'Baja California Sur',abbr:'BCS',rate:1171},
+    {name:'Campeche',abbr:'CAM',rate:166},
+    {name:'Chiapas',abbr:'CHP',rate:1916},
+    {name:'Chihuahua',abbr:'CHI',rate:4179},
+    {name:'Ciudad de México',abbr:'CDM',rate:5943},
+    {name:'Coahuila',abbr:'COA',rate:3682},
+    {name:'Colima',abbr:'COL',rate:1508},
+    {name:'Durango',abbr:'DUR',rate:1125},
+    {name:'Guanajuato',abbr:'GTO',rate:5620},
+    {name:'Guerrero',abbr:'GRO',rate:4561},
+    {name:'Hidalgo',abbr:'HGO',rate:1719},
+    {name:'Jalisco',abbr:'JAL',rate:12566},
+    {name:'Estado de México',abbr:'MEX',rate:14683},
+    {name:'Michoacán',abbr:'MCH',rate:7557},
+    {name:'Morelos',abbr:'MOR',rate:2105},
+    {name:'Nayarit',abbr:'NAY',rate:2121},
+    {name:'Nuevo León',abbr:'NL',rate:7197},
+    {name:'Oaxaca',abbr:'OAX',rate:805},
+    {name:'Puebla',abbr:'PUE',rate:2935},
+    {name:'Querétaro',abbr:'QRO',rate:757},
+    {name:'Quintana Roo',abbr:'QR',rate:1783},
+    {name:'San Luis Potosí',abbr:'SLP',rate:1306},
+    {name:'Sinaloa',abbr:'SIN',rate:7059},
+    {name:'Sonora',abbr:'SON',rate:5937},
+    {name:'Tabasco',abbr:'TAB',rate:2091},
+    {name:'Tamaulipas',abbr:'TAM',rate:13680},
+    {name:'Tlaxcala',abbr:'TLX',rate:212},
+    {name:'Veracruz',abbr:'VER',rate:7154},
+    {name:'Yucatán',abbr:'YUC',rate:318},
+    {name:'Zacatecas',abbr:'ZAC',rate:3938},
   ],
   periodistas: [
     {name:'Baja California',abbr:'BCN',rate:18},
@@ -1916,7 +1917,7 @@ function renderMap(ind) {
   const max    = Math.max(...rates);
 
   const unitLabel = ind.id === 'extorsion'   ? 'víctimas/100k' :
-                    ind.id === 'desaparicion' ? 'casos nuevos'  :
+                    ind.id === 'desaparicion' ? 'desaparecidos (acumulado)' :
                     ind.id === 'periodistas'  ? 'agresiones'    : 'víctimas 2024';
 
   const lookup = {};
@@ -1942,6 +1943,9 @@ function renderMap(ind) {
         <div class="map-framing">${ind.mapFraming}</div>
       </div>
     </div>`;
+
+  const metNote = ind.id === 'desaparicion' ? `
+    <p style="margin-top:28px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.08em;color:#2a2a2a;line-height:1.7;max-width:640px;">Nota metodológica — Cifras del RNPDNO (Registro Nacional de Personas Desaparecidas y No Localizadas), Comisión Nacional de Búsqueda. Consulta: 10/03/2026. El total acumulado (131,999) refleja únicamente casos formalmente reportados — el subregistro es estructural. Los datos por año corresponden a nuevos casos registrados ese año, independientemente de si fueron localizados posteriormente.</p>` : '';
 
   setTimeout(() => {
     const svgEl = document.getElementById(`svgMap_${ind.id}`);
@@ -1983,11 +1987,8 @@ function renderMap(ind) {
     });
   }, 0);
 
-  return html;
+  return html + metNote;
 }
-
-// ════════════════════════════════════════
-// RENDER TREND CHART
 // ════════════════════════════════════════
 
 function renderTrend(ind, dark=false) {
@@ -2061,6 +2062,68 @@ function renderTrend(ind, dark=false) {
   // Unique ID for clip/gradient
   const uid = 'trend_' + ind.id;
 
+  // ── Scrubber (desaparicion only) ──
+  const hasScrubber = ind.id === 'desaparicion';
+  const cumulative = [];
+  if (hasScrubber) {
+    let sum = 0;
+    data.forEach(v => { sum += v; cumulative.push(sum); });
+  }
+
+  // Precompute x positions for scrubber JS
+  const xPositions = data.map((_, i) => Math.round(padL + (i / (data.length - 1)) * w));
+
+  const scrubberHTML = hasScrubber ? `
+    <div style="margin-top:20px;padding-top:16px;border-top:1px solid ${_border};">
+      <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:12px;">
+        <div id="${uid}_year" style="font-family:'DM Serif Display',serif;font-size:28px;color:${_title};line-height:1;">${years[years.length-1]}</div>
+        <div style="display:flex;gap:24px;align-items:baseline;">
+          <div>
+            <div id="${uid}_new" style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#c0392b;line-height:1;">${data[data.length-1].toLocaleString()}</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:0.1em;color:${_tick};text-transform:uppercase;margin-top:3px;">Nuevos ese año</div>
+          </div>
+          <div>
+            <div id="${uid}_cum" style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:${_title};line-height:1;">${cumulative[cumulative.length-1].toLocaleString()}</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:0.1em;color:${_tick};text-transform:uppercase;margin-top:3px;">Acumulado desde 2010</div>
+          </div>
+        </div>
+      </div>
+      <input type="range" id="${uid}_scrub"
+        min="0" max="${data.length-1}" value="${data.length-1}" step="1"
+        style="width:100%;accent-color:#c0392b;cursor:pointer;"
+        oninput="(function(v){
+          const data=${JSON.stringify(data)};
+          const years=${JSON.stringify(years)};
+          const cum=${JSON.stringify(cumulative)};
+          const xPos=${JSON.stringify(xPositions)};
+          const i=parseInt(v);
+          document.getElementById('${uid}_year').textContent=years[i];
+          document.getElementById('${uid}_new').textContent=data[i].toLocaleString('es-MX');
+          document.getElementById('${uid}_cum').textContent=cum[i].toLocaleString('es-MX');
+          const mk=document.getElementById('${uid}_marker');
+          if(mk){ mk.setAttribute('x1',xPos[i]); mk.setAttribute('x2',xPos[i]); }
+          const dot=document.getElementById('${uid}_dot');
+          const svgEl=document.getElementById('${uid}_svg');
+          if(dot&&svgEl){
+            const H=${H},padT=${padT},padB=${padB},h=${H-padT-padB};
+            const minV=Math.min(...data)*0.92, maxV=Math.max(...data)*1.06;
+            const cy=padT+h-((data[i]-minV)/(maxV-minV))*h;
+            dot.setAttribute('cy',cy);
+            dot.setAttribute('cx',xPos[i]);
+          }
+          const note=document.getElementById('${uid}_note');
+          if(note) note.style.display=i===data.length-1?'block':'none';
+        })(this.value)"
+      />
+      <p id="${uid}_note" style="margin-top:10px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.08em;color:#444;line-height:1.6;">
+        Nota — El dato de 2024 puede estar sobrerepresentado: casos recientes aún no resueltos en el sistema aparecen como activos. El número bajará conforme avancen las investigaciones.
+      </p>
+    </div>` : '';
+
+  const markerHTML = hasScrubber ? `
+    <line id="${uid}_marker" x1="${xPositions[xPositions.length-1]}" y1="${padT}" x2="${xPositions[xPositions.length-1]}" y2="${padT+H-padT-padB}" stroke="rgba(192,57,43,0.5)" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <circle id="${uid}_dot" cx="${xPositions[xPositions.length-1]}" cy="${yScale(data[data.length-1])}" r="5" fill="#c0392b" stroke="${_bg}" stroke-width="2"/>` : '';
+
   return `
     <div class="chart-wrap" style="background:${_bg};border-color:${_border};">
       <div class="chart-meta">
@@ -2069,7 +2132,7 @@ function renderTrend(ind, dark=false) {
         </div>
         <div class="chart-source" style="color:${_src};">${ind.trendSource}</div>
       </div>
-      <svg class="trend" viewBox="0 0 ${W} ${H}" height="${H}">
+      <svg id="${uid}_svg" class="trend" viewBox="0 0 ${W} ${H}" height="${H}">
         <defs>
           <linearGradient id="${uid}_grad" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stop-color="#c0392b" stop-opacity="0.18"/>
@@ -2081,7 +2144,9 @@ function renderTrend(ind, dark=false) {
         <path d="${aPath}" fill="url(#${uid}_grad)"/>
         <path d="${lPath}" fill="none" stroke="#c0392b" stroke-width="2.5"/>
         ${annoHTML}
+        ${markerHTML}
       </svg>
+      ${scrubberHTML}
     </div>`;
 }
 
