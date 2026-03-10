@@ -656,12 +656,85 @@
     z-index: 999;
   }
 
+  /* ── BUMP CHART LAYOUT ── */
+  .bump-layout {
+    display: grid;
+    grid-template-columns: 1fr 160px 260px;
+    gap: 20px;
+    align-items: start;
+  }
+
+  /* Two-col: chart + state list, no sidebar */
+  .bump-layout-simple {
+    display: grid;
+    grid-template-columns: 1fr 148px;
+    gap: 20px;
+    align-items: start;
+  }
+
+  .bump-main { min-width: 0; }
+
+  .bump-state-list {
+    max-height: 580px;
+    overflow-y: auto;
+    border: 1px solid var(--border-dark);
+    padding: 12px;
+    background: var(--dark-3);
+    scrollbar-width: thin;
+    scrollbar-color: #2a2a2a transparent;
+  }
+
+  .bump-state-list::-webkit-scrollbar { width: 4px; }
+  .bump-state-list::-webkit-scrollbar-thumb { background: #2a2a2a; }
+
+  .state-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 6px;
+    cursor: pointer;
+    border-radius: 1px;
+    transition: background 0.12s;
+    gap: 8px;
+  }
+
+  .state-list-item:hover { background: rgba(192,57,43,0.08); }
+  .state-list-item.active {
+    background: rgba(192,57,43,0.12);
+    border-left: 2px solid var(--red);
+    padding-left: 4px;
+  }
+
+  .sli-name {
+    font-family: var(--mono);
+    font-size: 8.5px;
+    letter-spacing: 0.04em;
+    color: #555;
+    line-height: 1.3;
+    transition: color 0.12s;
+  }
+
+  .state-list-item:hover .sli-name,
+  .state-list-item.active .sli-name { color: #e8e0d0; }
+
+  .sli-val {
+    font-family: var(--mono);
+    font-size: 8px;
+    color: #333;
+    flex-shrink: 0;
+    transition: color 0.12s;
+  }
+
+  .state-list-item:hover .sli-val,
+  .state-list-item.active .sli-val { color: var(--red); }
+
   @media (max-width: 768px) {
     .indicator-nav { padding: 0 16px; overflow-x: auto; }
     .nav-brand { display: none; }
     .hero { padding: 80px 20px 48px; }
     .section-wrap { padding: 48px 20px; }
     .map-layout { grid-template-columns: 1fr; }
+    .bump-layout { grid-template-columns: 1fr; }
     .site-footer { flex-direction: column; gap: 8px; padding: 16px 20px; }
   }
 </style>
@@ -687,7 +760,7 @@
   <div class="hero-bg-glow"></div>
   <div class="hero-ghost-num">93%</div>
 
-  <div class="hero-eyebrow">México · Violencia &amp; Seguridad · 2024</div>
+  <div class="hero-eyebrow">México · Violencia &amp; Impunidad · 2024</div>
 
   <h1 class="hero-headline">
     De cada 100 delitos,<br>
@@ -695,16 +768,15 @@
   </h1>
 
   <p class="hero-body">
-    En 2024, se cometieron más de 33 millones de delitos en México.
-    Solo el 6.8% derivó en una investigación. Esta es la historia
-    de lo que sabemos — y de lo que no.
+    En México, la impunidad no es la excepción — es el sistema.
+    Más de 33 millones de delitos en 2024. Solo el 6.8% derivó en una investigación.
   </p>
 
   <p class="hero-disclaimer">
-    Esta no es una base de datos. Es un intento de hacer visible lo que el Estado prefiere que no veas — y de nombrar a quienes el sistema ha fallado.
+    Es lo que el Estado prefiere que no veas — y lo que el sistema ha decidido no nombrar.
   </p>
 
-  <p class="hero-cta">Selecciona un indicador para explorar ↓</p>
+  <p class="hero-cta">¿Sobre qué crimen quieres informarte? ↓</p>
 
   <!-- COUNTER STRIP — indicator selector lives inside the hero -->
   <div class="counter-strip" id="counterStrip"></div>
@@ -760,6 +832,7 @@
 
 <div class="proto-badge">Prototype · Sample data</div>
 <div id="mapTooltip" class="map-tooltip"></div>
+<div id="bumpTooltip" style="display:none;min-height:48px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#e8e0d0;line-height:1.5;padding:12px 0 4px 0;border-top:1px solid rgba(255,255,255,0.06);margin-bottom:8px;"></div>
 
 
 <script>
@@ -1110,7 +1183,41 @@ const STATE_DATA = {
     {name:'Nayarit',abbr:'NAY',rate:2600},
     {name:'Aguascalientes',abbr:'AGS',rate:2000},
     {name:'Morelos',abbr:'MOR',rate:3400},
-  ]
+  ],
+  feminicidio_condenas: [
+    {name:'Aguascalientes',    abbr:'AGS', registered:7,  condenas:2},
+    {name:'Baja California',   abbr:'BCN', registered:38, condenas:14},
+    {name:'Baja California Sur',abbr:'BCS',registered:9,  condenas:3},
+    {name:'Campeche',          abbr:'CAM', registered:7,  condenas:0},
+    {name:'Chiapas',           abbr:'CHP', registered:35, condenas:8},
+    {name:'Chihuahua',         abbr:'CHI', registered:48, condenas:21},
+    {name:'Ciudad de México',  abbr:'CDM', registered:71, condenas:31},
+    {name:'Coahuila',          abbr:'COA', registered:20, condenas:5},
+    {name:'Colima',            abbr:'COL', registered:6,  condenas:0},
+    {name:'Durango',           abbr:'DUR', registered:11, condenas:3},
+    {name:'Guanajuato',        abbr:'GTO', registered:16, condenas:4},
+    {name:'Guerrero',          abbr:'GRO', registered:23, condenas:0},
+    {name:'Hidalgo',           abbr:'HGO', registered:20, condenas:6},
+    {name:'Jalisco',           abbr:'JAL', registered:39, condenas:18},
+    {name:'Estado de México',  abbr:'MEX', registered:76, condenas:29},
+    {name:'Michoacán',         abbr:'MCH', registered:18, condenas:0},
+    {name:'Morelos',           abbr:'MOR', registered:51, condenas:19},
+    {name:'Nayarit',           abbr:'NAY', registered:11, condenas:2},
+    {name:'Nuevo León',        abbr:'NL',  registered:60, condenas:27},
+    {name:'Oaxaca',            abbr:'OAX', registered:20, condenas:0},
+    {name:'Puebla',            abbr:'PUE', registered:43, condenas:16},
+    {name:'Querétaro',         abbr:'QRO', registered:4,  condenas:2},
+    {name:'Quintana Roo',      abbr:'QR',  registered:13, condenas:4},
+    {name:'San Luis Potosí',   abbr:'SLP', registered:15, condenas:5},
+    {name:'Sinaloa',           abbr:'SIN', registered:28, condenas:9},
+    {name:'Sonora',            abbr:'SON', registered:26, condenas:8},
+    {name:'Tabasco',           abbr:'TAB', registered:29, condenas:0},
+    {name:'Tamaulipas',        abbr:'TAM', registered:27, condenas:7},
+    {name:'Tlaxcala',          abbr:'TLX', registered:14, condenas:4},
+    {name:'Veracruz',          abbr:'VER', registered:55, condenas:22},
+    {name:'Yucatán',           abbr:'YUC', registered:7,  condenas:1},
+    {name:'Zacatecas',         abbr:'ZAC', registered:8,  condenas:0},
+  ],
 };
 
 // ════════════════════════════════════════
@@ -1136,7 +1243,6 @@ function renderCounterStrip() {
     btn.className = 'counter-btn' + (activeId === ind.id ? ' active' : '');
     btn.dataset.id = ind.id;
     btn.innerHTML = `
-      <span class="c-num">${ind.navNum}</span>
       <span class="c-label">${ind.navLabel}</span>
       <span class="c-hint">Explorar →</span>
     `;
@@ -1165,6 +1271,369 @@ function clearIndicator() {
 
   // Scroll to hero
   window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ════════════════════════════════════════
+// BUMP CHART DATA — homicidio doloso
+// tasa por 100k · SESNSP víctimas + CONAPO población
+// ════════════════════════════════════════
+
+const BUMP_DATA = {"years":[2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"states":[{"name":"Aguascalientes","tasas":[3.21,3.22,6.25,5.69,7.41,5.78,5.97,5.47,6.49,8.02],"ranks":[31,31,31,31,31,31,30,30,28,29]},{"name":"Baja California","tasas":[27.11,36.63,66.53,88.15,78.92,78.0,78.2,68.61,59.42,56.97],"ranks":[4,5,4,2,2,2,2,3,3,3]},{"name":"Baja California Sur","tasas":[24.86,36.3,102.3,23.14,10.14,8.39,6.27,6.88,3.2,8.04],"ranks":[7,6,2,16,26,29,29,29,31,28]},{"name":"Campeche","tasas":[6.11,9.55,7.43,7.49,7.76,8.83,10.15,9.75,10.6,9.83],"ranks":[27,24,29,30,30,26,23,24,20,25]},{"name":"Chiapas","tasas":[9.83,9.23,9.5,10.92,10.42,8.42,8.94,7.53,9.93,15.38],"ranks":[19,25,25,24,25,28,26,26,23,16]},{"name":"Chihuahua","tasas":[31.23,39.37,52.9,57.65,66.72,71.86,64.91,52.41,54.73,53.15],"ranks":[3,3,5,4,3,4,4,6,5,4]},{"name":"Ciudad de México","tasas":[9.44,11.08,12.93,17.91,17.31,13.72,10.93,8.65,9.51,9.97],"ranks":[20,21,22,21,18,22,22,25,24,24]},{"name":"Coahuila","tasas":[10.96,7.77,7.95,7.9,9.17,7.15,4.57,4.21,3.8,3.4],"ranks":[17,26,28,28,28,30,31,31,30,31]},{"name":"Colima","tasas":[25.87,80.46,110.18,94.25,98.13,86.14,69.85,115.47,117.34,108.54],"ranks":[6,1,1,1,1,1,3,1,1,1]},{"name":"Durango","tasas":[13.39,13.26,12.03,10.04,9.3,9.82,8.57,7.01,4.88,3.68],"ranks":[16,17,23,25,27,24,27,27,29,30]},{"name":"Estado de México","tasas":[14.22,13.7,14.07,15.53,16.48,16.45,15.37,14.91,14.68,12.6],"ranks":[14,16,21,22,20,18,20,17,16,20]},{"name":"Guanajuato","tasas":[16.35,18.34,23.34,52.91,55.85,72.81,56.45,51.84,48.88,49.15],"ranks":[12,13,15,5,4,3,8,7,6,5]},{"name":"Guerrero","tasas":[57.06,62.25,70.51,68.64,51.89,40.5,38.71,38.06,47.03,48.21],"ranks":[1,2,3,3,5,9,9,9,7,6]},{"name":"Hidalgo","tasas":[5.53,5.36,7.21,7.62,11.46,10.87,8.99,10.5,8.1,8.25],"ranks":[29,29,30,29,24,23,25,22,26,26]},{"name":"Jalisco","tasas":[13.74,15.49,19.17,29.3,31.89,31.44,28.01,24.11,22.59,20.46],"ranks":[15,15,17,13,11,11,11,11,12,15]},{"name":"Michoacán","tasas":[20.77,31.46,32.01,34.94,44.6,51.23,57.13,50.36,36.26,30.58],"ranks":[9,9,8,10,7,7,7,8,9,11]},{"name":"Morelos","tasas":[26.0,33.78,31.42,38.84,49.68,46.82,58.64,58.64,74.57,74.81],"ranks":[5,8,9,8,6,8,6,4,2,2]},{"name":"Nayarit","tasas":[7.71,3.6,28.82,32.56,14.76,13.84,17.45,13.07,9.95,14.12],"ranks":[24,30,11,11,22,21,17,20,22,19]},{"name":"Nuevo León","tasas":[9.0,12.49,11.66,13.85,16.13,14.64,16.84,21.68,21.26,23.82],"ranks":[23,18,24,23,21,20,18,14,13,13]},{"name":"Oaxaca","tasas":[5.67,21.21,23.91,28.98,29.47,22.97,19.98,23.23,23.11,23.33],"ranks":[28,12,14,14,12,15,13,12,11,14]},{"name":"Puebla","tasas":[9.01,10.46,16.01,19.53,18.77,14.9,13.08,15.31,14.26,14.59],"ranks":[22,23,20,19,17,19,21,16,17,18]},{"name":"Querétaro","tasas":[7.16,5.76,8.94,9.24,8.43,8.49,8.23,6.92,7.74,8.06],"ranks":[25,28,27,27,29,27,28,28,27,27]},{"name":"Quintana Roo","tasas":[15.45,10.52,21.96,45.51,44.04,34.93,34.07,32.09,35.84,32.73],"ranks":[13,22,16,6,8,10,10,10,10,9]},{"name":"San Luis Potosí","tasas":[9.23,11.83,17.75,18.33,17.0,25.94,26.01,22.6,17.48,15.26],"ranks":[21,19,18,20,19,12,12,13,14,17]},{"name":"Sinaloa","tasas":[33.04,37.3,48.82,35.24,29.22,25.71,19.68,15.56,17.16,31.91],"ranks":[2,4,6,9,13,13,15,15,15,10]},{"name":"Sonora","tasas":[20.66,21.62,24.41,28.18,43.7,53.82,64.65,57.54,45.77,45.64],"ranks":[10,11,12,15,9,6,5,5,8,7]},{"name":"Tabasco","tasas":[10.19,11.63,16.28,22.74,26.36,25.14,18.62,13.44,10.29,36.0],"ranks":[18,20,19,17,14,14,16,18,21,8]},{"name":"Tamaulipas","tasas":[22.14,24.45,29.81,30.67,23.51,20.07,19.74,13.19,13.14,10.57],"ranks":[8,10,10,12,15,16,14,19,18,22]},{"name":"Tlaxcala","tasas":[4.87,6.54,9.48,9.93,12.95,8.94,9.13,10.34,8.21,10.12],"ranks":[30,27,26,26,23,25,24,23,25,23]},{"name":"Veracruz","tasas":[7.08,17.88,24.38,20.75,20.27,18.21,15.44,12.13,11.83,11.11],"ranks":[26,14,13,18,16,17,19,21,19,21]},{"name":"Yucatán","tasas":[2.48,2.33,1.74,2.15,1.45,2.33,1.78,1.63,1.4,1.79],"ranks":[32,32,32,32,32,32,32,32,32,32]},{"name":"Zacatecas","tasas":[18.4,35.15,42.55,42.82,39.2,65.65,99.31,81.2,58.84,29.81],"ranks":[11,7,7,7,10,5,1,2,4,12]}]};
+
+// ════════════════════════════════════════
+// RENDER BUMP CHART — homicidio only
+// ════════════════════════════════════════
+
+function renderBumpChart() {
+  setTimeout(() => {
+    const container = document.getElementById('bumpChartContainer');
+    if (!container) return;
+
+    const W = container.offsetWidth || 800;
+    const H = 560;
+    const PAD = { top: 28, right: 130, bottom: 36, left: 64 };
+    const chartW = W - PAD.left - PAD.right;
+    const chartH = H - PAD.top - PAD.bottom;
+
+    const years  = BUMP_DATA.years;
+    const nYears = years.length;
+    const nRanks = 32;
+
+    const TOP = new Set(['Guerrero','Sinaloa','Chihuahua','Baja California','Morelos','Colima','Guanajuato','Zacatecas','Sonora']);
+
+    const xScale = i  => PAD.left + (i / (nYears - 1)) * chartW;
+    const yScale = r  => PAD.top  + ((r - 1) / (nRanks - 1)) * chartH;
+
+    let selectedState = 'Colima';
+
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    svg.setAttribute('width', '100%');
+    svg.style.overflow = 'visible';
+    svg.style.display  = 'block';
+    svg.style.cursor   = 'default';
+
+    // ── Grid ──
+    const gridG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    [1,5,10,15,20,25,30].forEach(r => {
+      const y = yScale(r);
+      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line.setAttribute('x1', PAD.left); line.setAttribute('x2', PAD.left + chartW);
+      line.setAttribute('y1', y);        line.setAttribute('y2', y);
+      line.setAttribute('stroke', r === 1 ? 'rgba(192,57,43,0.15)' : 'rgba(255,255,255,0.04)');
+      line.setAttribute('stroke-width', '1');
+      gridG.appendChild(line);
+      if (r > 1) {
+        const lbl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        lbl.setAttribute('x', PAD.left - 8); lbl.setAttribute('y', y + 4);
+        lbl.setAttribute('text-anchor', 'end');
+        lbl.setAttribute('font-family', 'IBM Plex Mono'); lbl.setAttribute('font-size', '9');
+        lbl.setAttribute('fill', '#3a3a3a');
+        lbl.textContent = r + '\u00baª';
+        gridG.appendChild(lbl);
+      }
+    });
+    const r1lbl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    r1lbl.setAttribute('x', PAD.left - 8); r1lbl.setAttribute('y', yScale(1) + 4);
+    r1lbl.setAttribute('text-anchor', 'end');
+    r1lbl.setAttribute('font-family', 'IBM Plex Mono'); r1lbl.setAttribute('font-size', '9');
+    r1lbl.setAttribute('fill', '#c0392b'); r1lbl.setAttribute('font-weight', '500');
+    r1lbl.textContent = '1\u00aa';
+    gridG.appendChild(r1lbl);
+    const axNote = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    axNote.setAttribute('x', PAD.left - 8); axNote.setAttribute('y', PAD.top - 10);
+    axNote.setAttribute('text-anchor', 'end');
+    axNote.setAttribute('font-family', 'IBM Plex Mono'); axNote.setAttribute('font-size', '8');
+    axNote.setAttribute('fill', '#3a3a3a');
+    axNote.textContent = '\u2191 m\u00e1s violento';
+    gridG.appendChild(axNote);
+    svg.appendChild(gridG);
+
+    // ── Year axis ──
+    const axisG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    years.forEach((yr, i) => {
+      const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      t.setAttribute('x', xScale(i)); t.setAttribute('y', PAD.top + chartH + 22);
+      t.setAttribute('text-anchor', 'middle');
+      t.setAttribute('font-family', 'IBM Plex Mono'); t.setAttribute('font-size', '9');
+      t.setAttribute('fill', '#444');
+      t.textContent = yr;
+      axisG.appendChild(t);
+    });
+    svg.appendChild(axisG);
+
+    // ── Floating year-value label ──
+    const floatG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    floatG.style.pointerEvents = 'none';
+    floatG.style.display = 'none';
+
+    const floatCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    floatCircle.setAttribute('r', '5');
+    floatCircle.setAttribute('fill', '#c0392b');
+    floatCircle.setAttribute('stroke', '#0d0d0d');
+    floatCircle.setAttribute('stroke-width', '2');
+
+    const floatRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+    floatRect.setAttribute('rx', '2');
+    floatRect.setAttribute('fill', '#0d0d0d');
+    floatRect.setAttribute('stroke', 'rgba(192,57,43,0.4)');
+    floatRect.setAttribute('stroke-width', '1');
+
+    const floatYear = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    floatYear.setAttribute('font-family', 'IBM Plex Mono'); floatYear.setAttribute('font-size', '9');
+    floatYear.setAttribute('fill', '#666'); floatYear.setAttribute('text-anchor', 'middle');
+
+    const floatTasa = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    floatTasa.setAttribute('font-family', 'IBM Plex Mono'); floatTasa.setAttribute('font-size', '11');
+    floatTasa.setAttribute('fill', '#c0392b'); floatTasa.setAttribute('font-weight', '500');
+    floatTasa.setAttribute('text-anchor', 'middle');
+
+    const floatRank = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    floatRank.setAttribute('font-family', 'IBM Plex Mono'); floatRank.setAttribute('font-size', '9');
+    floatRank.setAttribute('fill', '#555'); floatRank.setAttribute('text-anchor', 'middle');
+
+    floatG.appendChild(floatRect);
+    floatG.appendChild(floatYear);
+    floatG.appendChild(floatTasa);
+    floatG.appendChild(floatRank);
+    floatG.appendChild(floatCircle);
+
+    // ── State lines, dots, hit targets ──
+    const linesG  = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    const dotsG   = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    const hitsG   = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    const labelsG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+
+    const inlineTip = document.getElementById('bumpTooltipInline');
+
+    function showInlineTip(name, yi) {
+      if (!inlineTip) return;
+      const state = BUMP_DATA.states.find(s => s.name === name);
+      if (!state) return;
+      const tasa = state.tasas[yi].toFixed(1);
+      const rank = state.ranks[yi];
+      const yr   = years[yi];
+      inlineTip.innerHTML = `<strong style="color:#e8e0d0;">${name}</strong> &nbsp;<span style="color:#c0392b;">${tasa} hom./100k</span> &nbsp;<span style="color:#555;">\u00b7 ${yr} \u00b7 lugar ${rank}\u00ba</span>`;
+    }
+
+    function showDefaultTip(name) {
+      if (!inlineTip) return;
+      showInlineTip(name, years.length - 1);
+    }
+
+    function highlightState(name) {
+      linesG.querySelectorAll('path').forEach(p => {
+        const isSel = p.dataset.state === name;
+        p.style.opacity     = isSel ? '1'   : (TOP.has(p.dataset.state) ? '0.18' : '0.06');
+        p.style.strokeWidth = isSel ? '2.5' : (TOP.has(p.dataset.state) ? '1.5'  : '1');
+      });
+      dotsG.querySelectorAll('circle').forEach(c => {
+        c.style.opacity = c.dataset.state === name ? '1' : '0';
+      });
+      // Sync state list
+      document.querySelectorAll('.state-list-item').forEach(el => {
+        el.classList.toggle('active', el.dataset.state === name);
+      });
+      const activeEl = document.querySelector(`.state-list-item[data-state="${name}"]`);
+      if (activeEl) activeEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+
+    function resetHighlight() {
+      linesG.querySelectorAll('path').forEach(p => {
+        const isTop = TOP.has(p.dataset.state);
+        p.style.opacity     = isTop ? '0.9' : '0.15';
+        p.style.strokeWidth = isTop ? '1.8' : '1';
+        p.style.stroke      = isTop ? '#c0392b' : 'rgba(255,255,255,0.3)';
+      });
+      dotsG.querySelectorAll('circle').forEach(c => { c.style.opacity = '0'; });
+      floatG.style.display = 'none';
+      document.querySelectorAll('.state-list-item').forEach(el => el.classList.remove('active'));
+    }
+
+    function nearestYearIdx(svgX) {
+      let best = 0, bestDist = Infinity;
+      years.forEach((_, i) => {
+        const d = Math.abs(xScale(i) - svgX);
+        if (d < bestDist) { bestDist = d; best = i; }
+      });
+      return best;
+    }
+
+    function getSvgX(e) {
+      const rect = svg.getBoundingClientRect();
+      return (e.clientX - rect.left) * (W / rect.width);
+    }
+
+    BUMP_DATA.states.forEach(state => {
+      const isTop = TOP.has(state.name);
+      const ranks = state.ranks;
+
+      let d = '';
+      ranks.forEach((r, i) => {
+        const x = xScale(i), y = yScale(r);
+        if (i === 0) { d = `M ${x} ${y}`; }
+        else {
+          const xPrev = xScale(i-1), yPrev = yScale(ranks[i-1]);
+          const cpX = (x + xPrev) / 2;
+          d += ` C ${cpX} ${yPrev}, ${cpX} ${y}, ${x} ${y}`;
+        }
+      });
+
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', d);
+      path.setAttribute('fill', 'none');
+      path.setAttribute('stroke', isTop ? '#c0392b' : 'rgba(255,255,255,0.3)');
+      path.setAttribute('stroke-width', isTop ? '1.8' : '1');
+      path.style.opacity = isTop ? '0.9' : '0.15';
+      path.style.cursor  = 'pointer';
+      path.dataset.state = state.name;
+      linesG.appendChild(path);
+
+      ranks.forEach((r, i) => {
+        const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        c.setAttribute('cx', xScale(i)); c.setAttribute('cy', yScale(r));
+        c.setAttribute('r', '3.5');
+        c.setAttribute('fill', '#c0392b');
+        c.setAttribute('stroke', '#0d0d0d'); c.setAttribute('stroke-width', '1.5');
+        c.style.opacity = '0';
+        c.style.pointerEvents = 'none';
+        c.dataset.state = state.name;
+        dotsG.appendChild(c);
+      });
+
+      // Wide hit target
+      const hitPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      hitPath.setAttribute('d', d);
+      hitPath.setAttribute('fill', 'none');
+      hitPath.setAttribute('stroke', 'transparent');
+      hitPath.setAttribute('stroke-width', '14');
+      hitPath.style.cursor = 'pointer';
+      hitPath.dataset.state = state.name;
+
+      hitPath.addEventListener('mouseenter', () => {
+        if (selectedState && selectedState !== state.name) return;
+        if (!selectedState) {
+          highlightState(state.name);
+          showDefaultTip(state.name);
+        }
+      });
+
+      hitPath.addEventListener('mousemove', e => {
+        const activeState = selectedState || state.name;
+        if (activeState !== state.name) return;
+        const yi   = nearestYearIdx(getSvgX(e));
+        const r    = state.ranks[yi];
+        const cx   = xScale(yi);
+        const cy   = yScale(r);
+        const tasa = state.tasas[yi].toFixed(1);
+        const yr   = years[yi];
+
+        const above = r > 5;
+        const boxW  = 76, boxH = 46;
+        const boxX  = Math.min(Math.max(cx - boxW / 2, PAD.left), PAD.left + chartW - boxW);
+        const boxY  = above ? cy - boxH - 12 : cy + 12;
+
+        floatRect.setAttribute('x', boxX); floatRect.setAttribute('y', boxY);
+        floatRect.setAttribute('width', boxW); floatRect.setAttribute('height', boxH);
+        floatYear.setAttribute('x', cx); floatYear.setAttribute('y', boxY + 13);
+        floatYear.textContent = yr;
+        floatTasa.setAttribute('x', cx); floatTasa.setAttribute('y', boxY + 28);
+        floatTasa.textContent = tasa;
+        floatRank.setAttribute('x', cx); floatRank.setAttribute('y', boxY + 41);
+        floatRank.textContent = r + '\u00ba lugar';
+        floatCircle.setAttribute('cx', cx); floatCircle.setAttribute('cy', cy);
+        floatG.style.display = 'block';
+        showInlineTip(state.name, yi);
+      });
+
+      hitPath.addEventListener('mouseleave', () => {
+        if (selectedState) {
+          floatG.style.display = 'none';
+          showDefaultTip(selectedState);
+          return;
+        }
+        resetHighlight();
+        floatG.style.display = 'none';
+        if (inlineTip) inlineTip.innerHTML = '<span style="color:#444;">Pasa el cursor sobre una l\u00ednea para ver el estado \u00b7 Click para fijar</span>';
+      });
+
+      hitPath.addEventListener('click', () => {
+        if (selectedState === state.name) {
+          selectedState = null;
+          resetHighlight();
+          floatG.style.display = 'none';
+          if (inlineTip) inlineTip.innerHTML = '<span style="color:#444;">Pasa el cursor sobre una l\u00ednea para ver el estado \u00b7 Click para fijar</span>';
+        } else {
+          selectedState = state.name;
+          highlightState(state.name);
+          showDefaultTip(state.name);
+        }
+      });
+
+      hitsG.appendChild(hitPath);
+    });
+
+    svg.appendChild(linesG);
+    svg.appendChild(dotsG);
+    svg.appendChild(floatG);
+    svg.appendChild(hitsG);
+
+    // ── End labels ──
+    const labelStates2015 = BUMP_DATA.states.filter(s => s.ranks[0] <= 5).sort((a,b) => a.ranks[0]-b.ranks[0]);
+    const labelStates2024 = BUMP_DATA.states.filter(s => s.ranks[9] <= 8).sort((a,b) => a.ranks[9]-b.ranks[9]);
+
+    labelStates2015.forEach(state => {
+      const y = yScale(state.ranks[0]);
+      const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      t.setAttribute('x', PAD.left - 14); t.setAttribute('y', y + 4);
+      t.setAttribute('text-anchor', 'end');
+      t.setAttribute('font-family', 'IBM Plex Mono'); t.setAttribute('font-size', '9');
+      t.setAttribute('fill', '#666');
+      t.style.pointerEvents = 'none';
+      t.textContent = state.name;
+      labelsG.appendChild(t);
+    });
+
+    const usedY = [];
+    labelStates2024.forEach(state => {
+      let y = yScale(state.ranks[9]);
+      while (usedY.some(py => Math.abs(py - y) < 13)) y += 13;
+      usedY.push(y);
+      const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      t.setAttribute('x', PAD.left + chartW + 12); t.setAttribute('y', y + 4);
+      t.setAttribute('font-family', 'IBM Plex Mono'); t.setAttribute('font-size', '9');
+      t.setAttribute('fill', '#666');
+      t.style.pointerEvents = 'none';
+      t.textContent = state.name;
+      labelsG.appendChild(t);
+      const lineY1 = yScale(state.ranks[9]);
+      if (Math.abs(lineY1 - y) > 3) {
+        const conn = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        conn.setAttribute('x1', PAD.left + chartW + 4); conn.setAttribute('y1', lineY1);
+        conn.setAttribute('x2', PAD.left + chartW + 10); conn.setAttribute('y2', y);
+        conn.setAttribute('stroke', 'rgba(100,100,100,0.4)'); conn.setAttribute('stroke-width', '1');
+        labelsG.insertBefore(conn, t);
+      }
+    });
+
+    svg.appendChild(labelsG);
+
+    container.innerHTML = '';
+    container.appendChild(svg);
+
+    // Apply default selection
+    highlightState(selectedState);
+    showDefaultTip(selectedState);
+    // Mark active in list
+    document.querySelectorAll('.state-list-item').forEach(el => {
+      el.classList.toggle('active', el.dataset.state === selectedState);
+    });
+    const defaultEl = document.querySelector(`.state-list-item[data-state="${selectedState}"]`);
+    if (defaultEl) defaultEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+
+  }, 0);
+
+  return `<div id="bumpChartContainer" style="width:100%;"></div>`;
 }
 
 // ════════════════════════════════════════
@@ -1259,7 +1728,185 @@ function geomToPath(geom) {
 // RENDER MAP PANEL
 // ════════════════════════════════════════
 
+// State list click handler for bump chart
+function selectBumpState(name) {
+  document.querySelectorAll('.state-list-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.state === name);
+  });
+  const activeEl = document.querySelector(`.state-list-item[data-state="${name}"]`);
+  if (activeEl) activeEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  // Find the hit path and dispatch click to trigger bump selection
+  const svg = document.querySelector('#bumpChartContainer svg');
+  if (!svg) return;
+  svg.querySelectorAll('path[data-state]').forEach(p => {
+    if (p.getAttribute('data-state') === name && p.getAttribute('stroke') === 'transparent') {
+      p.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    }
+  });
+}
+
+// Feminicidio map view toggle state
+let femMapView = 'registered';
+
+function setFemMapView(view) {
+  femMapView = view;
+  const ind = getActive();
+  if (ind && ind.id === 'feminicidio') {
+    document.getElementById('mapPanels').innerHTML = renderFeminicidioMap(ind);
+  }
+}
+
+function renderFeminicidioMap(ind) {
+  const data = STATE_DATA['feminicidio_condenas'];
+  const isCondenas = femMapView === 'condenas';
+  const values = data.map(s => isCondenas ? s.condenas : s.registered);
+  const maxVal = Math.max(...values);
+  const lookup = {};
+  data.forEach(s => { lookup[s.name] = s; });
+
+  const zeroCount      = data.filter(s => s.condenas === 0).length;
+  const zeroRegistered = data.filter(s => s.condenas === 0).reduce((a,s) => a + s.registered, 0);
+  const toggleReg = femMapView === 'registered';
+
+  const btnStyle = (active) =>
+    `padding:8px 18px;border:1px solid ${active ? 'var(--red)' : 'rgba(255,255,255,0.1)'};` +
+    `background:${active ? 'rgba(192,57,43,0.12)' : 'none'};` +
+    `color:${active ? 'var(--red)' : '#555'};` +
+    `font-family:var(--mono);font-size:9px;letter-spacing:0.12em;text-transform:uppercase;` +
+    `cursor:pointer;transition:all 0.2s;`;
+
+  const html = `
+    <div class="map-layout">
+      <div class="svg-map-wrap">
+        <div style="display:flex;gap:0;margin-bottom:16px;">
+          <button onclick="setFemMapView('registered')" style="${btnStyle(toggleReg)}">Registradas · SESNSP</button>
+          <button onclick="setFemMapView('condenas')" style="${btnStyle(!toggleReg)}margin-left:-1px;">Condenas · CNIJE</button>
+        </div>
+        <div class="map-loading" id="mapLoading_feminicidio">Cargando mapa…</div>
+        <svg id="svgMap_feminicidio" viewBox="0 0 ${MAP_W} ${MAP_H}" style="display:none;"></svg>
+        ${isCondenas ? `<p style="margin-top:12px;font-family:var(--mono);font-size:9px;color:#444;letter-spacing:0.08em;">
+          ■ Negro = cero condenas · ${zeroCount} estados · ${zeroRegistered} feminicidios sin ninguna condena en 2024
+        </p>` : ''}
+      </div>
+      <div class="map-sidebar">
+        <div class="map-stat-highlight" style="border-color:var(--border-dark);background:var(--dark-3);">
+          <div class="msh-label" style="color:var(--muted-dark);">Registradas vs. Condenas · 2024</div>
+          <div style="display:flex;align-items:baseline;gap:8px;margin:8px 0 4px;">
+            <span style="font-family:var(--serif);font-size:36px;color:#e8e0d0;line-height:1;">855</span>
+            <span style="font-family:var(--mono);font-size:9px;color:#444;text-transform:uppercase;letter-spacing:0.1em;">registradas</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:12px;">
+            <span style="font-family:var(--serif);font-size:36px;color:var(--red);line-height:1;">360</span>
+            <span style="font-family:var(--mono);font-size:9px;color:#444;text-transform:uppercase;letter-spacing:0.1em;">condenas</span>
+          </div>
+          <div style="height:1px;background:rgba(255,255,255,0.06);margin-bottom:12px;"></div>
+          <div class="msh-context" style="color:var(--muted-dark);">208 en juicio oral · 152 vía procedimiento abreviado. Ninguna de esas 360 condenas corresponde a un caso abierto en 2024.</div>
+        </div>
+        <div class="map-legend">
+          <div class="legend-label" style="color:var(--muted-dark);">${isCondenas ? 'Condenas · Negro = cero' : 'Feminicidios registrados'}</div>
+          <div class="legend-bar" style="background:${isCondenas
+            ? 'linear-gradient(to right, #1a1a1a, #c06428, #c0392b)'
+            : 'linear-gradient(to right, #f7e8e6, #e8836e, #c0392b, #7b1a12)'};"></div>
+          <div class="legend-labels" style="color:#444;"><span>${isCondenas ? 'Cero' : 'Menor'}</span><span>Mayor</span></div>
+        </div>
+        <div class="map-framing" style="color:var(--muted-dark);">${ind.mapFraming}</div>
+      </div>
+    </div>`;
+
+  setTimeout(() => drawFemSvgMap(lookup, isCondenas, maxVal), 0);
+  return html;
+}
+
+function drawFemSvgMap(lookup, isCondenas, maxVal) {
+  const svgEl  = document.getElementById('svgMap_feminicidio');
+  const loadEl = document.getElementById('mapLoading_feminicidio');
+  if (!svgEl) return;
+
+  function condenasColor(val) {
+    if (val === 0) return '#141414';
+    const t = val / maxVal;
+    if (t < 0.4) {
+      const s = t / 0.4;
+      return `rgb(${Math.round(247-s*55)},${Math.round(232-s*126)},${Math.round(230-s*187)})`;
+    } else {
+      const s = (t-0.4)/0.6;
+      return `rgb(${Math.round(192-s*69)},${Math.round(106-s*83)},${Math.round(43-s*31)})`;
+    }
+  }
+
+  loadGeo(geo => {
+    if (!geo) { if (loadEl) loadEl.textContent = 'No se pudo cargar el mapa.'; return; }
+    const features = geo.features.filter(f => HC_KEY_MAP[f.properties['hc-key']]);
+    const tooltip  = document.getElementById('mapTooltip');
+    svgEl.innerHTML = '';
+
+    features.forEach(feature => {
+      const name = HC_KEY_MAP[feature.properties['hc-key']];
+      const s    = lookup[name];
+      if (!s) return;
+      const val   = isCondenas ? s.condenas : s.registered;
+      const color = isCondenas ? condenasColor(s.condenas) : rateToColor(val, 0, maxVal);
+      const ratio = s.registered > 0 ? Math.round(s.condenas / s.registered * 100) : 0;
+      const d     = geomToPath(feature.geometry);
+      const path  = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', d);
+      path.setAttribute('fill', color);
+      path.setAttribute('class', 'map-state');
+      path.addEventListener('mousemove', e => {
+        tooltip.style.display = 'block';
+        tooltip.style.left = (e.clientX + 16) + 'px';
+        tooltip.style.top  = (e.clientY - 52) + 'px';
+        tooltip.innerHTML = `<strong>${name}</strong>
+          <div class="tt-val">${s.registered} registradas · ${s.condenas} condenas</div>
+          <div class="tt-sub">${isCondenas && s.condenas === 0 ? 'Sin condenas en 2024' : ratio + '% ratio · 2024'}</div>`;
+      });
+      path.addEventListener('mouseleave', () => { tooltip.style.display = 'none'; });
+      svgEl.appendChild(path);
+    });
+
+    svgEl.style.display = 'block';
+    if (loadEl) loadEl.style.display = 'none';
+  });
+}
+
 function renderMap(ind) {
+  // ── Homicidio: national trend first, then state bump chart ──
+  if (ind.id === 'homicidio') {
+    const statesSorted = [...BUMP_DATA.states].sort((a,b) => a.name.localeCompare(b.name, 'es'));
+    const listItems = statesSorted.map(s => {
+      const tasa = s.tasas[s.tasas.length - 1].toFixed(1);
+      return `<div class="state-list-item" data-state="${s.name}" onclick="selectBumpState('${s.name.replace(/'/g, "\\'")}')">
+        <span class="sli-name">${s.name}</span>
+        <span class="sli-val">${tasa}</span>
+      </div>`;
+    }).join('');
+
+    // Hide the separate trend section — it's embedded here
+    setTimeout(() => {
+      const ts = document.getElementById('trendSection');
+      if (ts) ts.style.display = 'none';
+    }, 0);
+
+    return `
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;color:var(--red);text-transform:uppercase;margin-bottom:6px;">Comparación por estado · 2015–2024</div>
+      <h3 style="font-family:'DM Serif Display',serif;font-size:22px;font-weight:400;color:#f0e8d8;margin-bottom:16px;">Homicidio doloso &middot; tasa por 100,000 hab.</h3>
+      <p style="font-family:'Spectral',serif;font-size:16px;font-style:italic;font-weight:300;color:#888;line-height:1.7;margin-bottom:28px;max-width:600px;padding-left:16px;border-left:2px solid var(--red);">La violencia no es uniforme. Se mueve. Y el Estado la ha dejado moverse.</p>
+      <div class="bump-layout-simple">
+        <div class="bump-main">
+          <div id="bumpTooltipInline" class="bump-tip"><span style="color:#444;">Pasa el cursor sobre una línea &middot; Click para fijar</span></div>
+          ${renderBumpChart()}
+        </div>
+        <div class="bump-state-list" id="bumpStateList">
+          <div style="font-family:var(--mono);font-size:8px;letter-spacing:0.15em;color:#333;text-transform:uppercase;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border-dark);">Estado &middot; Tasa 2024</div>
+          ${listItems}
+        </div>
+      </div>
+      <p style="margin-top:32px;font-family:var(--mono);font-size:10px;letter-spacing:0.12em;color:#333;text-transform:uppercase;">En 2024, murieron <span style="color:#c0392b;">82 personas por día</span> por homicidio doloso en México.</p>`;
+  }
+
+  // ── Feminicidio: registered vs condenas map ──
+  if (ind.id === 'feminicidio') return renderFeminicidioMap(ind);
+
   const states = STATE_DATA[ind.id];
   const rates  = states.map(s => s.rate);
   const min    = Math.min(...rates);
@@ -1340,7 +1987,13 @@ function renderMap(ind) {
 // RENDER TREND CHART
 // ════════════════════════════════════════
 
-function renderTrend(ind) {
+function renderTrend(ind, dark=false) {
+  const _bg     = dark ? 'var(--dark-3)'             : 'white';
+  const _border = dark ? 'var(--border-dark)'        : '#ddd5c4';
+  const _title  = dark ? '#f0e8d8'                   : '#1a1208';
+  const _src    = dark ? '#555'                      : '#aaa';
+  const _grid   = dark ? 'rgba(255,255,255,0.04)'    : 'rgba(0,0,0,0.06)';
+  const _tick   = dark ? '#555'                      : '#aaa';
   const data = ind.trendData;
   const years = ind.trendYears;
   const W = 800, H = 260;
@@ -1364,8 +2017,8 @@ function renderTrend(ind) {
                   v >= 1000  ? (v/1000).toFixed(1)+'k' :
                   v.toFixed(ind.id === 'feminicidio' ? 1 : 0);
     gridHTML += `
-      <line x1="${padL}" y1="${y}" x2="${padL+w}" y2="${y}" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
-      <text x="${padL-8}" y="${y+4}" text-anchor="end" font-family="IBM Plex Mono" font-size="9" fill="#444">${label}</text>`;
+      <line x1="${padL}" y1="${y}" x2="${padL+w}" y2="${y}" stroke="${_grid}" stroke-width="1"/>
+      <text x="${padL-8}" y="${y+4}" text-anchor="end" font-family="IBM Plex Mono" font-size="9" fill="${_tick}">${label}</text>`;
   }
 
   // Area path
@@ -1382,7 +2035,7 @@ function renderTrend(ind) {
   let labelsHTML = '';
   years.forEach((yr, i) => {
     if (i % labelEvery === 0 || i === data.length - 1) {
-      labelsHTML += `<text x="${xScale(i)}" y="${padT+h+20}" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#444">${yr}</text>`;
+      labelsHTML += `<text x="${xScale(i)}" y="${padT+h+20}" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="${_tick}">${yr}</text>`;
     }
   });
 
@@ -1406,12 +2059,12 @@ function renderTrend(ind) {
   const uid = 'trend_' + ind.id;
 
   return `
-    <div class="chart-wrap" style="background:white;border-color:#ddd5c4;">
+    <div class="chart-wrap" style="background:${_bg};border-color:${_border};">
       <div class="chart-meta">
         <div>
-          <div class="chart-title" style="color:#1a1208;">${ind.trendTitle}</div>
+          <div class="chart-title" style="color:${_title};">${ind.trendTitle}</div>
         </div>
-        <div class="chart-source" style="color:#aaa;">${ind.trendSource}</div>
+        <div class="chart-source" style="color:${_src};">${ind.trendSource}</div>
       </div>
       <svg class="trend" viewBox="0 0 ${W} ${H}" height="${H}">
         <defs>
@@ -1467,9 +2120,10 @@ function setIndicator(id, init = false) {
 
   // Show content sections
   document.getElementById('mapSection').style.display = 'block';
-  document.getElementById('trendSection').style.display = 'block';
+  // trendSection: hidden for homicidio (trend is embedded in mapSection)
+  document.getElementById('trendSection').style.display = id === 'homicidio' ? 'none' : 'block';
   document.getElementById('casesSection').style.display = 'block';
-  document.getElementById('transitionZone').style.display = 'block';
+  document.getElementById('transitionZone').style.display = id === 'homicidio' ? 'none' : 'block';
 
   // Update map section text
   document.getElementById('mapEyebrow').textContent = ind.mapEyebrow;
