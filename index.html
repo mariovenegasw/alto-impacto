@@ -1813,8 +1813,10 @@ function renderFeminicidioMap(ind) {
       </div>
     </div>`;
 
+  const metNote = `<p style="margin-top:28px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.08em;color:#2a2a2a;line-height:1.7;max-width:600px;">Nota metodológica — Registros del SESNSP (nueva metodología, 2015–2024). Los datos de condenas provienen del CNIJE y corresponden a sentencias dictadas en 2024, no necesariamente a casos ocurridos en ese año. La clasificación como feminicidio varía entre estados — algunos aplican criterios más restrictivos, lo que genera subregistro sistemático.</p>`;
+
   setTimeout(() => drawFemSvgMap(lookup, isCondenas, maxVal), 0);
-  return html;
+  return html + metNote;
 }
 
 function drawFemSvgMap(lookup, isCondenas, maxVal) {
@@ -1901,7 +1903,8 @@ function renderMap(ind) {
           ${listItems}
         </div>
       </div>
-      <p style="margin-top:32px;font-family:var(--mono);font-size:10px;letter-spacing:0.12em;color:#333;text-transform:uppercase;">En 2024, murieron <span style="color:#c0392b;">82 personas por día</span> por homicidio doloso en México.</p>`;
+      <p style="margin-top:32px;font-family:var(--mono);font-size:10px;letter-spacing:0.12em;color:#333;text-transform:uppercase;">En 2024, murieron <span style="color:#c0392b;">82 personas por día</span> por homicidio doloso en México.</p>
+      <p style="margin-top:24px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.08em;color:#2a2a2a;line-height:1.7;max-width:600px;">Nota metodológica — Cifras del SESNSP bajo nueva metodología de registro de víctimas (2015–2024). Los datos de 2025 se excluyen por ser parciales. Las tasas por 100,000 habitantes se calculan con proyecciones de población CONAPO. Un mismo evento puede registrar múltiples víctimas.</p>`;
   }
 
   // ── Feminicidio: registered vs condenas map ──
@@ -2125,7 +2128,11 @@ function setIndicator(id, init = false) {
   document.getElementById('casesSection').style.display = 'block';
   document.getElementById('transitionZone').style.display = id === 'homicidio' ? 'none' : 'block';
 
-  // Update map section text
+  // Update map section text — hide for homicidio (bump chart has its own header)
+  const hideMapHeader = id === 'homicidio';
+  document.getElementById('mapEyebrow').style.display = hideMapHeader ? 'none' : '';
+  document.getElementById('mapTitle').style.display   = hideMapHeader ? 'none' : '';
+  document.getElementById('mapSub').style.display     = hideMapHeader ? 'none' : '';
   document.getElementById('mapEyebrow').textContent = ind.mapEyebrow;
   document.getElementById('mapTitle').textContent = ind.mapTitle;
   document.getElementById('mapSub').textContent = ind.mapSub;
