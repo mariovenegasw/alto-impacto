@@ -113,14 +113,14 @@
     font-size: 8px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: #333;
+    color: #666;
     line-height: 1;
     transition: color var(--transition);
     white-space: nowrap;
   }
 
-  .ind-btn.active .btn-label { color: #666; }
-  .ind-btn:hover .btn-label  { color: #555; }
+  .ind-btn.active .btn-label { color: #999; }
+  .ind-btn:hover .btn-label  { color: #888; }
 
   /* ── HERO (fixed opening — always impunity) ── */
   .hero {
@@ -214,7 +214,7 @@
     font-family: var(--mono);
     font-size: 10px;
     letter-spacing: 0.2em;
-    color: #444;
+    color: #888;
     text-transform: uppercase;
     margin-bottom: 32px;
     opacity: 0;
@@ -277,26 +277,26 @@
     font-size: 8px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: #333;
+    color: #666;
     line-height: 1.3;
     text-align: center;
     transition: color 0.35s ease;
   }
 
-  .counter-btn.active .c-label { color: #666; }
-  .counter-btn:hover .c-label  { color: #555; }
+  .counter-btn.active .c-label { color: #999; }
+  .counter-btn:hover .c-label  { color: #888; }
 
   .counter-btn .c-hint {
     font-family: var(--mono);
     font-size: 7.5px;
     letter-spacing: 0.08em;
-    color: #2a2a2a;
+    color: #555;
     text-transform: uppercase;
     transition: color 0.35s ease;
   }
 
-  .counter-btn.active .c-hint { color: #555; }
-  .counter-btn:hover .c-hint  { color: #444; }
+  .counter-btn.active .c-hint { color: #777; }
+  .counter-btn:hover .c-hint  { color: #666; }
 
   .hero-scroll {
     font-family: var(--mono);
@@ -403,7 +403,7 @@
     font-family: var(--mono);
     font-size: 10px;
     letter-spacing: 0.15em;
-    color: #333;
+    color: #555;
     text-transform: uppercase;
     padding: 48px 0;
     text-align: center;
@@ -681,7 +681,7 @@
     padding: 12px;
     background: var(--dark-3);
     scrollbar-width: thin;
-    scrollbar-color: #2a2a2a transparent;
+    scrollbar-color:#666 transparent;
   }
 
   .bump-state-list::-webkit-scrollbar { width: 4px; }
@@ -720,7 +720,7 @@
   .sli-val {
     font-family: var(--mono);
     font-size: 8px;
-    color: #333;
+    color: #555;
     flex-shrink: 0;
     transition: color 0.12s;
   }
@@ -883,8 +883,8 @@ const INDICATORS = [
     heroHeadline: 'En México, <em>cada día</em>',
     heroBody: '855 feminicidios fueron registrados en 2024. El pico fue 2021 con 1,021 víctimas. La cifra real es mayor — la definición legal se aplica de forma inconsistente entre estados, y muchos casos se clasifican como homicidio simple.',
     mapEyebrow: 'Feminicidio · Víctimas por estado · 2024',
-    mapTitle: 'El mapa del feminicidio',
-    mapSub: 'Víctimas de feminicidio por estado en 2024. Estado de México y Ciudad de México concentran el mayor número absoluto. La comparación entre estados también refleja distintos criterios de clasificación.',
+    mapTitle: 'Feminicidio, dos sistemas que nunca se cruzan',
+    mapSub: '',
     mapFraming: '«La inconsistencia en la definición legal entre estados hace que el mapa muestre tanto violencia real como subregistro institucional.»',
     mapHighlightValue: '855',
     mapHighlightLabel: 'Víctimas en 2024',
@@ -922,7 +922,7 @@ const INDICATORS = [
     mapHighlightValue: '131,999',
     mapHighlightLabel: 'Personas aún desaparecidas',
     mapHighlightContext: 'Total acumulado histórico según el RNPDNO al 10 de marzo de 2026. 77.9% son hombres; 21.8% mujeres. Esta cifra solo refleja casos formalmente reportados — el subregistro es estructural.',
-    trendTitle: 'Nuevas desapariciones reportadas por año, 2010–2024',
+    trendTitle: 'La curva que no baja',
     trendSub: 'Casos nuevos registrados cada año. La curva nunca baja. Cada gobierno, cada sexenio, cada estrategia de seguridad — y el número sigue subiendo.',
     trendSource: 'RNPDNO · Comisión Nacional de Búsqueda · Consulta: 10/03/2026',
     trendData: [4189,5169,4203,4568,4575,4139,5537,6915,6821,8329,7841,7910,8129,10320,12772],
@@ -1580,8 +1580,10 @@ function renderBumpChart() {
     svg.appendChild(hitsG);
 
     // ── End labels ──
-    const labelStates2015 = BUMP_DATA.states.filter(s => s.ranks[0] <= 5).sort((a,b) => a.ranks[0]-b.ranks[0]);
-    const labelStates2024 = BUMP_DATA.states.filter(s => s.ranks[9] <= 8).sort((a,b) => a.ranks[9]-b.ranks[9]);
+    const labelStates2015     = BUMP_DATA.states.filter(s => s.ranks[0] <= 5).sort((a,b) => a.ranks[0]-b.ranks[0]);
+    const labelStates2015bot   = BUMP_DATA.states.filter(s => s.ranks[0] >= 28).sort((a,b) => a.ranks[0]-b.ranks[0]);
+    const labelStates2024     = BUMP_DATA.states.filter(s => s.ranks[9] <= 5).sort((a,b) => a.ranks[9]-b.ranks[9]);
+    const labelStates2024bot   = BUMP_DATA.states.filter(s => s.ranks[9] >= 28).sort((a,b) => a.ranks[9]-b.ranks[9]);
 
     labelStates2015.forEach(state => {
       const y = yScale(state.ranks[0]);
@@ -1613,6 +1615,42 @@ function renderBumpChart() {
         conn.setAttribute('x1', PAD.left + chartW + 4); conn.setAttribute('y1', lineY1);
         conn.setAttribute('x2', PAD.left + chartW + 10); conn.setAttribute('y2', y);
         conn.setAttribute('stroke', 'rgba(100,100,100,0.4)'); conn.setAttribute('stroke-width', '1');
+        labelsG.insertBefore(conn, t);
+      }
+    });
+
+    // ── Bottom labels 2015 (least violent) ──
+    labelStates2015bot.forEach(state => {
+      const y = yScale(state.ranks[0]);
+      const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      t.setAttribute('x', PAD.left - 14); t.setAttribute('y', y + 4);
+      t.setAttribute('text-anchor', 'end');
+      t.setAttribute('font-family', 'IBM Plex Mono'); t.setAttribute('font-size', '9');
+      t.setAttribute('fill', '#444');
+      t.style.pointerEvents = 'none';
+      t.textContent = state.name;
+      labelsG.appendChild(t);
+    });
+
+    // ── Bottom labels 2024 (least violent) ──
+    const usedYbot = [];
+    labelStates2024bot.forEach(state => {
+      let y = yScale(state.ranks[9]);
+      while (usedYbot.some(py => Math.abs(py - y) < 13)) y += 13;
+      usedYbot.push(y);
+      const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      t.setAttribute('x', PAD.left + chartW + 12); t.setAttribute('y', y + 4);
+      t.setAttribute('font-family', 'IBM Plex Mono'); t.setAttribute('font-size', '9');
+      t.setAttribute('fill', '#444');
+      t.style.pointerEvents = 'none';
+      t.textContent = state.name;
+      labelsG.appendChild(t);
+      const lineY1 = yScale(state.ranks[9]);
+      if (Math.abs(lineY1 - y) > 3) {
+        const conn = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        conn.setAttribute('x1', PAD.left + chartW + 4); conn.setAttribute('y1', lineY1);
+        conn.setAttribute('x2', PAD.left + chartW + 10); conn.setAttribute('y2', y);
+        conn.setAttribute('stroke', 'rgba(60,60,60,0.4)'); conn.setAttribute('stroke-width', '1');
         labelsG.insertBefore(conn, t);
       }
     });
@@ -1777,44 +1815,75 @@ function renderFeminicidioMap(ind) {
     `cursor:pointer;transition:all 0.2s;`;
 
   const html = `
-    <div class="map-layout">
-      <div class="svg-map-wrap">
-        <div style="display:flex;gap:0;margin-bottom:16px;">
-          <button onclick="setFemMapView('registered')" style="${btnStyle(toggleReg)}">Registradas · SESNSP</button>
-          <button onclick="setFemMapView('condenas')" style="${btnStyle(!toggleReg)}margin-left:-1px;">Condenas · CNIJE</button>
+    <div style="margin-bottom:36px;">
+      <div style="display:flex;align-items:baseline;gap:40px;margin-bottom:12px;">
+        <div>
+          <span style="font-family:'DM Serif Display',serif;font-size:64px;color:#e8e0d0;line-height:1;">855</span>
+          <span style="font-family:var(--mono);font-size:9px;color:#555;text-transform:uppercase;letter-spacing:0.1em;margin-left:10px;">feminicidios registrados · 2024</span>
         </div>
-        <div class="map-loading" id="mapLoading_feminicidio">Cargando mapa…</div>
-        <svg id="svgMap_feminicidio" viewBox="0 0 ${MAP_W} ${MAP_H}" style="display:none;"></svg>
-        ${isCondenas ? `<p style="margin-top:12px;font-family:var(--mono);font-size:9px;color:#444;letter-spacing:0.08em;">
-          ■ Negro = cero condenas · ${zeroCount} estados · ${zeroRegistered} feminicidios sin ninguna condena en 2024
-        </p>` : ''}
+        <div>
+          <span style="font-family:'DM Serif Display',serif;font-size:64px;color:var(--red);line-height:1;">360</span>
+          <span style="font-family:var(--mono);font-size:9px;color:#555;text-transform:uppercase;letter-spacing:0.1em;margin-left:10px;">condenas dictadas · 2024</span>
+        </div>
       </div>
-      <div class="map-sidebar">
-        <div class="map-stat-highlight" style="border-color:var(--border-dark);background:var(--dark-3);">
-          <div class="msh-label" style="color:var(--muted-dark);">Registradas vs. Condenas · 2024</div>
-          <div style="display:flex;align-items:baseline;gap:8px;margin:8px 0 4px;">
-            <span style="font-family:var(--serif);font-size:36px;color:#e8e0d0;line-height:1;">855</span>
-            <span style="font-family:var(--mono);font-size:9px;color:#444;text-transform:uppercase;letter-spacing:0.1em;">registradas</span>
-          </div>
-          <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:12px;">
-            <span style="font-family:var(--serif);font-size:36px;color:var(--red);line-height:1;">360</span>
-            <span style="font-family:var(--mono);font-size:9px;color:#444;text-transform:uppercase;letter-spacing:0.1em;">condenas</span>
-          </div>
-          <div style="height:1px;background:rgba(255,255,255,0.06);margin-bottom:12px;"></div>
-          <div class="msh-context" style="color:var(--muted-dark);">208 en juicio oral · 152 vía procedimiento abreviado. Ninguna de esas 360 condenas corresponde a un caso abierto en 2024.</div>
+      <p style="font-family:var(--mono);font-size:9px;letter-spacing:0.08em;color:#666;line-height:1.6;margin-bottom:16px;">208 en juicio oral · 152 vía procedimiento abreviado</p>
+      <p style="font-family:'Spectral',serif;font-size:14px;font-style:italic;font-weight:300;color:#888;line-height:1.7;max-width:580px;padding-left:14px;border-left:2px solid var(--red);">Ninguna de esas 360 condenas corresponde a un feminicidio cometido en 2024. Los procesos judiciales tardan en promedio 3 a 5 años.</p>
+    </div>
+
+    <div style="padding:20px 24px;background:var(--dark-3);border:1px solid var(--border-dark);border-left:3px solid var(--red);margin-bottom:0;">
+      <p style="font-family:'Spectral',serif;font-size:13px;font-weight:300;color:#aaa;line-height:1.9;">El SESNSP cuenta víctimas. El CNIJE cuenta procesos judiciales. <strong style="font-weight:400;color:#ccc;">No comparten identificadores. No existe forma oficial de saber si una mujer contada en uno aparece en el otro.</strong> Esta comparación no es una tasa de impunidad — es la evidencia de que el Estado no construyó la infraestructura para responder esta pregunta.</p>
+    </div>
+
+    <div style="margin-bottom:16px;padding-top:32px;border-top:1px solid var(--border-dark);">
+      <div style="display:flex;gap:0;margin-bottom:16px;">
+        <button onclick="setFemMapView('registered')" style="${btnStyle(toggleReg)}">Registradas · SESNSP</button>
+        <button onclick="setFemMapView('condenas')" style="${btnStyle(!toggleReg)}margin-left:-1px;">Condenas · CNIJE</button>
+      </div>
+      <div class="map-layout">
+        <div class="svg-map-wrap">
+          <div class="map-loading" id="mapLoading_feminicidio">Cargando mapa…</div>
+          <svg id="svgMap_feminicidio" viewBox="0 0 ${MAP_W} ${MAP_H}" style="display:none;"></svg>
+          ${isCondenas ? `<p style="margin-top:12px;font-family:var(--mono);font-size:9px;color:#666;letter-spacing:0.08em;">
+            ■ Negro = cero condenas · ${zeroCount} estados · ${zeroRegistered} feminicidios sin ninguna condena en 2024
+          </p>` : ''}
         </div>
-        <div class="map-legend">
-          <div class="legend-label" style="color:var(--muted-dark);">${isCondenas ? 'Condenas · Negro = cero' : 'Feminicidios registrados'}</div>
-          <div class="legend-bar" style="background:${isCondenas
-            ? 'linear-gradient(to right, #1a1a1a, #c06428, #c0392b)'
-            : 'linear-gradient(to right, #f7e8e6, #e8836e, #c0392b, #7b1a12)'};"></div>
-          <div class="legend-labels" style="color:#444;"><span>${isCondenas ? 'Cero' : 'Menor'}</span><span>Mayor</span></div>
+        <div class="map-sidebar">
+          <div class="map-legend">
+            <div class="legend-label" style="color:var(--muted-dark);">${isCondenas ? 'Condenas · Negro = cero' : 'Feminicidios registrados'}</div>
+            <div class="legend-bar" style="background:${isCondenas
+              ? 'linear-gradient(to right, #1a1a1a, #c06428, #c0392b)'
+              : 'linear-gradient(to right, #f7e8e6, #e8836e, #c0392b, #7b1a12)'};"></div>
+            <div class="legend-labels" style="color:#555;"><span>${isCondenas ? 'Cero' : 'Menor'}</span><span>Mayor</span></div>
+          </div>
+          <div style="margin-top:16px;font-family:'Spectral',serif;font-size:13px;font-style:italic;font-weight:300;color:#666;line-height:1.7;padding-left:12px;border-left:2px solid rgba(192,57,43,0.4);">${ind.mapFraming}</div>
         </div>
-        <div class="map-framing" style="color:var(--muted-dark);">${ind.mapFraming}</div>
+      </div>
+    </div>
+
+    <div style="margin-top:32px;padding-top:28px;border-top:1px solid var(--border-dark);">
+      <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:16px;">
+        <span style="font-family:'DM Serif Display',serif;font-size:40px;color:#e8e0d0;line-height:1;">8</span>
+        <span style="font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#666;line-height:1.6;">estados con<br>cero condenas en 2024</span>
+      </div>
+      <div style="border:1px solid var(--border-dark);">
+        <div style="display:grid;grid-template-columns:1fr 80px 80px;padding:10px 20px;background:rgba(255,255,255,0.03);border-bottom:1px solid var(--border-dark);">
+          <span style="font-family:var(--mono);font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:#555;">Estado</span>
+          <span style="font-family:var(--mono);font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:#555;text-align:right;">Registradas</span>
+          <span style="font-family:var(--mono);font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:#555;text-align:right;">Condenas</span>
+        </div>
+        ${[
+          ['Estado de México','76'],['Veracruz','55'],['Puebla','43'],['Tamaulipas','27'],
+          ['Oaxaca','20'],['Quintana Roo','13'],['Baja California Sur','9'],['Colima','6']
+        ].map(([name,reg]) => `
+        <div style="display:grid;grid-template-columns:1fr 80px 80px;padding:13px 20px;border-bottom:1px solid var(--border-dark);background:var(--dark-2);">
+          <span style="font-family:'Spectral',serif;font-size:14px;color:#e8e0d0;">${name}</span>
+          <span style="font-family:var(--mono);font-size:13px;color:var(--red);text-align:right;">${reg}</span>
+          <span style="font-family:var(--mono);font-size:11px;color:#333;text-align:right;">0</span>
+        </div>`).join('')}
       </div>
     </div>`;
 
-  const metNote = `<p style="margin-top:28px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.08em;color:#2a2a2a;line-height:1.7;max-width:600px;">Nota metodológica — Registros del SESNSP (nueva metodología, 2015–2024). Los datos de condenas provienen del CNIJE y corresponden a sentencias dictadas en 2024, no necesariamente a casos ocurridos en ese año. La clasificación como feminicidio varía entre estados — algunos aplican criterios más restrictivos, lo que genera subregistro sistemático.</p>`;
+  const metNote = `<p style="margin-top:28px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.08em;color:#666;line-height:1.7;max-width:600px;">Nota metodológica — Registros del SESNSP (nueva metodología, 2015–2024). Los datos de condenas provienen del CNIJE y corresponden a sentencias dictadas en 2024, no necesariamente a casos ocurridos en ese año. La clasificación como feminicidio varía entre estados — algunos aplican criterios más restrictivos, lo que genera subregistro sistemático.</p>`;
 
   setTimeout(() => drawFemSvgMap(lookup, isCondenas, maxVal), 0);
   return html + metNote;
@@ -1872,6 +1941,148 @@ function drawFemSvgMap(lookup, isCondenas, maxVal) {
   });
 }
 
+function renderDesaparicionMap(ind) {
+  const lookup = {};
+  STATE_DATA['desaparicion'].forEach(s => { lookup[s.name] = s.rate; });
+  const maxVal = Math.max(...STATE_DATA['desaparicion'].map(s => s.rate));
+
+  // Trend block rendered inline (dark background, same section)
+  const trendBlock = renderTrend(ind, true);
+
+  const html = `
+    ${trendBlock}
+
+    <div style="margin-top:52px;padding-top:40px;border-top:1px solid var(--border-dark);">
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;color:var(--red);text-transform:uppercase;margin-bottom:10px;">Total acumulado · RNPDNO</div>
+      <div style="margin-bottom:28px;">
+        <div style="font-family:'DM Serif Display',serif;font-size:52px;color:var(--red);line-height:1;margin-bottom:6px;">131,999</div>
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.12em;color:#666;text-transform:uppercase;margin-bottom:12px;">personas desaparecidas y no localizadas · al 10/03/2026</div>
+        <p style="font-family:'Spectral',serif;font-size:13px;font-weight:300;color:#555;line-height:1.6;max-width:600px;">${ind.mapSub}</p>
+      </div>
+      
+      <div class="map-layout">
+      <div class="map-layout">
+        <div class="svg-map-wrap" style="position:relative;">
+          <div class="map-loading" id="mapLoading_desaparicion">Cargando mapa…</div>
+          <svg id="svgMap_desaparicion" viewBox="0 0 ${MAP_W} ${MAP_H}" style="display:none;"></svg>
+          <div id="mapTooltip_des" style="display:none;position:fixed;background:#0d0d0d;border:1px solid rgba(255,255,255,0.1);color:#e8e0d0;padding:10px 14px;font-family:'IBM Plex Mono',monospace;font-size:11px;pointer-events:none;z-index:200;line-height:1.5;"></div>
+        </div>
+          <div style="margin-top:16px;padding:16px;border:1px solid var(--border-dark);">
+            <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.12em;color:#444;text-transform:uppercase;margin-bottom:10px;">Tamaño del círculo = total acumulado</div>
+            <div style="display:flex;align-items:flex-end;gap:8px;">
+              <svg width="90" height="32" viewBox="0 0 90 32">
+                <circle cx="8"  cy="24" r="5"  fill="rgba(192,57,43,0.4)" stroke="#c0392b" stroke-width="1"/>
+                <circle cx="28" cy="20" r="9"  fill="rgba(192,57,43,0.4)" stroke="#c0392b" stroke-width="1"/>
+                <circle cx="55" cy="14" r="14" fill="rgba(192,57,43,0.4)" stroke="#c0392b" stroke-width="1"/>
+              </svg>
+              <span style="font-family:var(--mono);font-size:8px;color:#333;letter-spacing:0.08em;padding-bottom:4px;">Menor → Mayor</span>
+            </div>
+          </div>
+          <div style="margin-top:16px;font-family:'Spectral',serif;font-size:13px;font-style:italic;font-weight:300;color:#555;line-height:1.7;padding-left:14px;border-left:2px solid var(--red);">${ind.mapFraming}</div>
+        </div>
+      </div>
+      <p style="margin-top:24px;font-family:'Spectral',serif;font-size:14px;font-style:italic;font-weight:300;color:#666;line-height:1.8;">
+        Cada círculo representa personas desaparecidas. Tienen nombre. →&thinsp;
+        <a href="https://consultapublicarnpdno.segob.gob.mx/consulta" target="_blank" rel="noopener"
+           style="color:#c0392b;text-decoration:none;border-bottom:1px solid rgba(192,57,43,0.35);">Consulta el registro público</a>
+      </p>
+      <p style="margin-top:16px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.08em;color:#666;line-height:1.7;max-width:640px;">Nota metodológica — Cifras del RNPDNO, Comisión Nacional de Búsqueda. Consulta: 10/03/2026. El total acumulado (131,999) refleja únicamente casos formalmente reportados — el subregistro es estructural.</p>
+    </div>`;
+
+  setTimeout(() => {
+    const svgEl  = document.getElementById('svgMap_desaparicion');
+    const loadEl = document.getElementById('mapLoading_desaparicion');
+    const tip    = document.getElementById('mapTooltip_des');
+    if (!svgEl) return;
+
+    loadGeo(geo => {
+      if (!geo) { if (loadEl) loadEl.textContent = 'No se pudo cargar el mapa.'; return; }
+
+      const features = geo.features.filter(f => HC_KEY_MAP[f.properties['hc-key']]);
+      svgEl.innerHTML = '';
+
+      // Minimal state outlines — geography as scaffold, not subject
+      const outlinesG = document.createElementNS('http://www.w3.org/2000/svg','g');
+      features.forEach(feature => {
+        const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+        path.setAttribute('d', geomToPath(feature.geometry));
+        path.setAttribute('fill', 'rgba(255,255,255,0.02)');
+        path.setAttribute('stroke', 'rgba(255,255,255,0.10)');
+        path.setAttribute('stroke-width', '0.8');
+        outlinesG.appendChild(path);
+      });
+      svgEl.appendChild(outlinesG);
+
+      // Proportional circles from state centroids
+      const MAX_R = 34, MIN_R = 5;
+      const stateCircles = [];
+
+      features.forEach(feature => {
+        const name = HC_KEY_MAP[feature.properties['hc-key']];
+        const val  = lookup[name] || 0;
+        if (!val) return;
+
+        // Centroid: mean of all polygon vertices in SVG space
+        let sumX = 0, sumY = 0, count = 0;
+        const geom = feature.geometry;
+        const rings = geom.type === 'Polygon'
+          ? [geom.coordinates[0]]
+          : geom.coordinates.map(p => p[0]);
+        rings.forEach(ring => {
+          ring.forEach(([x, y]) => {
+            const [sx, sy] = srcToSvg(x, y);
+            sumX += sx; sumY += sy; count++;
+          });
+        });
+        if (!count) return;
+
+        stateCircles.push({
+          name, val,
+          cx: sumX / count,
+          cy: sumY / count,
+          r: MIN_R + Math.sqrt(val / maxVal) * (MAX_R - MIN_R)
+        });
+      });
+
+      // Largest circles first so they sit behind smaller ones
+      stateCircles.sort((a, b) => b.r - a.r);
+
+      const dotsG = document.createElementNS('http://www.w3.org/2000/svg','g');
+      stateCircles.forEach(({ name, val, cx, cy, r }) => {
+        const circle = document.createElementNS('http://www.w3.org/2000/svg','circle');
+        circle.setAttribute('cx', cx);
+        circle.setAttribute('cy', cy);
+        circle.setAttribute('r',  r);
+        circle.setAttribute('fill', 'rgba(192,57,43,0.38)');
+        circle.setAttribute('stroke', '#c0392b');
+        circle.setAttribute('stroke-width', '1');
+        circle.style.cursor = 'pointer';
+
+        circle.addEventListener('mouseenter', () => circle.setAttribute('fill','rgba(192,57,43,0.7)'));
+        circle.addEventListener('mouseleave', () => {
+          circle.setAttribute('fill','rgba(192,57,43,0.38)');
+          if (tip) tip.style.display = 'none';
+        });
+        circle.addEventListener('mousemove', e => {
+          if (!tip) return;
+          tip.style.display = 'block';
+          tip.style.left = (e.clientX + 16) + 'px';
+          tip.style.top  = (e.clientY - 52) + 'px';
+          tip.innerHTML  = `<strong style="font-family:'DM Serif Display',serif;font-size:14px;display:block;margin-bottom:3px;">${name}</strong>${val.toLocaleString('es-MX')} personas desaparecidas`;
+        });
+
+        dotsG.appendChild(circle);
+      });
+
+      svgEl.appendChild(dotsG);
+      svgEl.style.display = 'block';
+      if (loadEl) loadEl.style.display = 'none';
+    });
+  }, 10);
+
+  return html;
+}
+
 function renderMap(ind) {
   // ── Homicidio: national trend first, then state bump chart ──
   if (ind.id === 'homicidio') {
@@ -1891,8 +2102,8 @@ function renderMap(ind) {
     }, 0);
 
     return `
-      <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;color:var(--red);text-transform:uppercase;margin-bottom:6px;">Comparación por estado · 2015–2024</div>
-      <h3 style="font-family:'DM Serif Display',serif;font-size:22px;font-weight:400;color:#f0e8d8;margin-bottom:16px;">Homicidio doloso &middot; tasa por 100,000 hab.</h3>
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;color:var(--red);text-transform:uppercase;margin-bottom:6px;">Tasa por 100,000 hab. · 2015–2024</div>
+      <h3 style="font-family:'DM Serif Display',serif;font-size:22px;font-weight:400;color:#f0e8d8;margin-bottom:16px;">Homicidio: La violencia no desaparece — se mueve.</h3>
       <p style="font-family:'Spectral',serif;font-size:16px;font-style:italic;font-weight:300;color:#888;line-height:1.7;margin-bottom:28px;max-width:600px;padding-left:16px;border-left:2px solid var(--red);">La violencia no es uniforme. Se mueve. Y el Estado la ha dejado moverse.</p>
       <div class="bump-layout-simple">
         <div class="bump-main">
@@ -1904,13 +2115,15 @@ function renderMap(ind) {
           ${listItems}
         </div>
       </div>
-      <p style="margin-top:32px;font-family:var(--mono);font-size:10px;letter-spacing:0.12em;color:#333;text-transform:uppercase;">En 2024, murieron <span style="color:#c0392b;">82 personas por día</span> por homicidio doloso en México.</p>
-      <p style="margin-top:24px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.08em;color:#2a2a2a;line-height:1.7;max-width:600px;">Nota metodológica — Cifras del SESNSP bajo nueva metodología de registro de víctimas (2015–2024). Los datos de 2025 se excluyen por ser parciales. Las tasas por 100,000 habitantes se calculan con proyecciones de población CONAPO. Un mismo evento puede registrar múltiples víctimas.</p>`;
+      <p style="margin-top:32px;font-family:var(--mono);font-size:10px;letter-spacing:0.12em;color:#888;text-transform:uppercase;">En 2024, murieron <span style="color:#c0392b;">82 personas por día</span> por homicidio doloso en México.</p>
+      <p style="margin-top:24px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.08em;color:#666;line-height:1.7;max-width:600px;">Nota metodológica — Cifras del SESNSP bajo nueva metodología de registro de víctimas (2015–2024). Los datos de 2025 se excluyen por ser parciales. Las tasas por 100,000 habitantes se calculan con proyecciones de población CONAPO. Un mismo evento puede registrar múltiples víctimas.</p>`;
   }
 
   // ── Feminicidio: registered vs condenas map ──
   if (ind.id === 'feminicidio') return renderFeminicidioMap(ind);
 
+  // ── Desaparición: dot map (proportional circles over outline) ──
+  if (ind.id === 'desaparicion') return renderDesaparicionMap(ind);
   const states = STATE_DATA[ind.id];
   const rates  = states.map(s => s.rate);
   const min    = Math.min(...rates);
@@ -1945,7 +2158,7 @@ function renderMap(ind) {
     </div>`;
 
   const metNote = ind.id === 'desaparicion' ? `
-    <p style="margin-top:28px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.08em;color:#2a2a2a;line-height:1.7;max-width:640px;">Nota metodológica — Cifras del RNPDNO (Registro Nacional de Personas Desaparecidas y No Localizadas), Comisión Nacional de Búsqueda. Consulta: 10/03/2026. El total acumulado (131,999) refleja únicamente casos formalmente reportados — el subregistro es estructural. Los datos por año corresponden a nuevos casos registrados ese año, independientemente de si fueron localizados posteriormente.</p>` : '';
+    <p style="margin-top:28px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.08em;color:#666;line-height:1.7;max-width:640px;">Nota metodológica — Cifras del RNPDNO (Registro Nacional de Personas Desaparecidas y No Localizadas), Comisión Nacional de Búsqueda. Consulta: 10/03/2026. El total acumulado (131,999) refleja únicamente casos formalmente reportados — el subregistro es estructural. Los datos por año corresponden a nuevos casos registrados ese año, independientemente de si fueron localizados posteriormente.</p>` : '';
 
   setTimeout(() => {
     const svgEl = document.getElementById(`svgMap_${ind.id}`);
@@ -2115,6 +2328,7 @@ function renderTrend(ind, dark=false) {
           if(note) note.style.display=i===data.length-1?'block':'none';
         })(this.value)"
       />
+      <p style="margin-top:6px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.1em;color:#555;text-transform:uppercase;">← Desliza para visualizar nuevos casos y acumulado por año →</p>
       <p id="${uid}_note" style="margin-top:10px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.08em;color:#444;line-height:1.6;">
         Nota — El dato de 2024 puede estar sobrerepresentado: casos recientes aún no resueltos en el sistema aparecen como activos. El número bajará conforme avancen las investigaciones.
       </p>
@@ -2188,10 +2402,10 @@ function setIndicator(id, init = false) {
 
   // Show content sections
   document.getElementById('mapSection').style.display = 'block';
-  // trendSection: hidden for homicidio (trend is embedded in mapSection)
-  document.getElementById('trendSection').style.display = id === 'homicidio' ? 'none' : 'block';
+  // trendSection: hidden for homicidio + desaparicion + feminicidio (trend embedded in mapSection)
+  document.getElementById('trendSection').style.display = (id === 'homicidio' || id === 'desaparicion' || id === 'feminicidio') ? 'none' : 'block';
   document.getElementById('casesSection').style.display = 'block';
-  document.getElementById('transitionZone').style.display = id === 'homicidio' ? 'none' : 'block';
+  document.getElementById('transitionZone').style.display = (id === 'homicidio' || id === 'desaparicion' || id === 'feminicidio') ? 'none' : 'block';
 
   // Update map section text — hide for homicidio (bump chart has its own header)
   const hideMapHeader = id === 'homicidio';
