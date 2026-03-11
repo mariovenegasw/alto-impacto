@@ -1185,39 +1185,42 @@ const STATE_DATA = {
     {name:'Aguascalientes',abbr:'AGS',rate:2000},
     {name:'Morelos',abbr:'MOR',rate:3400},
   ],
+  // Fuente condenas: CNIJE 2025 (INEGI) — hoja 8 (proc. abreviado) + hoja 9 (juicio oral)
+  // Datos año 2024. Suma: abreviado=152, oral=208, total=360. Verificado contra total nacional.
+  // Fuente registered: SESNSP Estatal-Víctimas-2015-2025_ene2026.csv. Total=855.
   feminicidio_condenas: [
-    {name:'Aguascalientes',    abbr:'AGS', registered:7,  condenas:2},
-    {name:'Baja California',   abbr:'BCN', registered:38, condenas:14},
-    {name:'Baja California Sur',abbr:'BCS',registered:9,  condenas:3},
-    {name:'Campeche',          abbr:'CAM', registered:7,  condenas:0},
-    {name:'Chiapas',           abbr:'CHP', registered:35, condenas:8},
-    {name:'Chihuahua',         abbr:'CHI', registered:48, condenas:21},
-    {name:'Ciudad de México',  abbr:'CDM', registered:71, condenas:31},
-    {name:'Coahuila',          abbr:'COA', registered:20, condenas:5},
-    {name:'Colima',            abbr:'COL', registered:6,  condenas:0},
-    {name:'Durango',           abbr:'DUR', registered:11, condenas:3},
-    {name:'Guanajuato',        abbr:'GTO', registered:16, condenas:4},
-    {name:'Guerrero',          abbr:'GRO', registered:23, condenas:0},
-    {name:'Hidalgo',           abbr:'HGO', registered:20, condenas:6},
-    {name:'Jalisco',           abbr:'JAL', registered:39, condenas:18},
-    {name:'Estado de México',  abbr:'MEX', registered:76, condenas:29},
-    {name:'Michoacán',         abbr:'MCH', registered:18, condenas:0},
-    {name:'Morelos',           abbr:'MOR', registered:51, condenas:19},
-    {name:'Nayarit',           abbr:'NAY', registered:11, condenas:2},
-    {name:'Nuevo León',        abbr:'NL',  registered:60, condenas:27},
-    {name:'Oaxaca',            abbr:'OAX', registered:20, condenas:0},
-    {name:'Puebla',            abbr:'PUE', registered:43, condenas:16},
-    {name:'Querétaro',         abbr:'QRO', registered:4,  condenas:2},
-    {name:'Quintana Roo',      abbr:'QR',  registered:13, condenas:4},
-    {name:'San Luis Potosí',   abbr:'SLP', registered:15, condenas:5},
-    {name:'Sinaloa',           abbr:'SIN', registered:28, condenas:9},
-    {name:'Sonora',            abbr:'SON', registered:26, condenas:8},
-    {name:'Tabasco',           abbr:'TAB', registered:29, condenas:0},
-    {name:'Tamaulipas',        abbr:'TAM', registered:27, condenas:7},
-    {name:'Tlaxcala',          abbr:'TLX', registered:14, condenas:4},
-    {name:'Veracruz',          abbr:'VER', registered:55, condenas:22},
-    {name:'Yucatán',           abbr:'YUC', registered:7,  condenas:1},
-    {name:'Zacatecas',         abbr:'ZAC', registered:8,  condenas:0},
+    {name:'Aguascalientes',    abbr:'AGS', registered:7,  condenas:12,  oral:11,  abreviado:1},
+    {name:'Baja California',   abbr:'BCN', registered:38, condenas:9,   oral:7,   abreviado:2},
+    {name:'Baja California Sur',abbr:'BCS',registered:9,  condenas:0,   oral:0,   abreviado:0},
+    {name:'Campeche',          abbr:'CAM', registered:7,  condenas:1,   oral:0,   abreviado:1},
+    {name:'Chiapas',           abbr:'CHP', registered:35, condenas:13,  oral:10,  abreviado:3},
+    {name:'Chihuahua',         abbr:'CHI', registered:48, condenas:46,  oral:22,  abreviado:24},
+    {name:'Ciudad de México',  abbr:'CDM', registered:71, condenas:68,  oral:35,  abreviado:33},
+    {name:'Coahuila',          abbr:'COA', registered:20, condenas:9,   oral:8,   abreviado:1},
+    {name:'Colima',            abbr:'COL', registered:6,  condenas:0,   oral:0,   abreviado:0},
+    {name:'Durango',           abbr:'DUR', registered:11, condenas:10,  oral:0,   abreviado:10},
+    {name:'Guanajuato',        abbr:'GTO', registered:16, condenas:2,   oral:2,   abreviado:0},
+    {name:'Guerrero',          abbr:'GRO', registered:23, condenas:4,   oral:3,   abreviado:1},
+    {name:'Hidalgo',           abbr:'HGO', registered:20, condenas:23,  oral:16,  abreviado:7},
+    {name:'Jalisco',           abbr:'JAL', registered:39, condenas:10,  oral:7,   abreviado:3},
+    {name:'Estado de México',  abbr:'MEX', registered:76, condenas:0,   oral:0,   abreviado:0},
+    {name:'Michoacán',         abbr:'MCH', registered:18, condenas:9,   oral:7,   abreviado:2},
+    {name:'Morelos',           abbr:'MOR', registered:51, condenas:3,   oral:3,   abreviado:0},
+    {name:'Nayarit',           abbr:'NAY', registered:11, condenas:7,   oral:0,   abreviado:7},
+    {name:'Nuevo León',        abbr:'NL',  registered:60, condenas:18,  oral:16,  abreviado:2},
+    {name:'Oaxaca',            abbr:'OAX', registered:20, condenas:0,   oral:0,   abreviado:0},
+    {name:'Puebla',            abbr:'PUE', registered:43, condenas:0,   oral:0,   abreviado:0},
+    {name:'Querétaro',         abbr:'QRO', registered:4,  condenas:7,   oral:1,   abreviado:6},
+    {name:'Quintana Roo',      abbr:'QR',  registered:13, condenas:0,   oral:0,   abreviado:0},
+    {name:'San Luis Potosí',   abbr:'SLP', registered:15, condenas:3,   oral:3,   abreviado:0},
+    {name:'Sinaloa',           abbr:'SIN', registered:28, condenas:26,  oral:9,   abreviado:17},
+    {name:'Sonora',            abbr:'SON', registered:26, condenas:34,  oral:27,  abreviado:7},
+    {name:'Tabasco',           abbr:'TAB', registered:29, condenas:16,  oral:16,  abreviado:0},
+    {name:'Tamaulipas',        abbr:'TAM', registered:27, condenas:0,   oral:0,   abreviado:0},
+    {name:'Tlaxcala',          abbr:'TLX', registered:14, condenas:1,   oral:1,   abreviado:0},
+    {name:'Veracruz',          abbr:'VER', registered:55, condenas:0,   oral:0,   abreviado:0},
+    {name:'Yucatán',           abbr:'YUC', registered:7,  condenas:5,   oral:4,   abreviado:1},
+    {name:'Zacatecas',         abbr:'ZAC', registered:8,  condenas:24,  oral:0,   abreviado:24},
   ],
 };
 
@@ -1862,7 +1865,7 @@ function renderFeminicidioMap(ind) {
 
     <div style="margin-top:32px;padding-top:28px;border-top:1px solid var(--border-dark);">
       <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:16px;">
-        <span style="font-family:'DM Serif Display',serif;font-size:40px;color:#e8e0d0;line-height:1;">7</span>
+        <span style="font-family:'DM Serif Display',serif;font-size:40px;color:#e8e0d0;line-height:1;">${zeroCount}</span>
         <span style="font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#666;line-height:1.6;">estados con<br>cero condenas en 2024</span>
       </div>
       <div style="border:1px solid var(--border-dark);">
@@ -1871,13 +1874,10 @@ function renderFeminicidioMap(ind) {
           <span style="font-family:var(--mono);font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:#555;text-align:right;">Registradas</span>
           <span style="font-family:var(--mono);font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:#555;text-align:right;">Condenas</span>
         </div>
-        ${[
-          ['Tabasco','29'],['Guerrero','23'],['Oaxaca','20'],['Michoacán','18'],
-          ['Zacatecas','8'],['Campeche','7'],['Colima','6']
-        ].map(([name,reg]) => `
+        ${data.filter(s => s.condenas === 0).sort((a,b) => b.registered - a.registered).map(s => `
         <div style="display:grid;grid-template-columns:1fr 80px 80px;padding:13px 20px;border-bottom:1px solid var(--border-dark);background:var(--dark-2);">
-          <span style="font-family:'Spectral',serif;font-size:14px;color:#e8e0d0;">${name}</span>
-          <span style="font-family:var(--mono);font-size:13px;color:var(--red);text-align:right;">${reg}</span>
+          <span style="font-family:'Spectral',serif;font-size:14px;color:#e8e0d0;">${s.name}</span>
+          <span style="font-family:var(--mono);font-size:13px;color:var(--red);text-align:right;">${s.registered}</span>
           <span style="font-family:var(--mono);font-size:11px;color:#333;text-align:right;">0</span>
         </div>`).join('')}
       </div>
