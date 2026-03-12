@@ -916,13 +916,13 @@ const INDICATORS = [
     heroHeadline: '<em>131,999 personas</em><br>siguen sin ser encontradas.',
     heroBody: 'Desde 1964, el RNPDNO registra 131,999 personas desaparecidas y no localizadas. En 2024 se reportaron 12,772 nuevos casos — el año con más desapariciones de la historia. La curva nunca baja.',
     mapEyebrow: 'Desaparición · Acumulado histórico por estado · RNPDNO',
-    mapTitle: 'El país de los desaparecidos',
+    mapTitle: 'Personas desaparecidas: No son una cifra.',
     mapSub: 'Total histórico de personas desaparecidas y no localizadas por estado. Estado de México (14,683), Tamaulipas (13,680) y Jalisco (12,566) concentran más de un tercio del total nacional.',
     mapFraming: '«El Estado no sabe cuántos son. Y los que sí sabe, no los ha encontrado.»',
     mapHighlightValue: '131,999',
     mapHighlightLabel: 'Personas aún desaparecidas',
     mapHighlightContext: 'Total acumulado histórico según el RNPDNO al 10 de marzo de 2026. 77.9% son hombres; 21.8% mujeres. Esta cifra solo refleja casos formalmente reportados — el subregistro es estructural.',
-    trendTitle: 'La curva que no baja',
+    trendTitle: 'Cada año, más. Sin excepción.',
     trendSub: 'Casos nuevos registrados cada año. La curva nunca baja. Cada gobierno, cada sexenio, cada estrategia de seguridad — y el número sigue subiendo.',
     trendSource: 'RNPDNO · Comisión Nacional de Búsqueda · Consulta: 10/03/2026',
     trendData: [4189,5169,4203,4568,4575,4139,5537,6915,6821,8329,7841,7910,8129,10320,12772],
@@ -1950,9 +1950,7 @@ function renderDesaparicionMap(ind) {
   const trendBlock = renderTrend(ind, true);
 
   const html = `
-    ${trendBlock}
-
-    <div style="margin-top:52px;padding-top:40px;border-top:1px solid var(--border-dark);">
+    <div>
       <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;color:var(--red);text-transform:uppercase;margin-bottom:10px;">Total acumulado · RNPDNO</div>
       <div style="margin-bottom:28px;">
         <div style="font-family:'DM Serif Display',serif;font-size:52px;color:var(--red);line-height:1;margin-bottom:6px;">131,999</div>
@@ -1986,6 +1984,10 @@ function renderDesaparicionMap(ind) {
         <a href="https://consultapublicarnpdno.segob.gob.mx/consulta" target="_blank" rel="noopener"
            style="color:#c0392b;text-decoration:none;border-bottom:1px solid rgba(192,57,43,0.35);">Consulta el registro público</a>
       </p>
+    </div>
+
+    <div style="margin-top:52px;padding-top:40px;border-top:1px solid var(--border-dark);">
+      ${trendBlock}
       <p style="margin-top:16px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.08em;color:#666;line-height:1.7;max-width:640px;">Nota metodológica — Cifras del RNPDNO, Comisión Nacional de Búsqueda. Consulta: 10/03/2026. El total acumulado (131,999) refleja únicamente casos formalmente reportados — el subregistro es estructural.</p>
     </div>`;
 
@@ -2342,6 +2344,7 @@ function renderTrend(ind, dark=false) {
     <div class="chart-wrap" style="background:${_bg};border-color:${_border};">
       <div class="chart-meta">
         <div>
+          ${hasScrubber ? `<div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--red);text-transform:uppercase;margin-bottom:8px;">Nuevos casos · RNPDNO · 2010–2024</div>` : ''}
           <div class="chart-title" style="color:${_title};">${ind.trendTitle}</div>
         </div>
         <div class="chart-source" style="color:${_src};">${ind.trendSource}</div>
