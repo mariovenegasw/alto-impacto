@@ -882,7 +882,7 @@ const INDICATORS = [
     heroEm: 'dos mujeres son asesinadas por el hecho de ser mujeres.',
     heroHeadline: 'En México, <em>cada día</em>',
     heroBody: '855 feminicidios fueron registrados en 2024. El pico fue 2021 con 1,021 víctimas. La cifra real es mayor — la definición legal se aplica de forma inconsistente entre estados, y muchos casos se clasifican como homicidio simple.',
-    mapEyebrow: 'Feminicidio · Víctimas por estado · 2024',
+    mapEyebrow: 'Víctimas por estado · 2024',
     mapTitle: 'Feminicidio, dos sistemas que nunca se cruzan',
     mapSub: '',
     mapFraming: '«La inconsistencia en la definición legal entre estados hace que el mapa muestre tanto violencia real como subregistro institucional.»',
@@ -915,7 +915,7 @@ const INDICATORS = [
     heroEm: '35 personas desaparecen cada día.',
     heroHeadline: '<em>131,999 personas</em><br>siguen sin ser encontradas.',
     heroBody: 'Desde 1964, el RNPDNO registra 131,999 personas desaparecidas y no localizadas. En 2024 se reportaron 12,772 nuevos casos — el año con más desapariciones de la historia. La curva nunca baja.',
-    mapEyebrow: 'Desaparición · Acumulado histórico por estado · RNPDNO',
+    mapEyebrow: 'Acumulado histórico · RNPDNO · al 10/03/2026',
     mapTitle: 'Personas desaparecidas: No son una cifra.',
     mapSub: 'Total histórico de personas desaparecidas y no localizadas por estado. Estado de México (14,683), Tamaulipas (13,680) y Jalisco (12,566) concentran más de un tercio del total nacional.',
     mapFraming: '«El Estado no sabe cuántos son. Y los que sí sabe, no los ha encontrado.»',
@@ -1951,14 +1951,13 @@ function renderDesaparicionMap(ind) {
 
   const html = `
     <div>
-      <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;color:var(--red);text-transform:uppercase;margin-bottom:10px;">Total acumulado · RNPDNO</div>
       <div style="margin-bottom:28px;">
         <div style="font-family:'DM Serif Display',serif;font-size:52px;color:var(--red);line-height:1;margin-bottom:6px;">131,999</div>
-        <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.12em;color:#666;text-transform:uppercase;margin-bottom:12px;">personas desaparecidas y no localizadas · al 10/03/2026</div>
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.12em;color:#666;text-transform:uppercase;margin-bottom:16px;">personas desaparecidas y no localizadas · 32 estados</div>
+        <blockquote style="font-family:'Spectral',serif;font-size:15px;font-style:italic;font-weight:300;color:#888;line-height:1.7;border-left:2px solid var(--red);padding-left:14px;margin-bottom:20px;">El Estado lleva la cuenta. No las encuentra.</blockquote>
         <p style="font-family:'Spectral',serif;font-size:13px;font-weight:300;color:#555;line-height:1.6;max-width:600px;">${ind.mapSub}</p>
       </div>
-      
-      <div class="map-layout">
+
       <div class="map-layout">
         <div class="svg-map-wrap" style="position:relative;">
           <div class="map-loading" id="mapLoading_desaparicion">Cargando mapa…</div>
@@ -2410,11 +2409,14 @@ function setIndicator(id, init = false) {
   document.getElementById('casesSection').style.display = 'block';
   document.getElementById('transitionZone').style.display = (id === 'homicidio' || id === 'desaparicion' || id === 'feminicidio') ? 'none' : 'block';
 
-  // Update map section text — hide for homicidio (bump chart has its own header)
-  const hideMapHeader = id === 'homicidio';
-  document.getElementById('mapEyebrow').style.display = hideMapHeader ? 'none' : '';
-  document.getElementById('mapTitle').style.display   = hideMapHeader ? 'none' : '';
-  document.getElementById('mapSub').style.display     = hideMapHeader ? 'none' : '';
+  // Update map section text
+  // homicidio: hide all (bump chart has its own header)
+  // desaparicion: hide eyebrow + mapSub, but keep mapTitle
+  const hideAll     = id === 'homicidio';
+  const hidePartial = id === 'desaparicion';
+  document.getElementById('mapEyebrow').style.display = hideAll ? 'none' : '';
+  document.getElementById('mapTitle').style.display   = hideAll ? 'none' : '';
+  document.getElementById('mapSub').style.display     = (hideAll || hidePartial) ? 'none' : '';
   document.getElementById('mapEyebrow').textContent = ind.mapEyebrow;
   document.getElementById('mapTitle').textContent = ind.mapTitle;
   document.getElementById('mapSub').textContent = ind.mapSub;
