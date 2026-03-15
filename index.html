@@ -949,30 +949,38 @@ const INDICATORS = [
     heroGhost: '1/14h',
     heroEm: 'un periodista es agredido en México.',
     heroHeadline: 'Cada 14 horas,',
-    heroBody: 'En 2024, Artículo 19 documentó 639 agresiones contra periodistas — un incremento del 13.9% respecto al año anterior. Cinco periodistas fueron asesinados. México es el país más peligroso del mundo para ejercer el periodismo fuera de zonas de guerra.',
-    mapEyebrow: 'Agresiones a periodistas · Por estado · 2024',
-    mapTitle: 'Periodismo bajo fuego',
-    mapSub: 'Agresiones documentadas por Artículo 19 por estado en 2024. Ciudad de México concentra el mayor número absoluto; Guerrero, Veracruz y Tamaulipas tienen las tasas más altas relativas a su población periodística.',
-    mapFraming: '«México es el país más peligroso del mundo para el periodismo fuera de zonas de guerra activa. — Artículo 19»',
+    heroBody: 'En 2024, Artículo 19 documentó 639 agresiones contra periodistas — un incremento del 13.9% respecto al año anterior. Cinco periodistas fueron asesinados. México es el tercer país más letal del mundo para ejercer el periodismo, según el CPJ.',
+    mapEyebrow: 'Agresiones documentadas · Artículo 19 · 2024',
+    mapTitle: 'Violencia contra periodistas: ¿Por qué callan a quienes informan?',
+    mapSub: '',
+    mapFraming: '',
     mapHighlightValue: '639',
     mapHighlightLabel: 'Agresiones en 2024',
-    mapHighlightContext: 'Un ataque cada 14 horas. 5 periodistas asesinados. 47% de las agresiones provienen de funcionarios públicos.',
-    trendTitle: 'Agresiones a periodistas, 2010–2024',
-    trendSub: '47% de las agresiones documentadas en 2024 provienen de funcionarios públicos — no de grupos criminales. El Estado es el principal agresor.',
-    trendSource: 'Artículo 19 · Informe anual (2024)',
-    trendData: [207,218,259,330,326,392,426,507,489,565,544,612,588,561,639],
+    mapHighlightContext: '',
+    trendTitle: 'Agresiones documentadas contra la prensa, 2010–2024',
+    trendSub: 'Agresiones documentadas por Artículo 19, 2010–2024. El pico fue 2022 con 696 — el año más violento desde que existe el registro.',
+    trendSource: 'Artículo 19 · Informes anuales 2010–2024',
+    trendData: [162,172,207,330,326,397,426,507,544,609,692,644,696,561,639],
     trendYears: Array.from({length:15},(_,i)=>2010+i),
     trendAnnotations: [
-      {year:2017, label:'507 — primer\nrecord'},
-      {year:2024, label:'639 — máximo\nhistórico'},
+      {year:2022, label:'696 — máximo\nhistórico'},
+      {year:2024, label:'639'},
     ],
-    casesEyebrow: 'Periodistas · Casos documentados',
-    casesTitle: 'Los silencios que el crimen impone',
-    casesSub: 'Periodistas asesinados y casos que ejemplifican la crisis de libertad de prensa.',
+    // Tipos de agresión — Tabla 2, Informe 2024
+    tiposAgresion: [
+      { grupo: 'Silencio sistemático', total: 394, desc: 'Intimidación, amenaza, bloqueo y remoción de contenido', pct: 61.7 },
+      { grupo: 'Poder público', total: 99, desc: 'Uso ilegítimo del poder del Estado', pct: 15.5 },
+      { grupo: 'Violencia física', total: 89, desc: 'Ataque físico, detención, tortura, desplazamiento', pct: 13.9 },
+      { grupo: 'Violencia digital', total: 32, desc: 'Acceso ilícito, DOS/DDOS, vigilancia ilegal', pct: 5.0 },
+      { grupo: 'Extrema', total: 6, desc: 'Asesinato (5) y desaparición (1)', pct: 0.9 },
+    ],
+    casesEyebrow: 'Periodistas · Casos que nombraron la crisis',
+    casesTitle: 'Los que decidieron no callar',
+    casesSub: 'Periodistas asesinados cuyo trabajo sigue siendo la razón por la que los mataron.',
     cases: [
-      { year:'2022', name:'Asesinato de 11 periodistas en un año', desc:'2022 fue el año más letal para la prensa en México desde que existen registros. Once periodistas fueron asesinados, varios de ellos cubriendo crimen organizado en estados como Veracruz, Guerrero y Oaxaca.', tag:'Nacional · 11 asesinados' },
-      { year:'2017', name:'Javier Valdez — Ríodoce', desc:'El periodista sinaloense fue asesinado a plena luz del día en Culiacán, meses después de publicar su libro sobre el Cártel de Sinaloa. Su muerte se convirtió en símbolo de la violencia contra la prensa.', tag:'Sinaloa · Crimen organizado' },
-      { year:'2019', name:'Miroslava Breach — El Norte', desc:'Corresponsal asesinada en 2017 en Chihuahua, pero cuyo caso fue sentenciado en 2019. Primer caso en México donde se vinculó directamente a un político local con el asesinato de una periodista.', tag:'Chihuahua · Impunidad rota' },
+      { year:'2017', name:'Javier Valdez — Ríodoce', desc:'Asesinado a plena luz del día en Culiacán, meses después de publicar su libro sobre el Cártel de Sinaloa. Fundador de Ríodoce, uno de los medios independientes más importantes del norte. Su caso sigue impune en lo que respecta a los autores intelectuales.', tag:'Sinaloa · Impunidad' },
+      { year:'2017', name:'Miroslava Breach — El Norte', desc:'Corresponsal asesinada en Chihuahua. Primer caso en México donde se vinculó directamente a un político local con el asesinato de una periodista. Cubría narcopolítica y crimen organizado en la sierra chihuahuense.', tag:'Chihuahua · Estado-Crimen' },
+      { year:'2022', name:'2022 — el año más letal', desc:'12 periodistas asesinados en un solo año — el máximo histórico. Varios cubrían corrupción y política local en Veracruz, Guerrero y Oaxaca. El Estado mexicano fue señalado como principal agresor en casi la mitad de los casos.', tag:'Nacional · Récord histórico' },
     ]
   },
   {
@@ -1941,6 +1949,129 @@ function drawFemSvgMap(lookup, isCondenas, maxVal) {
   });
 }
 
+function renderPeriodistasMap(ind) {
+  const trendBlock = renderTrend(ind, true);
+
+  // ── Donut SVG — ¿Quién agrede? ──
+  // Estado: 287 (44.91%), Crimen organizado: 65 (10.2%), Particulares: 100 (15.6%), No identificado: 187 (29.3%)
+  const donutData = [
+    { label: 'Estado', value: 287, pct: 44.91, color: '#c0392b' },
+    { label: 'Particulares', value: 100, pct: 15.6, color: '#7b1a12' },
+    { label: 'Crimen organizado', value: 65, pct: 10.2, color: '#4a0e08' },
+    { label: 'No identificado', value: 187, pct: 29.3, color: '#2a2a2a' },
+  ];
+  const cx = 120, cy = 120, r = 90, innerR = 54;
+  let startAngle = -Math.PI / 2;
+  let paths = '';
+  donutData.forEach(seg => {
+    const angle = (seg.pct / 100) * 2 * Math.PI;
+    const endAngle = startAngle + angle;
+    const x1 = cx + r * Math.cos(startAngle), y1 = cy + r * Math.sin(startAngle);
+    const x2 = cx + r * Math.cos(endAngle),   y2 = cy + r * Math.sin(endAngle);
+    const ix1 = cx + innerR * Math.cos(endAngle),   iy1 = cy + innerR * Math.sin(endAngle);
+    const ix2 = cx + innerR * Math.cos(startAngle), iy2 = cy + innerR * Math.sin(startAngle);
+    const large = angle > Math.PI ? 1 : 0;
+    paths += `<path d="M ${x1} ${y1} A ${r} ${r} 0 ${large} 1 ${x2} ${y2} L ${ix1} ${iy1} A ${innerR} ${innerR} 0 ${large} 0 ${ix2} ${iy2} Z" fill="${seg.color}" stroke="#0d0d0d" stroke-width="1.5"/>`;
+    startAngle = endAngle;
+  });
+
+  // Funnel steps
+  const funnelSteps = [
+    { label: 'Agresiones documentadas', value: 639, pct: 100 },
+    { label: 'Con denuncia ante fiscalía', value: 213, pct: 33 },
+    { label: 'Investigadas por FEADLE', value: 84, pct: 13 },
+    { label: 'Con avance real', value: 13, pct: 2 },
+  ];
+  const funnelHTML = funnelSteps.map((s, i) => {
+    const isFirst = i === 0;
+    const barContent = isFirst
+      ? `<div style="width:100%;height:38px;background:rgba(192,57,43,0.4);display:flex;align-items:center;padding-left:12px;justify-content:space-between;padding-right:16px;">
+          <span style="font-family:'DM Serif Display',serif;font-size:16px;color:#f0e8d8;">${s.value.toLocaleString()}</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.1em;color:rgba(240,232,216,0.5);text-transform:uppercase;">${s.label}</span>
+        </div>`
+      : `<div style="display:flex;align-items:center;gap:14px;">
+          <div style="width:${Math.max(10, s.pct)}%;min-width:8px;height:38px;background:${i === funnelSteps.length-1 ? 'var(--red)' : 'rgba(192,57,43,0.2)'};display:flex;align-items:center;padding-left:12px;flex-shrink:0;">
+            <span style="font-family:'DM Serif Display',serif;font-size:16px;color:#f0e8d8;white-space:nowrap;">${s.value.toLocaleString()}</span>
+          </div>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.1em;color:#555;text-transform:uppercase;">${s.label}</span>
+        </div>`;
+    return `
+    <div style="margin-bottom:${i < funnelSteps.length-1 ? '6px' : '0'};">
+      ${barContent}
+      ${i < funnelSteps.length-1 ? '<div style="font-family:IBM Plex Mono,monospace;font-size:10px;color:#2a2a2a;padding-left:2px;margin-top:2px;">↓</div>' : ''}
+    </div>`;
+  }).join('');
+
+  return `
+    <div>
+      <!-- Stats de entrada -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-bottom:36px;border:1px solid var(--border-dark);">
+        <div style="padding:24px;border-right:1px solid var(--border-dark);">
+          <div style="font-family:'DM Serif Display',serif;font-size:48px;color:var(--red);line-height:1;margin-bottom:4px;">639</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:0.15em;color:#555;text-transform:uppercase;">Agresiones documentadas · 2024</div>
+        </div>
+        <div style="padding:24px;border-right:1px solid var(--border-dark);">
+          <div style="font-family:'DM Serif Display',serif;font-size:48px;color:var(--red);line-height:1;margin-bottom:4px;">45%</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:0.15em;color:#555;text-transform:uppercase;">Perpetradas por el Estado</div>
+        </div>
+        <div style="padding:24px;">
+          <div style="font-family:'DM Serif Display',serif;font-size:48px;color:var(--red);line-height:1;margin-bottom:4px;">3°</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:0.15em;color:#555;text-transform:uppercase;">País más letal del mundo · CPJ 2024</div>
+        </div>
+      </div>
+
+      <blockquote style="font-family:'Spectral',serif;font-size:15px;font-style:italic;font-weight:300;color:#888;line-height:1.7;border-left:2px solid var(--red);padding-left:14px;margin-bottom:36px;max-width:600px;">En México, el principal agresor de la prensa no es el crimen organizado. Es el Estado.</blockquote>
+
+      <!-- Donut + Embudo (sin división fuerte entre ellos) -->
+      <div style="background:var(--dark-3);border:1px solid var(--border-dark);padding:32px;margin-bottom:36px;">
+
+        <!-- Donut -->
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--red);text-transform:uppercase;margin-bottom:8px;">¿Quién agrede? · Artículo 19 · 2024</div>
+        <div style="font-family:'DM Serif Display',serif;font-size:20px;color:#f0e8d8;margin-bottom:20px;line-height:1.2;">El Estado mexicano es el principal agresor de la prensa.</div>
+        <div style="display:flex;align-items:center;gap:32px;flex-wrap:wrap;margin-bottom:32px;">
+          <svg viewBox="0 0 240 240" width="180" height="180" style="flex-shrink:0;">
+            ${paths}
+            <text x="${cx}" y="${cy - 8}" text-anchor="middle" font-family="DM Serif Display,serif" font-size="28" fill="#c0392b">45%</text>
+            <text x="${cx}" y="${cy + 14}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="9" fill="#666" letter-spacing="1">ESTADO</text>
+          </svg>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            ${donutData.map(s => `
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div style="width:12px;height:12px;background:${s.color};flex-shrink:0;"></div>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#888;">${s.label}</span>
+                <span style="font-family:'DM Serif Display',serif;font-size:16px;color:#f0e8d8;margin-left:auto;padding-left:16px;">${s.value} <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:#555;">(${s.pct}%)</span></span>
+              </div>`).join('')}
+            <p style="margin-top:8px;font-family:'Spectral',serif;font-size:12px;font-weight:300;color:#555;line-height:1.6;font-style:italic;">Las principales formas: intimidación y hostigamiento (195), uso ilegítimo del poder público (99), amenazas (90), bloqueo de contenido (91). · Fuente: Tabla 2, Informe 2024</p>
+          </div>
+        </div>
+
+        <!-- Separador sutil -->
+        <div style="height:1px;background:rgba(255,255,255,0.05);margin-bottom:28px;"></div>
+
+        <!-- Embudo -->
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--red);text-transform:uppercase;margin-bottom:8px;">Impunidad · FEADLE · 2024</div>
+        <div style="font-family:'DM Serif Display',serif;font-size:20px;color:#f0e8d8;margin-bottom:20px;line-height:1.2;">De 639 agresiones, solo 13 llegaron a tener avance real.</div>
+        ${funnelHTML}
+        <p style="margin-top:16px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.08em;color:#444;line-height:1.7;">La FEADLE opera con $18.6 millones de pesos anuales — menos del 0.1% del presupuesto total de la FGR. · Fuente: Artículo 19 · Informe 2024</p>
+      </div>
+
+      <!-- Tendencia histórica -->
+      <div style="margin-bottom:32px;">
+        ${trendBlock}
+      </div>
+
+      <!-- Enlace a Artículo 19 -->
+      <div style="border:1px solid var(--border-dark);padding:24px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.15em;color:var(--red);text-transform:uppercase;margin-bottom:6px;">176 periodistas asesinados desde 2000</div>
+          <div style="font-family:'Spectral',serif;font-size:14px;font-style:italic;color:#888;font-weight:300;line-height:1.6;">Artículo 19 los nombra a todos. Tienen fecha, estado, medio. No son una estadística.</div>
+        </div>
+        <a href="https://articulo19.org/periodistasasesinados/" target="_blank" rel="noopener"
+           style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--red);text-decoration:none;border:1px solid rgba(192,57,43,0.4);padding:10px 18px;white-space:nowrap;flex-shrink:0;">Ver los nombres →</a>
+      </div>
+    </div>`;
+}
+
 function renderDesaparicionMap(ind) {
   const lookup = {};
   STATE_DATA['desaparicion'].forEach(s => { lookup[s.name] = s.rate; });
@@ -2125,6 +2256,9 @@ function renderMap(ind) {
 
   // ── Desaparición: dot map (proportional circles over outline) ──
   if (ind.id === 'desaparicion') return renderDesaparicionMap(ind);
+
+  // ── Periodistas: custom visualizations ──
+  if (ind.id === 'periodistas') return renderPeriodistasMap(ind);
   const states = STATE_DATA[ind.id];
   const rates  = states.map(s => s.rate);
   const min    = Math.min(...rates);
@@ -2278,8 +2412,10 @@ function renderTrend(ind, dark=false) {
 
   // ── Scrubber (desaparicion only) ──
   const hasScrubber = ind.id === 'desaparicion';
+  const hasHover    = ind.id === 'periodistas';
+  const isDesaparicion = ind.id === 'desaparicion';
   const cumulative = [];
-  if (hasScrubber) {
+  if (isDesaparicion) {
     let sum = 0;
     data.forEach(v => { sum += v; cumulative.push(sum); });
   }
@@ -2294,12 +2430,12 @@ function renderTrend(ind, dark=false) {
         <div style="display:flex;gap:24px;align-items:baseline;">
           <div>
             <div id="${uid}_new" style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#c0392b;line-height:1;">${data[data.length-1].toLocaleString()}</div>
-            <div style="font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:0.1em;color:${_tick};text-transform:uppercase;margin-top:3px;">Nuevos ese año</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:0.1em;color:${_tick};text-transform:uppercase;margin-top:3px;">${isDesaparicion ? 'Nuevos ese año' : 'Agresiones ese año'}</div>
           </div>
-          <div>
+          ${isDesaparicion ? `<div>
             <div id="${uid}_cum" style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:${_title};line-height:1;">${cumulative[cumulative.length-1].toLocaleString()}</div>
             <div style="font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:0.1em;color:${_tick};text-transform:uppercase;margin-top:3px;">Acumulado desde 2010</div>
-          </div>
+          </div>` : ''}
         </div>
       </div>
       <input type="range" id="${uid}_scrub"
@@ -2308,12 +2444,12 @@ function renderTrend(ind, dark=false) {
         oninput="(function(v){
           const data=${JSON.stringify(data)};
           const years=${JSON.stringify(years)};
-          const cum=${JSON.stringify(cumulative)};
+          const cum=${JSON.stringify(isDesaparicion ? cumulative : [])};
           const xPos=${JSON.stringify(xPositions)};
           const i=parseInt(v);
           document.getElementById('${uid}_year').textContent=years[i];
           document.getElementById('${uid}_new').textContent=data[i].toLocaleString('es-MX');
-          document.getElementById('${uid}_cum').textContent=cum[i].toLocaleString('es-MX');
+          ${isDesaparicion ? `const cumEl=document.getElementById('${uid}_cum'); if(cumEl) cumEl.textContent=cum[i].toLocaleString('es-MX');` : ''}
           const mk=document.getElementById('${uid}_marker');
           if(mk){ mk.setAttribute('x1',xPos[i]); mk.setAttribute('x2',xPos[i]); }
           const dot=document.getElementById('${uid}_dot');
@@ -2329,15 +2465,35 @@ function renderTrend(ind, dark=false) {
           if(note) note.style.display=i===data.length-1?'block':'none';
         })(this.value)"
       />
-      <p style="margin-top:6px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.1em;color:#555;text-transform:uppercase;">← Desliza para visualizar nuevos casos y acumulado por año →</p>
-      <p id="${uid}_note" style="margin-top:10px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.08em;color:#444;line-height:1.6;">
+      <p style="margin-top:6px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.1em;color:#555;text-transform:uppercase;">← Desliza para explorar año por año →</p>
+      ${isDesaparicion ? `<p id="${uid}_note" style="margin-top:10px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.08em;color:#444;line-height:1.6;">
         Nota — El dato de 2024 puede estar sobrerepresentado: casos recientes aún no resueltos en el sistema aparecen como activos. El número bajará conforme avancen las investigaciones.
-      </p>
+      </p>` : ''}
     </div>` : '';
 
   const markerHTML = hasScrubber ? `
     <line id="${uid}_marker" x1="${xPositions[xPositions.length-1]}" y1="${padT}" x2="${xPositions[xPositions.length-1]}" y2="${padT+H-padT-padB}" stroke="rgba(192,57,43,0.5)" stroke-width="1.5" stroke-dasharray="4,3"/>
     <circle id="${uid}_dot" cx="${xPositions[xPositions.length-1]}" cy="${yScale(data[data.length-1])}" r="5" fill="#c0392b" stroke="${_bg}" stroke-width="2"/>` : '';
+
+  // Hover dots for periodistas — clickable points on each year
+  const hoverDotsHTML = hasHover ? data.map((v, i) => {
+    const x = xPositions[i], y = Math.round(yScale(v));
+    return `<circle class="${uid}_hdot" cx="${x}" cy="${y}" r="5" fill="#c0392b" stroke="${_bg}" stroke-width="2" style="cursor:pointer;opacity:${i === data.length-1 ? 1 : 0.3};"
+      onmouseover="(function(){
+        document.querySelectorAll('.${uid}_hdot').forEach(d=>d.style.opacity='0.3');
+        this.style.opacity='1';
+        const tip=document.getElementById('${uid}_tip');
+        if(tip){tip.style.display='block';tip.innerHTML='<span style=\\'font-family:DM Serif Display,serif;font-size:22px;color:#c0392b;\\'>${years[i]}</span>&nbsp;&nbsp;<span style=\\'font-family:IBM Plex Mono,monospace;font-size:13px;color:#f0e8d8;\\'>${v.toLocaleString()}</span><span style=\\'font-family:IBM Plex Mono,monospace;font-size:9px;color:#555;margin-left:6px;\\'>agresiones</span>';}
+      }).call(this)"
+      onmouseout="(function(){
+        document.querySelectorAll('.${uid}_hdot').forEach((d,idx)=>d.style.opacity=idx===${data.length-1}?'1':'0.3');
+        const tip=document.getElementById('${uid}_tip'); if(tip) tip.style.display='none';
+      }).call(this)"
+    />`;
+  }).join('') : '';
+
+  const hoverTipHTML = hasHover ? `
+    <div id="${uid}_tip" style="display:none;margin-top:12px;padding:10px 16px;background:var(--dark-3);border:1px solid var(--border-dark);"></div>` : '';
 
   return `
     <div class="chart-wrap" style="background:${_bg};border-color:${_border};">
@@ -2361,7 +2517,9 @@ function renderTrend(ind, dark=false) {
         <path d="${lPath}" fill="none" stroke="#c0392b" stroke-width="2.5"/>
         ${annoHTML}
         ${markerHTML}
+        ${hoverDotsHTML}
       </svg>
+      ${hoverTipHTML}
       ${scrubberHTML}
     </div>`;
 }
@@ -2405,15 +2563,15 @@ function setIndicator(id, init = false) {
   // Show content sections
   document.getElementById('mapSection').style.display = 'block';
   // trendSection: hidden for homicidio + desaparicion + feminicidio (trend embedded in mapSection)
-  document.getElementById('trendSection').style.display = (id === 'homicidio' || id === 'desaparicion' || id === 'feminicidio') ? 'none' : 'block';
+  document.getElementById('trendSection').style.display = (id === 'homicidio' || id === 'desaparicion' || id === 'feminicidio' || id === 'periodistas') ? 'none' : 'block';
   document.getElementById('casesSection').style.display = 'block';
-  document.getElementById('transitionZone').style.display = (id === 'homicidio' || id === 'desaparicion' || id === 'feminicidio') ? 'none' : 'block';
+  document.getElementById('transitionZone').style.display = (id === 'homicidio' || id === 'desaparicion' || id === 'feminicidio' || id === 'periodistas') ? 'none' : 'block';
 
   // Update map section text
   // homicidio: hide all (bump chart has its own header)
-  // desaparicion: hide eyebrow + mapSub, but keep mapTitle
+  // desaparicion + periodistas: hide mapSub, keep eyebrow + title
   const hideAll     = id === 'homicidio';
-  const hidePartial = id === 'desaparicion';
+  const hidePartial = (id === 'desaparicion' || id === 'periodistas');
   document.getElementById('mapEyebrow').style.display = hideAll ? 'none' : '';
   document.getElementById('mapTitle').style.display   = hideAll ? 'none' : '';
   document.getElementById('mapSub').style.display     = (hideAll || hidePartial) ? 'none' : '';
