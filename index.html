@@ -826,11 +826,11 @@
 
 
 <footer class="site-footer">
-  <span>Alto Impacto · Prototipo interactivo</span>
-  <span>Datos: SESNSP · RNPDNO · Artículo 19 · ENVIPE (INEGI)</span>
+  <span>Alto Impacto · mariovenegasw.github.io/alto-impacto</span>
+  <span>Datos: SESNSP · RNPDNO · Artículo 19 · ENVIPE (INEGI) · Actualizado: marzo 2026</span>
 </footer>
 
-<div class="proto-badge">Prototype · Sample data</div>
+
 <div id="mapTooltip" class="map-tooltip"></div>
 <div id="bumpTooltip" style="display:none;min-height:48px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#e8e0d0;line-height:1.5;padding:12px 0 4px 0;border-top:1px solid rgba(255,255,255,0.06);margin-bottom:8px;"></div>
 
@@ -985,35 +985,57 @@ const INDICATORS = [
   },
   {
     id: 'extorsion',
-    navNum: '97.9%',
+    navNum: '4.9M',
     navLabel: 'Extorsión',
-    heroGhost: '98%',
-    heroEm: 'nunca llegan a una investigación.',
-    heroHeadline: 'De cada 100 extorsiones,<br><em>98</em>',
-    heroBody: 'La extorsión tiene la cifra negra más alta de todos los delitos en México: 97.9% de los casos no son investigados. No porque no ocurran — sino porque las víctimas no denuncian por miedo, desconfianza o certeza de que no servirá de nada.',
-    mapEyebrow: 'Extorsión · Tasa de victimización por estado',
-    mapTitle: 'Lo que no se denuncia',
-    mapSub: 'Tasa de victimización por extorsión por cada 100,000 habitantes según ENVIPE. Esta encuesta captura lo que las estadísticas oficiales no ven — porque pregunta directamente a los hogares.',
-    mapFraming: '«La cifra negra de la extorsión es del 97.9%. Solo 2 de cada 100 víctimas presentan denuncia. Solo 2 de cada 100 casos llegan a una investigación.»',
-    mapHighlightValue: '97.9%',
-    mapHighlightLabel: 'Cifra negra · Extorsión',
-    mapHighlightContext: 'La más alta de todos los delitos graves. Refleja no solo miedo a represalias, sino desconfianza total en las instituciones.',
-    trendTitle: 'Cifra negra de la extorsión, 2013–2023',
-    trendSub: 'La cifra negra mide qué porcentaje de delitos no llega a denuncia. Para la extorsión, nunca ha bajado del 95%. El dato viene de encuestas directas a hogares, no de reportes policiales.',
-    trendSource: 'ENVIPE · INEGI (2013–2023)',
-    trendData: [98.1,98.0,97.6,97.9,97.5,97.8,97.5,97.9,97.7,98.1,97.9],
-    trendYears: Array.from({length:11},(_,i)=>2013+i),
+    heroGhost: '97%',
+    heroEm: 'probablemente te ha pasado a ti.',
+    heroHeadline: 'La extorsión no es algo<br>que le pasa a otros.',
+    heroBody: 'Se estima que en 2023 ocurrieron cerca de 4.9 millones de extorsiones en México — según encuestas directas a hogares del INEGI. No registros policiales: estimaciones de lo que realmente vivió la población. ¿Lo denunciaste?',
+    mapEyebrow: 'Cifra negra · Extorsión · ENVIPE · INEGI · 2023',
+    mapTitle: 'Extorsión: el crimen que casi nadie denuncia.',
+    mapSub: '',
+    mapFraming: '',
+    mapHighlightValue: '96.7%',
+    mapHighlightLabel: 'Cifra negra · Extorsión · 2023',
+    mapHighlightContext: '',
+    trendTitle: 'Cifra negra de la extorsión, 2010–2024',
+    trendSub: 'En 14 años consecutivos, más del 96% de las extorsiones estimadas no llegaron a denuncia. No importó el gobierno, la estrategia ni el año.',
+    trendSource: 'ENVIPE · INEGI · 2010–2024',
+    trendData: [97.6,96.6,97.8,98.5,99.0,98.4,98.3,98.2,97.9,97.1,97.9,97.4,97.4,96.7,97.0],
+    trendYears: Array.from({length:15},(_,i)=>2010+i),
     trendAnnotations: [
-      {year:2016, label:'97.5% — mínimo'},
-      {year:2021, label:'98.1% — máximo'},
+      {year:2014, label:'99.0%'},
+      {year:2024, label:'97.0%'},
     ],
-    casesEyebrow: 'Extorsión · Patrones y contexto',
-    casesTitle: 'El crimen que todos conocen y nadie denuncia',
-    casesSub: 'La extorsión como sistema: del cobro de piso al secuestro express.',
+    // Razones para no denunciar (Cuadro 3.9, ENVIPE 2024, todos los delitos)
+    razonesNoDenuncia: [
+      { motivo: 'Pérdida de tiempo', pct: 34.4, tipo: 'estado' },
+      { motivo: 'Delito de poca importancia', pct: 13.0, tipo: 'otro' },
+      { motivo: 'Desconfianza en la autoridad', pct: 12.7, tipo: 'estado' },
+      { motivo: 'Trámites largos y difíciles', pct: 9.8, tipo: 'estado' },
+      { motivo: 'No tenía pruebas', pct: 9.4, tipo: 'otro' },
+      { motivo: 'Miedo al agresor', pct: 6.2, tipo: 'otro' },
+      { motivo: 'Actitud hostil de la autoridad', pct: 3.0, tipo: 'estado' },
+    ],
+    // Cifra negra por tipo de delito (Cuadro 3.2, ENVIPE 2024 — datos 2023)
+    cifraNegraPorDelito: [
+      { delito: 'Fraude', pct: 97.0 },
+      { delito: 'Extorsión', pct: 96.7 },
+      { delito: 'Robo parcial de vehículo', pct: 93.7 },
+      { delito: 'Robo o asalto en calle', pct: 93.7 },
+      { delito: 'Otros delitos', pct: 95.1 },
+      { delito: 'Robo en casa habitación', pct: 90.4 },
+      { delito: 'Amenazas verbales', pct: 88.1 },
+      { delito: 'Lesiones', pct: 87.9 },
+      { delito: 'Robo total de vehículo', pct: 39.7 },
+    ],
+    casesEyebrow: 'Extorsión · Formas y contexto',
+    casesTitle: 'La extorsión tiene muchas caras',
+    casesSub: 'No es solo el cobro de piso. Es el crimen más cotidiano — y el más silenciado.',
     cases: [
-      { year:'2023', name:'Cobro de piso en mercados y transporte', desc:'En estados como Michoacán, Guerrero y Veracruz, el cobro de piso por parte del crimen organizado a comerciantes, transportistas y agricultores es práctica cotidiana. Quienes no pagan enfrentan violencia directa. Casi ninguno denuncia.', tag:'Nacional · Crimen organizado' },
-      { year:'2021', name:'Extorsión telefónica masiva', desc:'Durante la pandemia, los llamados de extorsión telefónica aumentaron 30%. Las organizaciones criminales operan call centers desde penales con listas de números robadas. El 97% de las víctimas no denuncia.', tag:'Nacional · Pandemia · Penales' },
-      { year:'2019', name:'Huachicol — extorsión sobre extorsión', desc:'Los grupos que roban combustible de PEMEX también extorsionan a comunidades cercanas a los ductos para garantizar silencio. El Estado perdió 87,000 millones de pesos en robo de combustible en un solo año.', tag:'Hidalgo · Puebla · PEMEX' },
+      { year:'2023', name:'Cobro de piso', desc:'En estados como Michoacán, Guerrero y Veracruz, el cobro de piso a comerciantes, transportistas y agricultores es práctica cotidiana del crimen organizado. Quienes no pagan enfrentan violencia directa. Casi ninguno denuncia — porque la autoridad local suele estar coludida.', tag:'Nacional · Crimen organizado' },
+      { year:'2023', name:'Extorsión telefónica', desc:'Llamadas y mensajes que amenazan con violencia a cambio de dinero. Las organizaciones criminales operan desde penales con listas de números robadas. Es la forma de extorsión más común y la que más raramente llega a denuncia.', tag:'Nacional · Telefónica' },
+      { year:'2023', name:'Extorsión a migrantes', desc:'Migrantes en tránsito son sistemáticamente extorsionados por grupos criminales y, en muchos casos, por agentes del Estado. La cifra real es incalculable — la mayoría son personas sin documentos que no pueden denunciar aunque quisieran.', tag:'Frontera · Migrantes' },
     ]
   }
 ];
@@ -1949,6 +1971,89 @@ function drawFemSvgMap(lookup, isCondenas, maxVal) {
   });
 }
 
+function renderExtorsionMap(ind) {
+
+  // ── Barras — razones para no denunciar ──
+  const maxRazon = Math.max(...ind.razonesNoDenuncia.map(r => r.pct));
+  const razonesHTML = ind.razonesNoDenuncia.map(r => {
+    const isEstado = r.tipo === 'estado';
+    return `
+      <div style="margin-bottom:14px;">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;">
+          <span style="font-family:'Spectral',serif;font-size:13px;font-weight:300;color:${isEstado ? '#e8836e' : '#888'};">${r.motivo}</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:${isEstado ? '#c0392b' : '#555'};margin-left:12px;white-space:nowrap;">${r.pct}%</span>
+        </div>
+        <div style="height:5px;background:rgba(255,255,255,0.05);">
+          <div style="height:100%;width:${(r.pct/maxRazon*100).toFixed(1)}%;background:${isEstado ? 'rgba(192,57,43,0.6)' : 'rgba(255,255,255,0.12)'};"></div>
+        </div>
+      </div>`;
+  }).join('');
+
+  // ── Barras — cifra negra por tipo de delito ──
+  const cifraNegraBars = ind.cifraNegraPorDelito
+    .sort((a,b) => b.pct - a.pct)
+    .map(d => {
+      const isExtorsion = d.delito === 'Extorsión';
+      return `
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+          <div style="width:180px;flex-shrink:0;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.05em;color:${isExtorsion ? '#f0e8d8' : '#555'};text-align:right;">${d.delito}</div>
+          <div style="flex:1;height:20px;background:rgba(255,255,255,0.04);">
+            <div style="height:100%;width:${d.pct}%;background:${isExtorsion ? 'var(--red)' : 'rgba(192,57,43,0.2)'};"></div>
+          </div>
+          <div style="width:42px;flex-shrink:0;font-family:'IBM Plex Mono',monospace;font-size:10px;color:${isExtorsion ? 'var(--red)' : '#444'};">${d.pct}%</div>
+        </div>`;
+    }).join('');
+
+  return `
+    <div>
+
+      <!-- Paso 1: El número -->
+      <div style="border:1px solid var(--border-dark);padding:32px;margin-bottom:0;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--red);text-transform:uppercase;margin-bottom:12px;">Estimación ENVIPE · INEGI · 2023</div>
+        <div style="display:flex;align-items:baseline;gap:20px;flex-wrap:wrap;margin-bottom:12px;">
+          <div style="font-family:'DM Serif Display',serif;font-size:64px;color:var(--red);line-height:1;">~4.9M</div>
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.12em;color:#666;text-transform:uppercase;margin-bottom:4px;">Extorsiones estimadas en México</div>
+            <div style="font-family:'DM Serif Display',serif;font-size:18px;color:#888;font-style:italic;">1 de cada 27 mexicanos</div>
+          </div>
+        </div>
+        <p style="font-family:'Spectral',serif;font-size:13px;font-weight:300;color:#444;line-height:1.7;max-width:600px;font-style:italic;">No son registros policiales. Son estimaciones de la ENVIPE — una encuesta que le pregunta directamente a los hogares qué les ocurrió.</p>
+      </div>
+
+      <!-- Paso 2: La cifra negra -->
+      <div style="border:1px solid var(--border-dark);border-top:none;padding:32px;margin-bottom:0;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--red);text-transform:uppercase;margin-bottom:12px;">Cifra negra · Extorsión · 2023</div>
+        <div style="display:flex;align-items:baseline;gap:20px;flex-wrap:wrap;margin-bottom:16px;">
+          <div style="font-family:'DM Serif Display',serif;font-size:64px;color:var(--red);line-height:1;">96.7%</div>
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.12em;color:#666;text-transform:uppercase;margin-bottom:4px;">No se denunció</div>
+            <div style="font-family:'DM Serif Display',serif;font-size:18px;color:#888;font-style:italic;">Solo 3 de cada 100 llegaron a denuncia</div>
+          </div>
+        </div>
+        <p style="font-family:'Spectral',serif;font-size:14px;font-weight:300;color:#666;line-height:1.7;max-width:640px;">A esto se le llama <strong style="color:#f0e8d8;font-weight:400;">cifra negra</strong>: la brecha entre los delitos que ocurren y los que el sistema conoce. La extorsión tiene una de las cifras negras más altas de todos los delitos. Y no es nueva — en 14 años consecutivos nunca bajó del 96%.</p>
+      </div>
+
+      <!-- Paso 3: ¿Por qué no denuncia? -->
+      <div style="border:1px solid var(--border-dark);border-top:none;padding:32px;margin-bottom:36px;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--red);text-transform:uppercase;margin-bottom:8px;">¿Por qué no se denuncia? · Todos los delitos · ENVIPE 2024</div>
+        <div style="font-family:'DM Serif Display',serif;font-size:20px;color:#f0e8d8;margin-bottom:6px;line-height:1.2;">El 61% de las razones apuntan al Estado.</div>
+        <p style="font-family:'Spectral',serif;font-size:13px;color:#555;font-weight:300;margin-bottom:20px;line-height:1.6;max-width:560px;">En naranja, las razones atribuibles a fallas institucionales. En gris, otras causas.</p>
+        ${razonesHTML}
+        <p style="margin-top:16px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.08em;color:#444;line-height:1.6;">Fuente: Cuadro 3.9 · ENVIPE 2024 · INEGI</p>
+
+        <!-- Separador sutil -->
+        <div style="height:1px;background:rgba(255,255,255,0.05);margin:28px 0;"></div>
+
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--red);text-transform:uppercase;margin-bottom:8px;">Cifra negra por tipo de delito · 2023</div>
+        <div style="font-family:'DM Serif Display',serif;font-size:20px;color:#f0e8d8;margin-bottom:6px;line-height:1.2;">No es solo la extorsión.</div>
+        <p style="font-family:'Spectral',serif;font-size:13px;color:#555;font-weight:300;margin-bottom:20px;line-height:1.6;max-width:560px;">La única excepción es el robo de vehículo — porque sin denuncia no hay seguro. El resto del sistema funciona igual.</p>
+        ${cifraNegraBars}
+        <p style="margin-top:12px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.08em;color:#444;line-height:1.6;">Fuente: Cuadro 3.2 · ENVIPE 2024 · INEGI</p>
+      </div>
+
+    </div>`;
+}
+
 function renderPeriodistasMap(ind) {
   const trendBlock = renderTrend(ind, true);
 
@@ -2259,6 +2364,9 @@ function renderMap(ind) {
 
   // ── Periodistas: custom visualizations ──
   if (ind.id === 'periodistas') return renderPeriodistasMap(ind);
+
+  // ── Extorsión: narrative visualizations ──
+  if (ind.id === 'extorsion') return renderExtorsionMap(ind);
   const states = STATE_DATA[ind.id];
   const rates  = states.map(s => s.rate);
   const min    = Math.min(...rates);
@@ -2562,16 +2670,16 @@ function setIndicator(id, init = false) {
 
   // Show content sections
   document.getElementById('mapSection').style.display = 'block';
-  // trendSection: hidden for homicidio + desaparicion + feminicidio (trend embedded in mapSection)
-  document.getElementById('trendSection').style.display = (id === 'homicidio' || id === 'desaparicion' || id === 'feminicidio' || id === 'periodistas') ? 'none' : 'block';
+  // trendSection: hidden for homicidio + desaparicion + feminicidio + periodistas + extorsion (trend embedded in mapSection)
+  document.getElementById('trendSection').style.display = (id === 'homicidio' || id === 'desaparicion' || id === 'feminicidio' || id === 'periodistas' || id === 'extorsion') ? 'none' : 'block';
   document.getElementById('casesSection').style.display = 'block';
-  document.getElementById('transitionZone').style.display = (id === 'homicidio' || id === 'desaparicion' || id === 'feminicidio' || id === 'periodistas') ? 'none' : 'block';
+  document.getElementById('transitionZone').style.display = (id === 'homicidio' || id === 'desaparicion' || id === 'feminicidio' || id === 'periodistas' || id === 'extorsion') ? 'none' : 'block';
 
   // Update map section text
   // homicidio: hide all (bump chart has its own header)
-  // desaparicion + periodistas: hide mapSub, keep eyebrow + title
+  // desaparicion + periodistas + extorsion: hide mapSub, keep eyebrow + title
   const hideAll     = id === 'homicidio';
-  const hidePartial = (id === 'desaparicion' || id === 'periodistas');
+  const hidePartial = (id === 'desaparicion' || id === 'periodistas' || id === 'extorsion');
   document.getElementById('mapEyebrow').style.display = hideAll ? 'none' : '';
   document.getElementById('mapTitle').style.display   = hideAll ? 'none' : '';
   document.getElementById('mapSub').style.display     = (hideAll || hidePartial) ? 'none' : '';
