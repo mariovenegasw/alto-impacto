@@ -732,10 +732,27 @@
     .indicator-nav { padding: 0 16px; overflow-x: auto; }
     .nav-brand { display: none; }
     .hero { padding: 80px 20px 48px; }
-    .section-wrap { padding: 48px 20px; }
+    .section-wrap { padding: 32px 20px; }
     .map-layout { grid-template-columns: 1fr; }
     .bump-layout { grid-template-columns: 1fr; }
+    .bump-layout-simple { grid-template-columns: 1fr; }
+    .bump-state-list { display: none; }
+    .mobile-only { display: block !important; }
     .site-footer { flex-direction: column; gap: 8px; padding: 16px 20px; }
+
+    /* Feminicidio: apilar números */
+    .fem-stats-row { flex-direction: column; gap: 8px; }
+
+    /* Periodistas: grid de stats a columna */
+    .perio-stats-grid { grid-template-columns: 1fr !important; }
+    .perio-stats-grid > div { border-right: none !important; border-bottom: 1px solid var(--border-dark); }
+    .perio-stats-grid > div:last-child { border-bottom: none; }
+
+    /* Donut: apilar leyenda debajo */
+    .donut-wrap { flex-direction: column; }
+
+    /* Desaparición: sidebar debajo del mapa */
+    .map-sidebar { margin-top: 20px; }
   }
 </style>
 </head>
@@ -1324,8 +1341,12 @@ function renderBumpChart() {
     if (!container) return;
 
     const W = container.offsetWidth || 800;
-    const H = 560;
-    const PAD = { top: 28, right: 130, bottom: 36, left: 64 };
+    const isMobile = W < 500;
+    const H = isMobile ? 480 : 560;
+    const PAD = isMobile
+      ? { top: 28, right: 90, bottom: 36, left: 48 }
+      : { top: 28, right: 130, bottom: 36, left: 64 };
+    const labelSize = isMobile ? '7' : '9';
     const chartW = W - PAD.left - PAD.right;
     const chartH = H - PAD.top - PAD.bottom;
 
@@ -1361,7 +1382,7 @@ function renderBumpChart() {
         const lbl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
         lbl.setAttribute('x', PAD.left - 8); lbl.setAttribute('y', y + 4);
         lbl.setAttribute('text-anchor', 'end');
-        lbl.setAttribute('font-family', 'IBM Plex Mono'); lbl.setAttribute('font-size', '9');
+        lbl.setAttribute('font-family', 'IBM Plex Mono'); lbl.setAttribute('font-size', labelSize);
         lbl.setAttribute('fill', '#3a3a3a');
         lbl.textContent = r + '\u00baª';
         gridG.appendChild(lbl);
@@ -1370,14 +1391,14 @@ function renderBumpChart() {
     const r1lbl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
     r1lbl.setAttribute('x', PAD.left - 8); r1lbl.setAttribute('y', yScale(1) + 4);
     r1lbl.setAttribute('text-anchor', 'end');
-    r1lbl.setAttribute('font-family', 'IBM Plex Mono'); r1lbl.setAttribute('font-size', '9');
+    r1lbl.setAttribute('font-family', 'IBM Plex Mono'); r1lbl.setAttribute('font-size', labelSize);
     r1lbl.setAttribute('fill', '#c0392b'); r1lbl.setAttribute('font-weight', '500');
     r1lbl.textContent = '1\u00aa';
     gridG.appendChild(r1lbl);
     const axNote = document.createElementNS('http://www.w3.org/2000/svg', 'text');
     axNote.setAttribute('x', PAD.left - 8); axNote.setAttribute('y', PAD.top - 10);
     axNote.setAttribute('text-anchor', 'end');
-    axNote.setAttribute('font-family', 'IBM Plex Mono'); axNote.setAttribute('font-size', '8');
+    axNote.setAttribute('font-family', 'IBM Plex Mono'); axNote.setAttribute('font-size', isMobile ? '6' : '8');
     axNote.setAttribute('fill', '#3a3a3a');
     axNote.textContent = '\u2191 m\u00e1s violento';
     gridG.appendChild(axNote);
@@ -1389,7 +1410,7 @@ function renderBumpChart() {
       const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
       t.setAttribute('x', xScale(i)); t.setAttribute('y', PAD.top + chartH + 22);
       t.setAttribute('text-anchor', 'middle');
-      t.setAttribute('font-family', 'IBM Plex Mono'); t.setAttribute('font-size', '9');
+      t.setAttribute('font-family', 'IBM Plex Mono'); t.setAttribute('font-size', labelSize);
       t.setAttribute('fill', '#444');
       t.textContent = yr;
       axisG.appendChild(t);
@@ -1623,7 +1644,7 @@ function renderBumpChart() {
       const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
       t.setAttribute('x', PAD.left - 14); t.setAttribute('y', y + 4);
       t.setAttribute('text-anchor', 'end');
-      t.setAttribute('font-family', 'IBM Plex Mono'); t.setAttribute('font-size', '9');
+      t.setAttribute('font-family', 'IBM Plex Mono'); t.setAttribute('font-size', labelSize);
       t.setAttribute('fill', '#666');
       t.style.pointerEvents = 'none';
       t.textContent = state.name;
@@ -1637,7 +1658,7 @@ function renderBumpChart() {
       usedY.push(y);
       const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
       t.setAttribute('x', PAD.left + chartW + 12); t.setAttribute('y', y + 4);
-      t.setAttribute('font-family', 'IBM Plex Mono'); t.setAttribute('font-size', '9');
+      t.setAttribute('font-family', 'IBM Plex Mono'); t.setAttribute('font-size', labelSize);
       t.setAttribute('fill', '#666');
       t.style.pointerEvents = 'none';
       t.textContent = state.name;
@@ -1658,7 +1679,7 @@ function renderBumpChart() {
       const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
       t.setAttribute('x', PAD.left - 14); t.setAttribute('y', y + 4);
       t.setAttribute('text-anchor', 'end');
-      t.setAttribute('font-family', 'IBM Plex Mono'); t.setAttribute('font-size', '9');
+      t.setAttribute('font-family', 'IBM Plex Mono'); t.setAttribute('font-size', labelSize);
       t.setAttribute('fill', '#444');
       t.style.pointerEvents = 'none';
       t.textContent = state.name;
@@ -1673,7 +1694,7 @@ function renderBumpChart() {
       usedYbot.push(y);
       const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
       t.setAttribute('x', PAD.left + chartW + 12); t.setAttribute('y', y + 4);
-      t.setAttribute('font-family', 'IBM Plex Mono'); t.setAttribute('font-size', '9');
+      t.setAttribute('font-family', 'IBM Plex Mono'); t.setAttribute('font-size', labelSize);
       t.setAttribute('fill', '#444');
       t.style.pointerEvents = 'none';
       t.textContent = state.name;
@@ -1849,7 +1870,7 @@ function renderFeminicidioMap(ind) {
 
   const html = `
     <div style="margin-bottom:36px;">
-      <div style="display:flex;align-items:baseline;gap:40px;margin-bottom:12px;">
+      <div class="fem-stats-row" style="display:flex;align-items:baseline;gap:40px;margin-bottom:12px;flex-wrap:wrap;">
         <div>
           <span style="font-family:'DM Serif Display',serif;font-size:64px;color:#e8e0d0;line-height:1;">855</span>
           <span style="font-family:var(--mono);font-size:9px;color:#555;text-transform:uppercase;letter-spacing:0.1em;margin-left:10px;">feminicidios registrados · 2024</span>
@@ -2110,7 +2131,7 @@ function renderPeriodistasMap(ind) {
   return `
     <div>
       <!-- Stats de entrada -->
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-bottom:36px;border:1px solid var(--border-dark);">
+      <div class="perio-stats-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-bottom:36px;border:1px solid var(--border-dark);">
         <div style="padding:24px;border-right:1px solid var(--border-dark);">
           <div style="font-family:'DM Serif Display',serif;font-size:48px;color:var(--red);line-height:1;margin-bottom:4px;">639</div>
           <div style="font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:0.15em;color:#555;text-transform:uppercase;">Agresiones documentadas · 2024</div>
@@ -2133,7 +2154,7 @@ function renderPeriodistasMap(ind) {
         <!-- Donut -->
         <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--red);text-transform:uppercase;margin-bottom:8px;">¿Quién agrede? · Artículo 19 · 2024</div>
         <div style="font-family:'DM Serif Display',serif;font-size:20px;color:#f0e8d8;margin-bottom:20px;line-height:1.2;">El Estado mexicano es el principal agresor de la prensa.</div>
-        <div style="display:flex;align-items:center;gap:32px;flex-wrap:wrap;margin-bottom:32px;">
+        <div class="donut-wrap" style="display:flex;align-items:center;gap:32px;flex-wrap:wrap;margin-bottom:32px;">
           <svg viewBox="0 0 240 240" width="180" height="180" style="flex-shrink:0;">
             ${paths}
             <text x="${cx}" y="${cy - 8}" text-anchor="middle" font-family="DM Serif Display,serif" font-size="28" fill="#c0392b">45%</text>
@@ -2353,6 +2374,7 @@ function renderMap(ind) {
         </div>
       </div>
       <p style="margin-top:32px;font-family:var(--mono);font-size:10px;letter-spacing:0.12em;color:#888;text-transform:uppercase;">En 2024, murieron <span style="color:#c0392b;">82 personas por día</span> por homicidio doloso en México.</p>
+      <p class="mobile-only" style="display:none;margin-top:12px;font-family:var(--mono);font-size:9px;letter-spacing:0.08em;color:#333;text-transform:uppercase;">Visita desde escritorio para explorar el ranking por estado</p>
       <p style="margin-top:24px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.08em;color:#666;line-height:1.7;max-width:600px;">Nota metodológica — Cifras del SESNSP bajo nueva metodología de registro de víctimas (2015–2024). Los datos de 2025 se excluyen por ser parciales. Las tasas por 100,000 habitantes se calculan con proyecciones de población CONAPO. Un mismo evento puede registrar múltiples víctimas.</p>`;
   }
 
