@@ -2725,17 +2725,20 @@ function renderCases(ind) {
     </div>
   `).join('');
 
-  const siteUrl = 'https://mariovenegasw.github.io/alto-impacto';
   const shareText = ind.shareText || '';
   const twitterUrl = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareText);
   const waUrl = 'https://wa.me/?text=' + encodeURIComponent(shareText);
   const shareId = 'share_' + ind.id;
 
+  // Store shareText in global map to avoid HTML attribute escaping issues
+  window._shareTexts = window._shareTexts || {};
+  window._shareTexts[ind.id] = shareText;
+
   const shareBlock = `
     <div class="share-block">
       <span class="share-label">Comparte esta historia</span>
       <div class="share-buttons">
-        <button class="share-btn" id="${shareId}_copy" onclick="copyShareText('${shareId}_copy', ${JSON.stringify(shareText)})">
+        <button class="share-btn" id="${shareId}_copy" onclick="copyShareText('${shareId}_copy', '${ind.id}')">
           ↗ Copiar texto
         </button>
         <a class="share-btn" href="${twitterUrl}" target="_blank" rel="noopener">
@@ -2750,17 +2753,36 @@ function renderCases(ind) {
   return `<div class="cases-list">${rows}</div>${shareBlock}`;
 }
 
-function copyShareText(btnId, text) {
+function copyShareText(btnId, indicatorId) {
+  const text = (window._shareTexts && window._shareTexts[indicatorId]) || '';
+  if (!text) return;
   navigator.clipboard.writeText(text).then(() => {
     const btn = document.getElementById(btnId);
     if (!btn) return;
-    const orig = btn.textContent;
+    const orig = btn.textContent.trim();
     btn.textContent = '✓ Copiado';
     btn.classList.add('copied');
     setTimeout(() => {
       btn.textContent = orig;
       btn.classList.remove('copied');
     }, 2000);
+  }).catch(() => {
+    // Fallback for browsers that block clipboard without user gesture
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    const btn = document.getElementById(btnId);
+    if (btn) {
+      const orig = btn.textContent.trim();
+      btn.textContent = '✓ Copiado';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 2000);
+    }
   });
 }
 
