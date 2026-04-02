@@ -2737,16 +2737,21 @@ function renderCases(ind) {
   const shareBlock = `
     <div class="share-block">
       <span class="share-label">Comparte esta historia</span>
-      <div class="share-buttons">
-        <button class="share-btn" id="${shareId}_copy" onclick="copyShareText('${shareId}_copy', '${ind.id}')">
-          ↗ Copiar texto
-        </button>
-        <a class="share-btn" href="${twitterUrl}" target="_blank" rel="noopener">
-          𝕏 Twitter
-        </a>
-        <a class="share-btn" href="${waUrl}" target="_blank" rel="noopener">
-          WhatsApp
-        </a>
+      <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-end;">
+        <div class="share-buttons">
+          <button class="share-btn" id="${shareId}_copy" onclick="copyShareText('${shareId}_copy', '${ind.id}')">
+            ↗ Copiar texto
+          </button>
+          <a class="share-btn" href="${twitterUrl}" target="_blank" rel="noopener">
+            𝕏 Twitter
+          </a>
+          <a class="share-btn" href="${waUrl}" target="_blank" rel="noopener">
+            WhatsApp
+          </a>
+        </div>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.08em;color:#aaa;">
+          Para Instagram: copia el texto ↑ y <a href="cards.html" target="_blank" style="color:var(--red);text-decoration:none;">descarga el card visual →</a>
+        </span>
       </div>
     </div>`;
 
