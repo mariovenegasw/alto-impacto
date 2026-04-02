@@ -754,6 +754,56 @@
     /* Desaparición: sidebar debajo del mapa */
     .map-sidebar { margin-top: 20px; }
   }
+
+  /* ── SHARE BLOCK ── */
+  .share-block {
+    margin-top: 36px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-light);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .share-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted-light);
+  }
+
+  .share-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border: 1px solid var(--border-light);
+    background: none;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted-light);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+
+  .share-btn:hover { border-color: var(--red); color: var(--red); }
+  .share-btn.copied { border-color: var(--red); color: var(--red); }
+
+  @media (max-width: 768px) {
+    .share-block { flex-direction: column; align-items: flex-start; }
+  }
 </style>
 </head>
 <body>
@@ -889,7 +939,8 @@ const INDICATORS = [
       { year:'2011', name:'Ciudad Juárez — capital mundial del crimen', desc:'Con 3,622 homicidios en un año, Juárez se convirtió en la ciudad más violenta del mundo. La guerra entre Sinaloa y el Cártel de Juárez cobró más vidas civiles que muchos conflictos armados activos.', tag:'Cártel de Juárez · Sinaloa' },
       { year:'2019', name:'El Culiacanazo', desc:'Tras la captura de Ovidio Guzmán, el Cártel de Sinaloa tomó Culiacán. El gobierno lo liberó horas después para detener la masacre. El Estado cedió ante el crimen organizado en tiempo real.', tag:'Sinaloa · Fallo del Estado' },
       { year:'2019', name:'Masacre de la familia LeBarón', desc:'Tres madres y seis niños de la familia LeBarón — ciudadanos dual México-EE.UU. — fueron emboscados en Sonora. El ataque desencadenó llamados internacionales de intervención estadounidense.', tag:'Sonora · Ciudadanos EE.UU.' },
-    ]
+    ],
+    shareText: 'En México se registraron 30,060 homicidios dolosos en 2024. 82 personas cada día. La violencia no desaparece — se mueve. mariovenegasw.github.io/alto-impacto',
   },
   {
     id: 'feminicidio',
@@ -922,7 +973,8 @@ const INDICATORS = [
       { year:'2020', name:'#UnDíaSinNosotras — Paro Nacional', desc:'El 9 de marzo de 2020, un día después del Día de la Mujer, miles de mujeres se ausentaron de trabajos, escuelas y espacios públicos. El movimiento respondió al pico de feminicidios y la falta de respuesta institucional.', tag:'Movimiento · Nacional' },
       { year:'2020', name:'Ingrid Escamilla', desc:'El feminicidio de Ingrid Escamilla en febrero de 2020 — y la filtración de sus fotos por parte de medios y policías — desencadenó protestas masivas y exhibió la violencia institucional hacia las víctimas.', tag:'CDMX · Violencia mediática' },
       { year:'2022', name:'Caso Debanhi Escobar', desc:'La desaparición y muerte de Debanhi Escobar en Nuevo León — cuyo cuerpo fue encontrado en una cisterna de hotel tras una búsqueda de 13 días — generó un debate nacional sobre la búsqueda de mujeres desaparecidas.', tag:'Nuevo León · Desaparición' },
-    ]
+    ],
+    shareText: '855 feminicidios registrados en 2024. 360 condenas dictadas. Ninguna del mismo año. mariovenegasw.github.io/alto-impacto',
   },
   {
     id: 'desaparicion',
@@ -957,7 +1009,8 @@ const INDICATORS = [
       { year:'2014', name:'Caso Ayotzinapa — 43 normalistas', desc:'43 estudiantes de la Normal Rural de Ayotzinapa fueron desaparecidos en Iguala, Guerrero. La policía municipal los entregó al cartel Guerreros Unidos. Más de una década después, el caso sigue sin resolución definitiva. Se convirtió en símbolo global de la colusión entre Estado y crimen organizado.', tag:'Guerrero · Estado-Crimen · Sin resolver' },
       { year:'2010', name:'Fosas de San Fernando, Tamaulipas', desc:'72 migrantes ejecutados por Los Zetas. Un sobreviviente guió a las autoridades al sitio. Al año siguiente se encontraron fosas adicionales con 193 cuerpos más. La mayoría nunca fueron identificados. Sus familias siguen esperando.', tag:'Tamaulipas · Migrantes · Zetas' },
       { year:'2022', name:'Las Madres Buscadoras', desc:'Ante la inacción del Estado, madres de personas desaparecidas organizaron brigadas de búsqueda en Jalisco, Sonora y Sinaloa. Han encontrado cientos de fosas clandestinas que las autoridades no habían rastreado. No son héroas — son la evidencia de un Estado ausente.', tag:'Nacional · Jalisco · Sonora' },
-    ]
+    ],
+    shareText: '131,999 personas desaparecidas en México. En 2024: 13,627 nuevos casos — un récord. El Estado lleva la cuenta. No las encuentra. mariovenegasw.github.io/alto-impacto',
   },
   {
     id: 'periodistas',
@@ -998,7 +1051,8 @@ const INDICATORS = [
       { year:'2017', name:'Javier Valdez — Ríodoce', desc:'Asesinado a plena luz del día en Culiacán, meses después de publicar su libro sobre el Cártel de Sinaloa. Fundador de Ríodoce, uno de los medios independientes más importantes del norte. Su caso sigue impune en lo que respecta a los autores intelectuales.', tag:'Sinaloa · Impunidad' },
       { year:'2017', name:'Miroslava Breach — El Norte', desc:'Corresponsal asesinada en Chihuahua. Primer caso en México donde se vinculó directamente a un político local con el asesinato de una periodista. Cubría narcopolítica y crimen organizado en la sierra chihuahuense.', tag:'Chihuahua · Estado-Crimen' },
       { year:'2022', name:'2022 — el año más letal', desc:'12 periodistas asesinados en un solo año — el máximo histórico. Varios cubrían corrupción y política local en Veracruz, Guerrero y Oaxaca. El Estado mexicano fue señalado como principal agresor en casi la mitad de los casos.', tag:'Nacional · Récord histórico' },
-    ]
+    ],
+    shareText: 'En México, el principal agresor de la prensa no es el crimen organizado. Es el Estado. 639 agresiones en 2024. mariovenegasw.github.io/alto-impacto',
   },
   {
     id: 'extorsion',
@@ -1053,7 +1107,8 @@ const INDICATORS = [
       { year:'2023', name:'Cobro de piso', desc:'En estados como Michoacán, Guerrero y Veracruz, el cobro de piso a comerciantes, transportistas y agricultores es práctica cotidiana del crimen organizado. Quienes no pagan enfrentan violencia directa. Casi ninguno denuncia — porque la autoridad local suele estar coludida.', tag:'Nacional · Crimen organizado' },
       { year:'2023', name:'Extorsión telefónica', desc:'Llamadas y mensajes que amenazan con violencia a cambio de dinero. Las organizaciones criminales operan desde penales con listas de números robadas. Es la forma de extorsión más común y la que más raramente llega a denuncia.', tag:'Nacional · Telefónica' },
       { year:'2023', name:'Extorsión a migrantes', desc:'Migrantes en tránsito son sistemáticamente extorsionados por grupos criminales y, en muchos casos, por agentes del Estado. La cifra real es incalculable — la mayoría son personas sin documentos que no pueden denunciar aunque quisieran.', tag:'Frontera · Migrantes' },
-    ]
+    ],
+    shareText: 'Se estiman ~4.9 millones de extorsiones en México en 2023. El 96.7% no se denunció. No es apatía — es una conclusión racional. mariovenegasw.github.io/alto-impacto',
   }
 ];
 
@@ -2670,7 +2725,43 @@ function renderCases(ind) {
     </div>
   `).join('');
 
-  return `<div class="cases-list">${rows}</div>`;
+  const siteUrl = 'https://mariovenegasw.github.io/alto-impacto';
+  const shareText = ind.shareText || '';
+  const twitterUrl = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareText);
+  const waUrl = 'https://wa.me/?text=' + encodeURIComponent(shareText);
+  const shareId = 'share_' + ind.id;
+
+  const shareBlock = `
+    <div class="share-block">
+      <span class="share-label">Comparte esta historia</span>
+      <div class="share-buttons">
+        <button class="share-btn" id="${shareId}_copy" onclick="copyShareText('${shareId}_copy', ${JSON.stringify(shareText)})">
+          ↗ Copiar texto
+        </button>
+        <a class="share-btn" href="${twitterUrl}" target="_blank" rel="noopener">
+          𝕏 Twitter
+        </a>
+        <a class="share-btn" href="${waUrl}" target="_blank" rel="noopener">
+          WhatsApp
+        </a>
+      </div>
+    </div>`;
+
+  return `<div class="cases-list">${rows}</div>${shareBlock}`;
+}
+
+function copyShareText(btnId, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById(btnId);
+    if (!btn) return;
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copiado';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = orig;
+      btn.classList.remove('copied');
+    }, 2000);
+  });
 }
 
 // ════════════════════════════════════════
