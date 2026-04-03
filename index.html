@@ -2750,7 +2750,7 @@ function renderCases(ind) {
           </a>
         </div>
         <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.08em;color:#aaa;">
-          Para Instagram: copia el texto ↑ y <a href="cards.html" target="_blank" style="color:var(--red);text-decoration:none;">descarga el card visual →</a>
+          Para Instagram: copia el texto ↑ y <button onclick="openCardModal('${ind.id}')" style="background:none;border:none;padding:0;color:var(--red);font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.08em;cursor:pointer;text-decoration:underline;">descarga el card visual →</button>
         </span>
       </div>
     </div>`;
@@ -2862,6 +2862,296 @@ document.getElementById('mapSection').style.display = 'none';
 document.getElementById('trendSection').style.display = 'none';
 document.getElementById('casesSection').style.display = 'none';
 document.getElementById('transitionZone').style.display = 'none';
+</script>
+
+
+<!-- ══════════════════════════════
+     CARD MODAL — generador de cards para Instagram
+══════════════════════════════ -->
+<div id="cardModal" style="
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:9000;
+  background:rgba(0,0,0,0.85);
+  backdrop-filter:blur(6px);
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+">
+  <div style="
+    background:#141414;
+    border:1px solid rgba(255,255,255,0.08);
+    width:100%;
+    max-width:520px;
+    max-height:90vh;
+    overflow-y:auto;
+    position:relative;
+  ">
+    <!-- Header del modal -->
+    <div style="
+      padding:20px 24px 16px;
+      border-bottom:1px solid rgba(255,255,255,0.06);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    ">
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.2em;color:#c0392b;text-transform:uppercase;margin-bottom:4px;">Card visual · Instagram</div>
+        <div style="font-family:'DM Serif Display',serif;font-size:18px;color:#f0e8d8;">Descarga el card</div>
+      </div>
+      <button onclick="closeCardModal()" style="
+        background:none;
+        border:1px solid rgba(255,255,255,0.1);
+        color:#666;
+        font-family:'IBM Plex Mono',monospace;
+        font-size:10px;
+        letter-spacing:0.1em;
+        padding:6px 12px;
+        cursor:pointer;
+      ">✕ Cerrar</button>
+    </div>
+
+    <!-- Selector de formato -->
+    <div style="padding:16px 24px;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;gap:8px;">
+      <button id="btnFeed" onclick="switchCardFormat('feed')" style="
+        flex:1;padding:8px;border:1px solid #c0392b;background:rgba(192,57,43,0.12);
+        color:#c0392b;font-family:'IBM Plex Mono',monospace;font-size:9px;
+        letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;
+      ">Feed · 1:1</button>
+      <button id="btnStory" onclick="switchCardFormat('story')" style="
+        flex:1;padding:8px;border:1px solid rgba(255,255,255,0.1);background:none;
+        color:#555;font-family:'IBM Plex Mono',monospace;font-size:9px;
+        letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;
+      ">Historia · 9:16</button>
+    </div>
+
+    <!-- Preview del card -->
+    <div style="padding:20px 24px;display:flex;justify-content:center;">
+      <canvas id="cardCanvas" style="
+        max-width:100%;
+        border:1px solid rgba(255,255,255,0.06);
+        display:block;
+      "></canvas>
+    </div>
+
+    <!-- Acciones -->
+    <div style="padding:0 24px 24px;display:flex;flex-direction:column;gap:10px;">
+      <button onclick="downloadCard()" style="
+        width:100%;
+        padding:12px;
+        background:#c0392b;
+        border:none;
+        color:white;
+        font-family:'IBM Plex Mono',monospace;
+        font-size:10px;
+        letter-spacing:0.15em;
+        text-transform:uppercase;
+        cursor:pointer;
+      ">↓ Descargar PNG</button>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:#444;letter-spacing:0.05em;line-height:1.6;text-align:center;">
+        Descarga el card y súbelo a Instagram.<br>Pega el texto copiado en la descripción.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════
+// CARD MODAL — generador con Canvas
+// ════════════════════════════════════════
+
+let _cardIndicatorId = null;
+let _cardFormat = 'feed'; // 'feed' | 'story'
+
+function openCardModal(indicatorId) {
+  _cardIndicatorId = indicatorId;
+  _cardFormat = 'feed';
+  const modal = document.getElementById('cardModal');
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+  switchCardFormat('feed');
+}
+
+function closeCardModal() {
+  document.getElementById('cardModal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+// Cerrar con clic en el backdrop
+document.getElementById('cardModal').addEventListener('click', function(e) {
+  if (e.target === this) closeCardModal();
+});
+
+function switchCardFormat(format) {
+  _cardFormat = format;
+
+  const btnFeed  = document.getElementById('btnFeed');
+  const btnStory = document.getElementById('btnStory');
+  const activeStyle  = 'flex:1;padding:8px;border:1px solid #c0392b;background:rgba(192,57,43,0.12);color:#c0392b;font-family:\'IBM Plex Mono\',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;';
+  const inactiveStyle = 'flex:1;padding:8px;border:1px solid rgba(255,255,255,0.1);background:none;color:#555;font-family:\'IBM Plex Mono\',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;';
+
+  btnFeed.style.cssText  = format === 'feed'  ? activeStyle : inactiveStyle;
+  btnStory.style.cssText = format === 'story' ? activeStyle : inactiveStyle;
+
+  renderCard(_cardIndicatorId, format);
+}
+
+function renderCard(indicatorId, format) {
+  const ind = INDICATORS.find(i => i.id === indicatorId);
+  if (!ind) return;
+
+  const canvas = document.getElementById('cardCanvas');
+  const ctx = canvas.getContext('2d');
+
+  // Dimensiones
+  const W = format === 'feed' ? 1080 : 1080;
+  const H = format === 'feed' ? 1080 : 1920;
+  canvas.width  = W;
+  canvas.height = H;
+
+  // Escalar preview (max 460px de ancho en el modal)
+  const previewW = Math.min(460, window.innerWidth - 80);
+  const scale = previewW / W;
+  canvas.style.width  = (W * scale) + 'px';
+  canvas.style.height = (H * scale) + 'px';
+
+  // ── FONDO OSCURO ──
+  ctx.fillStyle = '#0d0d0d';
+  ctx.fillRect(0, 0, W, H);
+
+  // ── TEXTURA / GLOW SUTIL ──
+  const grd = ctx.createRadialGradient(W * 0.75, H * 0.35, 0, W * 0.75, H * 0.35, W * 0.7);
+  grd.addColorStop(0, 'rgba(192,57,43,0.07)');
+  grd.addColorStop(1, 'rgba(0,0,0,0)');
+  ctx.fillStyle = grd;
+  ctx.fillRect(0, 0, W, H);
+
+  // ── LÍNEA SUPERIOR ──
+  ctx.fillStyle = '#c0392b';
+  ctx.fillRect(72, 72, W - 144, 2);
+
+  // ── LÍNEA INFERIOR ──
+  ctx.fillStyle = '#c0392b';
+  ctx.fillRect(72, H - 74, W - 144, 2);
+
+  // ── BRAND ──
+  ctx.font = '500 32px "IBM Plex Mono", monospace';
+  ctx.fillStyle = '#c0392b';
+  ctx.letterSpacing = '0.15em';
+  ctx.fillText('ALTO IMPACTO', 72, 120);
+  ctx.letterSpacing = '0';
+
+  // ── INDICADOR LABEL ──
+  ctx.font = '500 24px "IBM Plex Mono", monospace';
+  ctx.fillStyle = '#333';
+  ctx.fillText(ind.navLabel.toUpperCase(), 72, 160);
+
+  // ── NÚMERO GRANDE (fantasma) ──
+  const ghostSize = format === 'feed' ? 340 : 420;
+  ctx.save();
+  ctx.font = `400 ${ghostSize}px "DM Serif Display", serif`;
+  ctx.fillStyle = 'rgba(192,57,43,0.06)';
+  ctx.textAlign = 'right';
+  const ghostNum = ind.navNum || ind.heroGhost || '';
+  ctx.fillText(ghostNum, W - 60, format === 'feed' ? 680 : 900);
+  ctx.textAlign = 'left';
+  ctx.restore();
+
+  // ── HEADLINE ──
+  // Extraer texto sin HTML
+  const rawHeadline = (ind.heroHeadline || '').replace(/<[^>]+>/g, '');
+  const headlineSize = format === 'feed' ? 88 : 96;
+  const headlineY   = format === 'feed' ? 320 : 420;
+  const lineH = headlineSize * 1.15;
+
+  ctx.font = `400 ${headlineSize}px "DM Serif Display", serif`;
+  ctx.fillStyle = '#f0e8d8';
+
+  // Wrap text manualmente
+  const headlineWords = rawHeadline.split(' ');
+  const maxLineW = W - 144;
+  let line = '', lineY = headlineY;
+  headlineWords.forEach((word, i) => {
+    const test = line + (line ? ' ' : '') + word;
+    if (ctx.measureText(test).width > maxLineW && line) {
+      ctx.fillText(line, 72, lineY);
+      line = word;
+      lineY += lineH;
+    } else {
+      line = test;
+    }
+    if (i === headlineWords.length - 1) ctx.fillText(line, 72, lineY);
+  });
+  const headlineEndY = lineY;
+
+  // ── EM (número/frase en rojo) ──
+  const emText = ind.heroEm || '';
+  const emSize = format === 'feed' ? 56 : 62;
+  ctx.font = `italic 400 ${emSize}px "DM Serif Display", serif`;
+  ctx.fillStyle = '#c0392b';
+
+  // Wrap del em text
+  const emWords = emText.split(' ');
+  let emLine = '', emY = headlineEndY + emSize * 1.4;
+  emWords.forEach((word, i) => {
+    const test = emLine + (emLine ? ' ' : '') + word;
+    if (ctx.measureText(test).width > maxLineW && emLine) {
+      ctx.fillText(emLine, 72, emY);
+      emLine = word;
+      emY += emSize * 1.2;
+    } else {
+      emLine = test;
+    }
+    if (i === emWords.length - 1) ctx.fillText(emLine, 72, emY);
+  });
+  const emEndY = emY;
+
+  // ── LÍNEA SEPARADORA ──
+  const sepY = emEndY + (format === 'feed' ? 60 : 80);
+  ctx.fillStyle = 'rgba(255,255,255,0.08)';
+  ctx.fillRect(72, sepY, W - 144, 1);
+
+  // ── SHARETEXT (cuerpo) ──
+  const shareT = ind.shareText || '';
+  const bodySize = format === 'feed' ? 34 : 38;
+  ctx.font = `300 ${bodySize}px "Spectral", serif`;
+  ctx.fillStyle = '#888';
+
+  const bodyWords = shareT.split(' ');
+  let bodyLine = '', bodyY = sepY + bodySize * 1.8;
+  const bodyMaxW = W - 144;
+  bodyWords.forEach((word, i) => {
+    const test = bodyLine + (bodyLine ? ' ' : '') + word;
+    if (ctx.measureText(test).width > bodyMaxW && bodyLine) {
+      ctx.fillText(bodyLine, 72, bodyY);
+      bodyLine = word;
+      bodyY += bodySize * 1.5;
+    } else {
+      bodyLine = test;
+    }
+    if (i === bodyWords.length - 1) ctx.fillText(bodyLine, 72, bodyY);
+  });
+
+  // ── FOOTER: URL ──
+  const footerY = H - 100;
+  ctx.font = '400 26px "IBM Plex Mono", monospace';
+  ctx.fillStyle = '#c0392b';
+  ctx.fillText('mariovenegasw.github.io/alto-impacto', 72, footerY);
+
+  // ── LÍNEA INFERIOR (ya dibujada arriba) ──
+}
+
+function downloadCard() {
+  const ind = INDICATORS.find(i => i.id === _cardIndicatorId);
+  if (!ind) return;
+
+  const canvas = document.getElementById('cardCanvas');
+  const link = document.createElement('a');
+  link.download = `alto-impacto-${ind.id}-${_cardFormat}.png`;
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+}
 </script>
 </body>
 </html>
