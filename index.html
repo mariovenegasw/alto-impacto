@@ -804,6 +804,261 @@
   @media (max-width: 768px) {
     .share-block { flex-direction: column; align-items: flex-start; }
   }
+
+  /* ══ BLOQUE DE ACCIÓN ══ */
+  .accion-wrap {
+    margin-top: 48px;
+    border-top: 2px solid var(--border-light);
+    padding-top: 52px;
+    position: relative;
+    overflow: hidden;
+  }
+  .accion-ghost {
+    position: absolute;
+    right: -16px; bottom: -24px;
+    font-family: var(--serif);
+    font-size: 260px;
+    line-height: 1;
+    color: rgba(192,57,43,0.04);
+    pointer-events: none;
+    user-select: none;
+    letter-spacing: -0.04em;
+  }
+  .accion-eyebrow {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .accion-title {
+    font-family: var(--serif);
+    font-size: clamp(24px, 3vw, 36px);
+    font-weight: 400;
+    color: #1a1208;
+    line-height: 1.1;
+    margin-bottom: 12px;
+  }
+  .accion-title em { font-style: italic; color: var(--red); }
+  .accion-sub {
+    font-size: 14px;
+    color: var(--muted-light);
+    font-weight: 300;
+    line-height: 1.75;
+    max-width: 500px;
+    margin-bottom: 36px;
+  }
+  .acciones-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px;
+    background: var(--border-light);
+    border: 1px solid var(--border-light);
+  }
+  .accion-card {
+    background: #f5f0e8;
+    padding: 28px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    transition: background 0.2s;
+  }
+  .accion-card:hover { background: #ede8de; }
+  .accion-num {
+    font-family: var(--serif);
+    font-size: 40px;
+    color: rgba(192,57,43,0.12);
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+  .accion-card-eyebrow {
+    font-family: var(--mono);
+    font-size: 8px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 8px;
+  }
+  .accion-card-title {
+    font-family: var(--serif);
+    font-size: 19px;
+    font-weight: 400;
+    color: #1a1208;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+  .accion-card-body {
+    font-size: 13px;
+    color: var(--muted-light);
+    font-weight: 300;
+    line-height: 1.75;
+    flex: 1;
+    margin-bottom: 20px;
+  }
+  .steps-mini {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+    padding: 14px;
+    background: white;
+    border: 1px solid var(--border-light);
+  }
+  .step-mini { display: flex; align-items: flex-start; gap: 10px; }
+  .step-mini-num {
+    font-family: var(--mono);
+    font-size: 8px;
+    color: var(--red);
+    background: rgba(192,57,43,0.08);
+    padding: 2px 6px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .step-mini-text {
+    font-size: 12px;
+    color: #1a1208;
+    line-height: 1.55;
+    font-family: var(--sans);
+    font-weight: 300;
+  }
+  .step-mini-text strong { font-weight: 700; }
+  .accion-statement {
+    background: white;
+    border: 1px solid var(--border-light);
+    border-left: 3px solid var(--red);
+    padding: 14px 16px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: #1a1208;
+    line-height: 1.7;
+    font-family: var(--sans);
+    font-weight: 300;
+    font-style: italic;
+  }
+  .medios-list {
+    background: white;
+    border: 1px solid var(--border-light);
+    padding: 12px 14px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .medio-item { display: flex; align-items: flex-start; gap: 10px; }
+  .medio-dot {
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--red);
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+  .medio-name {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.06em;
+    color: #1a1208;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 2px;
+  }
+  .medio-desc {
+    font-size: 11px;
+    color: var(--muted-light);
+    font-weight: 300;
+    line-height: 1.4;
+    display: block;
+  }
+  .medio-link {
+    font-family: var(--mono);
+    font-size: 8.5px;
+    color: var(--red);
+    text-decoration: none;
+    white-space: nowrap;
+    margin-top: 2px;
+    display: block;
+  }
+  .medio-link:hover { text-decoration: underline; }
+  .estado-select {
+    width: 100%;
+    padding: 9px 12px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: #1a1208;
+    background: white;
+    border: 1px solid var(--border-light);
+    appearance: none;
+    cursor: pointer;
+    margin-bottom: 12px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238a7f6e'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+  }
+  .estado-select:focus { outline: 1px solid var(--red); }
+  .mensaje-preview {
+    display: none;
+    background: white;
+    border: 1px solid var(--border-light);
+    border-left: 3px solid var(--red);
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    font-size: 11.5px;
+    color: #1a1208;
+    line-height: 1.7;
+    font-family: var(--sans);
+    font-weight: 300;
+    font-style: italic;
+  }
+  .mensaje-preview.visible { display: block; }
+  .mensaje-preview strong { font-style: normal; font-weight: 700; color: var(--red); }
+  .btn-accion {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 9px 16px;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid #1a1208;
+    color: #1a1208;
+    background: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 100%;
+    margin-top: 6px;
+  }
+  .btn-accion:hover { background: #1a1208; color: #f5f0e8; }
+  .btn-accion.red { border-color: var(--red); color: var(--red); }
+  .btn-accion.red:hover { background: var(--red); color: white; }
+  .accion-footnote {
+    margin-top: 1px;
+    padding: 12px 24px;
+    background: #ede8de;
+    border: 1px solid var(--border-light);
+    border-top: none;
+    font-family: var(--mono);
+    font-size: 8.5px;
+    letter-spacing: 0.06em;
+    color: var(--muted-light);
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .footnote-dot {
+    display: inline-block;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--red);
+    opacity: 0.4;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  @media (max-width: 768px) {
+    .acciones-grid { grid-template-columns: 1fr; }
+    .accion-footnote { gap: 8px; padding: 12px 16px; }
+  }
 </style>
 </head>
 <body>
@@ -2713,49 +2968,560 @@ function renderTrend(ind, dark=false) {
 // RENDER CASES
 // ════════════════════════════════════════
 
-function renderCases(ind) {
-  const rows = ind.cases.map(c => `
-    <div class="case-row">
-      <div class="case-year">${c.year}</div>
-      <div class="case-info">
-        <h4>${c.name}</h4>
-        <p>${c.desc}</p>
-        <span class="case-tag">${c.tag}</span>
-      </div>
-    </div>
-  `).join('');
+// ════════════════════════════════════════
+// MENSAJES AL DIPUTADO — por indicador
+// ════════════════════════════════════════
 
+const MENSAJES_DIPUTADO = {
+  homicidio: (estado) =>
+`Diputado/a por ${estado}:
+
+Le escribo como ciudadano/a para preguntarle directamente:
+
+¿Cuál es la tasa de esclarecimiento de homicidios en su distrito? En 2024, México registró 30,060 homicidios dolosos — 82 personas cada día. La mayoría de esos casos no llegan a sentencia.
+
+¿Qué acciones concretas ha tomado usted para exigir una política de justicia que funcione en ${estado}?
+
+Espero su respuesta.
+
+— [Tu nombre]`,
+
+  feminicidio: (estado) =>
+`Diputado/a por ${estado}:
+
+Le escribo como ciudadano/a para preguntarle directamente:
+
+¿Apoya usted la Alerta de Género en ${estado}? En 2024 se registraron 855 feminicidios en México — 2.3 por día. Muchos más fueron clasificados como homicidio simple, invisibilizando la violencia de género.
+
+¿Qué ha hecho usted para garantizar que la clasificación de feminicidio se aplique correctamente en su estado?
+
+Espero su respuesta.
+
+— [Tu nombre]`,
+
+  desaparicion: (estado) =>
+`Diputado/a por ${estado}:
+
+Le escribo como ciudadano/a para preguntarle directamente:
+
+¿Cuántas personas desaparecidas hay registradas en su distrito? ¿Qué acciones concretas ha tomado para exigir recursos a la Comisión Nacional de Búsqueda y apoyar a las familias buscadoras de ${estado}?
+
+El RNPDNO registra 131,999 personas desaparecidas. La curva no ha bajado en 15 años. Espero su respuesta.
+
+— [Tu nombre]`,
+
+  periodistas: (estado) =>
+`Diputado/a por ${estado}:
+
+Le escribo como ciudadano/a para preguntarle directamente:
+
+¿Ha condenado públicamente alguna agresión a periodistas en ${estado} durante su mandato? En 2024, Artículo 19 documentó 639 agresiones — el 45% cometidas por funcionarios públicos.
+
+Sin prensa libre, no hay rendición de cuentas posible. ¿Qué ha hecho usted para proteger el derecho a la información en su distrito?
+
+Espero su respuesta.
+
+— [Tu nombre]`,
+
+  extorsion: (estado) =>
+`Diputado/a por ${estado}:
+
+Le escribo como ciudadano/a para preguntarle directamente:
+
+¿Por qué el 96.7% de las extorsiones en México no se denuncia? La respuesta, según el INEGI, es desconfianza en las instituciones y miedo a represalias.
+
+¿Qué acciones concretas ha tomado para reconstruir esa confianza en ${estado}? ¿Cuántas denuncias de extorsión en su distrito llegaron a una sentencia el año pasado?
+
+Espero su respuesta.
+
+— [Tu nombre]`,
+};
+
+// ════════════════════════════════════════
+// RENDER ACCIÓN — bloque de acción por indicador
+// ════════════════════════════════════════
+
+function renderAccion(ind) {
+  const acciones = {
+
+    homicidio: `
+      <div class="accion-wrap">
+        <div class="accion-ghost">82</div>
+        <div class="accion-eyebrow">Lo que puedes hacer</div>
+        <h3 class="accion-title">82 personas murieron hoy.<br><em>Mañana serán otras 82.</em></h3>
+        <p class="accion-sub">Las cifras no cambian solas. Cambian cuando la gente deja de normalizarlas y empieza a exigir respuestas.</p>
+        <div class="acciones-grid">
+          <div class="accion-card">
+            <div class="accion-num">01</div>
+            <div class="accion-card-eyebrow">Entiende la tendencia</div>
+            <div class="accion-card-title">Lee la gráfica — y lo que no dice</div>
+            <p class="accion-card-body">La curva de homicidios muestra el número de víctimas. Lo que no muestra es cuántos casos se resuelven. En México, la tasa de esclarecimiento de homicidios es inferior al 10%. Eso significa impunidad casi total.</p>
+            <div class="steps-mini">
+              <div class="step-mini">
+                <span class="step-mini-num">01</span>
+                <span class="step-mini-text"><strong>Observa el pico de 2019.</strong> 34,721 víctimas. Ningún gobierno lo ha bajado de forma sostenida.</span>
+              </div>
+              <div class="step-mini">
+                <span class="step-mini-num">02</span>
+                <span class="step-mini-text"><strong>Busca tu estado</strong> en el mapa. ¿Subió o bajó respecto al año anterior?</span>
+              </div>
+              <div class="step-mini">
+                <span class="step-mini-num">03</span>
+                <span class="step-mini-text"><strong>Pregúntate:</strong> ¿cuántos de esos casos tienen sentencia?</span>
+              </div>
+            </div>
+            <a href="https://causaencomun.org.mx" target="_blank" rel="noopener" class="btn-accion">Causa en Común — monitoreo ciudadano →</a>
+          </div>
+          <div class="accion-card">
+            <div class="accion-num">02</div>
+            <div class="accion-card-eyebrow">Infórmate</div>
+            <div class="accion-card-title">Más allá del número: quiénes son las víctimas</div>
+            <p class="accion-card-body">El homicidio doloso no afecta igual a todos los estados ni a todos los grupos. Jóvenes, hombres, zonas de disputa territorial — los patrones dicen más que el total. Causa en Común y el SESNSP publican datos abiertos.</p>
+            <div class="accion-statement">
+              Las víctimas de homicidio doloso no son daño colateral. Son el resultado de decisiones políticas que priorizan la negociación con el crimen sobre la justicia para los ciudadanos.
+            </div>
+            <a href="https://www.gob.mx/sesnsp/acciones-y-programas/datos-abiertos-de-incidencia-delictiva" target="_blank" rel="noopener" class="btn-accion">Datos abiertos · SESNSP →</a>
+          </div>
+          <div class="accion-card">
+            <div class="accion-num">03</div>
+            <div class="accion-card-eyebrow">Exige una respuesta</div>
+            <div class="accion-card-title">Escríbele a tu diputado. El texto ya está listo.</div>
+            <p class="accion-card-body">Los diputados federales aprueban el presupuesto de seguridad y justicia. Selecciona tu estado y copia el mensaje — solo falta tu nombre.</p>
+            <select class="estado-select" id="estadoSelect_homicidio" onchange="actualizarMensaje('homicidio')">
+              <option value="">— Selecciona tu estado</option>
+              ${ESTADOS.map(e => `<option>${e}</option>`).join('')}
+            </select>
+            <div class="mensaje-preview" id="mensajePreview_homicidio"></div>
+            <button class="btn-accion red" id="btnCopiar_homicidio" onclick="copiarMensaje('homicidio')" style="display:none;">↗ Copiar mensaje</button>
+            <a href="https://web.diputados.gob.mx/inicio/directorio" target="_blank" rel="noopener" class="btn-accion" id="btnDir_homicidio" style="display:none;">Buscar mi diputado →</a>
+          </div>
+        </div>
+        <div class="accion-footnote">
+          <span><span class="footnote-dot"></span>Fuentes: SESNSP · Causa en Común · Cámara de Diputados</span>
+          <span><span class="footnote-dot"></span>Tasa de esclarecimiento &lt;10% · Impunidad Meter 2024</span>
+        </div>
+      </div>`,
+
+    feminicidio: `
+      <div class="accion-wrap">
+        <div class="accion-ghost">855</div>
+        <div class="accion-eyebrow">Lo que puedes hacer</div>
+        <h3 class="accion-title"><em>No empieza con una ley.</em><br>Empieza con nosotros.</h3>
+        <p class="accion-sub">855 feminicidios registrados en 2024. La respuesta institucional ha sido insuficiente — pero hay formas de actuar que no dependen de esperar al Estado.</p>
+        <div class="acciones-grid">
+          <div class="accion-card">
+            <div class="accion-num">01</div>
+            <div class="accion-card-eyebrow">Entiende la diferencia</div>
+            <div class="accion-card-title">¿Por qué importa llamarle feminicidio y no homicidio?</div>
+            <p class="accion-card-body">La clasificación no es burocracia — es reconocimiento. Cuando un asesinato de mujer se clasifica como homicidio simple, desaparece el patrón. Desaparece la responsabilidad del Estado de proteger a las mujeres por el hecho de serlo.</p>
+            <div class="steps-mini">
+              <div class="step-mini">
+                <span class="step-mini-num">01</span>
+                <span class="step-mini-text"><strong>El feminicidio requiere dolo de género.</strong> Muchos estados no lo aplican — o lo aplican mal.</span>
+              </div>
+              <div class="step-mini">
+                <span class="step-mini-num">02</span>
+                <span class="step-mini-text"><strong>La cifra real es mayor.</strong> Cada caso mal clasificado es una víctima que no cuenta.</span>
+              </div>
+              <div class="step-mini">
+                <span class="step-mini-num">03</span>
+                <span class="step-mini-text"><strong>La Alerta de Género</strong> es el mecanismo legal para cuando el Estado falla sistemáticamente.</span>
+              </div>
+            </div>
+            <a href="https://igualdad.gob.mx/violencia/aviso-de-alerta-de-genero/" target="_blank" rel="noopener" class="btn-accion">Qué es la Alerta de Género →</a>
+          </div>
+          <div class="accion-card">
+            <div class="accion-num">02</div>
+            <div class="accion-card-eyebrow">Conoce el movimiento</div>
+            <div class="accion-card-title">Lo que las mujeres han construido sin el Estado</div>
+            <p class="accion-card-body">Desde el #UnDíaSinNosotras hasta las brigadas de documentación, el movimiento feminista mexicano lleva años visibilizando lo que las instituciones prefieren ignorar. Conocerlo es entender por qué las cifras no cuentan toda la historia.</p>
+            <div class="accion-statement">
+              El paro del 9 de marzo de 2020 no fue una protesta. Fue la demostración de que cuando las mujeres se van, todo se detiene — y de que su presencia nunca fue invisible, solo ignorada.
+            </div>
+            <a href="https://quintoelemento.mx/tag/feminicidio/" target="_blank" rel="noopener" class="btn-accion">Cobertura · 5to Elemento →</a>
+          </div>
+          <div class="accion-card">
+            <div class="accion-num">03</div>
+            <div class="accion-card-eyebrow">Exige una respuesta</div>
+            <div class="accion-card-title">Escríbele a tu diputado. El texto ya está listo.</div>
+            <p class="accion-card-body">La Alerta de Género, la correcta clasificación de feminicidios y el presupuesto para refugios son decisiones políticas. Selecciona tu estado y copia el mensaje.</p>
+            <select class="estado-select" id="estadoSelect_feminicidio" onchange="actualizarMensaje('feminicidio')">
+              <option value="">— Selecciona tu estado</option>
+              ${ESTADOS.map(e => `<option>${e}</option>`).join('')}
+            </select>
+            <div class="mensaje-preview" id="mensajePreview_feminicidio"></div>
+            <button class="btn-accion red" id="btnCopiar_feminicidio" onclick="copiarMensaje('feminicidio')" style="display:none;">↗ Copiar mensaje</button>
+            <a href="https://web.diputados.gob.mx/inicio/directorio" target="_blank" rel="noopener" class="btn-accion" id="btnDir_feminicidio" style="display:none;">Buscar mi diputado →</a>
+          </div>
+        </div>
+        <div class="accion-footnote">
+          <span><span class="footnote-dot"></span>Fuentes: SESNSP · CNIJE · Inmujeres · 5to Elemento</span>
+          <span><span class="footnote-dot"></span>855 víctimas registradas · 2024 · Cifra real mayor por subregistro</span>
+        </div>
+      </div>`,
+
+    desaparicion: `
+      <div class="accion-wrap">
+        <div class="accion-ghost">35</div>
+        <div class="accion-eyebrow">Lo que puedes hacer</div>
+        <h3 class="accion-title">No necesitas conocer a alguien<br>para que <em>esto te importe.</em></h3>
+        <p class="accion-sub">131,999 personas desaparecidas no son una estadística abstracta. Son el resultado de decisiones políticas concretas — y hay formas concretas de responder.</p>
+        <div class="acciones-grid">
+          <div class="accion-card">
+            <div class="accion-num">01</div>
+            <div class="accion-card-eyebrow">Usa el registro</div>
+            <div class="accion-card-title">Aprende a leer el RNPDNO en 3 pasos</div>
+            <p class="accion-card-body">El Registro Nacional de Personas Desaparecidas es público. Cualquier persona puede consultarlo. Aquí te explicamos cómo — porque entenderlo ya es un acto político.</p>
+            <div class="steps-mini">
+              <div class="step-mini">
+                <span class="step-mini-num">01</span>
+                <span class="step-mini-text"><strong>Entra al mapa</strong> de arriba. Cada punto representa personas reales, no casos.</span>
+              </div>
+              <div class="step-mini">
+                <span class="step-mini-num">02</span>
+                <span class="step-mini-text"><strong>Filtra por tu estado.</strong> ¿Cuántas personas desaparecieron donde vives?</span>
+              </div>
+              <div class="step-mini">
+                <span class="step-mini-num">03</span>
+                <span class="step-mini-text"><strong>Comparte el número.</strong> Que alguien más sepa que este registro existe.</span>
+              </div>
+            </div>
+            <a href="https://versionpublicarnpdno.segob.gob.mx" target="_blank" rel="noopener" class="btn-accion red">Abrir el RNPDNO →</a>
+          </div>
+          <div class="accion-card">
+            <div class="accion-num">02</div>
+            <div class="accion-card-eyebrow">Conoce el trabajo</div>
+            <div class="accion-card-title">Las Madres Buscadoras están haciendo el trabajo que el Estado no ha hecho.</div>
+            <p class="accion-card-body">Salen con palas porque el Estado no lo hace. Han encontrado cientos de fosas clandestinas en Sonora, Jalisco y Sinaloa que las autoridades nunca buscaron. Conocer su trabajo es entender la dimensión real de la crisis.</p>
+            <div class="accion-statement">
+              No son héroas. Son la evidencia de un Estado ausente — y la prueba de que cuando el gobierno abandona a su gente, la gente no se abandona a sí misma.
+            </div>
+            <a href="https://quintoelemento.mx/tag/madres-buscadoras/" target="_blank" rel="noopener" class="btn-accion">Ver cobertura · 5to Elemento →</a>
+          </div>
+          <div class="accion-card">
+            <div class="accion-num">03</div>
+            <div class="accion-card-eyebrow">Exige una respuesta</div>
+            <div class="accion-card-title">Escríbele a tu diputado. El texto ya está listo.</div>
+            <p class="accion-card-body">Los diputados federales deciden el presupuesto de la Comisión Nacional de Búsqueda. Selecciona tu estado y copia el mensaje — solo falta tu nombre.</p>
+            <select class="estado-select" id="estadoSelect_desaparicion" onchange="actualizarMensaje('desaparicion')">
+              <option value="">— Selecciona tu estado</option>
+              ${ESTADOS.map(e => `<option>${e}</option>`).join('')}
+            </select>
+            <div class="mensaje-preview" id="mensajePreview_desaparicion"></div>
+            <button class="btn-accion red" id="btnCopiar_desaparicion" onclick="copiarMensaje('desaparicion')" style="display:none;">↗ Copiar mensaje</button>
+            <a href="https://web.diputados.gob.mx/inicio/directorio" target="_blank" rel="noopener" class="btn-accion" id="btnDir_desaparicion" style="display:none;">Buscar mi diputado →</a>
+          </div>
+        </div>
+        <div class="accion-footnote">
+          <span><span class="footnote-dot"></span>Fuentes: RNPDNO · Comisión Nacional de Búsqueda · 5to Elemento · Cámara de Diputados</span>
+          <span><span class="footnote-dot"></span>131,999 personas desaparecidas · al 10/03/2026</span>
+        </div>
+      </div>`,
+
+    periodistas: `
+      <div class="accion-wrap">
+        <div class="accion-ghost">639</div>
+        <div class="accion-eyebrow">Lo que puedes hacer</div>
+        <h3 class="accion-title">Sin periodistas, no sabrías nada<br>de <em>lo que acabas de leer.</em></h3>
+        <p class="accion-sub">El acceso a la información es un derecho — y está amenazado en México. Apoyar a la prensa independiente no es un acto de simpatía. Es una decisión política.</p>
+        <div class="acciones-grid">
+          <div class="accion-card">
+            <div class="accion-num">01</div>
+            <div class="accion-card-eyebrow">Lee prensa independiente</div>
+            <div class="accion-card-title">Medios que cubren lo que los demás no cubren</div>
+            <p class="accion-card-body">El periodismo local independiente es el más vulnerable — y el más necesario. Estos medios documentan violencia, corrupción y desapariciones en los lugares donde el crimen opera. Leerlos, compartirlos y suscribirte es apoyar su existencia.</p>
+            <div class="medios-list">
+              <div class="medio-item">
+                <div class="medio-dot"></div>
+                <div>
+                  <span class="medio-name">Ríodoce</span>
+                  <span class="medio-desc">Sinaloa · Narcopolítica y crimen organizado</span>
+                  <a href="https://riodoce.mx" target="_blank" rel="noopener" class="medio-link">riodoce.mx →</a>
+                </div>
+              </div>
+              <div class="medio-item">
+                <div class="medio-dot"></div>
+                <div>
+                  <span class="medio-name">Pie de Página</span>
+                  <span class="medio-desc">Nacional · Derechos humanos y justicia</span>
+                  <a href="https://piedepagina.mx" target="_blank" rel="noopener" class="medio-link">piedepagina.mx →</a>
+                </div>
+              </div>
+              <div class="medio-item">
+                <div class="medio-dot"></div>
+                <div>
+                  <span class="medio-name">El Suroriente</span>
+                  <span class="medio-desc">Sureste · Violencia y comunidades indígenas</span>
+                  <a href="https://elsuroriente.com" target="_blank" rel="noopener" class="medio-link">elsuroriente.com →</a>
+                </div>
+              </div>
+              <div class="medio-item">
+                <div class="medio-dot"></div>
+                <div>
+                  <span class="medio-name">Periodistas de a Pie</span>
+                  <span class="medio-desc">Nacional · Red de periodismo de impacto</span>
+                  <a href="https://periodistasdeapie.org.mx" target="_blank" rel="noopener" class="medio-link">periodistasdeapie.org.mx →</a>
+                </div>
+              </div>
+            </div>
+            <a href="https://articulo19.org/medios-independientes/" target="_blank" rel="noopener" class="btn-accion">Directorio completo · Artículo 19 →</a>
+          </div>
+          <div class="accion-card">
+            <div class="accion-num">02</div>
+            <div class="accion-card-eyebrow">Conoce a quienes los defienden</div>
+            <div class="accion-card-title">Artículo 19: documentar es resistir</div>
+            <p class="accion-card-body">Artículo 19 documenta cada agresión, litiga casos, acompaña a periodistas en riesgo y publica los datos que permiten medir la crisis. Sin su trabajo, las 639 agresiones de 2024 serían invisibles.</p>
+            <div class="accion-statement">
+              El 45% de las agresiones documentadas en 2024 provienen de funcionarios públicos. El Estado no solo falla en proteger a la prensa — es su principal agresor.
+            </div>
+            <a href="https://articulo19.org" target="_blank" rel="noopener" class="btn-accion">Conocer Artículo 19 →</a>
+          </div>
+          <div class="accion-card">
+            <div class="accion-num">03</div>
+            <div class="accion-card-eyebrow">Exige una respuesta</div>
+            <div class="accion-card-title">Escríbele a tu diputado. El texto ya está listo.</div>
+            <p class="accion-card-body">Sin prensa libre no hay rendición de cuentas. Los diputados tienen la obligación de condenar las agresiones y garantizar el derecho a la información. Selecciona tu estado.</p>
+            <select class="estado-select" id="estadoSelect_periodistas" onchange="actualizarMensaje('periodistas')">
+              <option value="">— Selecciona tu estado</option>
+              ${ESTADOS.map(e => `<option>${e}</option>`).join('')}
+            </select>
+            <div class="mensaje-preview" id="mensajePreview_periodistas"></div>
+            <button class="btn-accion red" id="btnCopiar_periodistas" onclick="copiarMensaje('periodistas')" style="display:none;">↗ Copiar mensaje</button>
+            <a href="https://web.diputados.gob.mx/inicio/directorio" target="_blank" rel="noopener" class="btn-accion" id="btnDir_periodistas" style="display:none;">Buscar mi diputado →</a>
+          </div>
+        </div>
+        <div class="accion-footnote">
+          <span><span class="footnote-dot"></span>Fuentes: Artículo 19 · CPJ · Cámara de Diputados</span>
+          <span><span class="footnote-dot"></span>639 agresiones documentadas · 2024 · 45% por funcionarios públicos</span>
+        </div>
+      </div>`,
+
+    extorsion: `
+      <div class="accion-wrap">
+        <div class="accion-ghost">97%</div>
+        <div class="accion-eyebrow">Lo que puedes hacer</div>
+        <h3 class="accion-title">No denunciaste. Tampoco lo hizo<br>el <em>96.7% del país.</em></h3>
+        <p class="accion-sub">No es apatía. Es una conclusión racional ante instituciones que no responden. Pero la cifra negra también se combate — exigiendo que denunciar valga la pena.</p>
+        <div class="acciones-grid">
+          <div class="accion-card">
+            <div class="accion-num">01</div>
+            <div class="accion-card-eyebrow">Entiende por qué no se denuncia</div>
+            <div class="accion-card-title">No es flojera. Es una decisión racional.</div>
+            <p class="accion-card-body">El INEGI preguntó a las víctimas por qué no denunciaron. La respuesta más común: pérdida de tiempo. La segunda: desconfianza en la autoridad. Denunciar en México tiene un costo real y un beneficio casi nulo.</p>
+            <div class="steps-mini">
+              <div class="step-mini">
+                <span class="step-mini-num">34%</span>
+                <span class="step-mini-text"><strong>Pérdida de tiempo</strong> — la razón más citada para no denunciar.</span>
+              </div>
+              <div class="step-mini">
+                <span class="step-mini-num">13%</span>
+                <span class="step-mini-text"><strong>Desconfianza en la autoridad</strong> — segunda razón más frecuente.</span>
+              </div>
+              <div class="step-mini">
+                <span class="step-mini-num">6%</span>
+                <span class="step-mini-text"><strong>Miedo al agresor</strong> — especialmente en extorsión con amenaza directa.</span>
+              </div>
+            </div>
+            <a href="https://www.inegi.org.mx/programas/envipe/2024/" target="_blank" rel="noopener" class="btn-accion">Ver datos completos · ENVIPE 2024 →</a>
+          </div>
+          <div class="accion-card">
+            <div class="accion-num">02</div>
+            <div class="accion-card-eyebrow">Cómo funciona realmente</div>
+            <div class="accion-card-title">Si decides denunciar: lo que puedes esperar</div>
+            <p class="accion-card-body">Denunciar es un derecho — aunque el sistema lo haga difícil. Conocer el proceso reduce la incertidumbre y ayuda a tomar una decisión informada, no impulsiva.</p>
+            <div class="steps-mini">
+              <div class="step-mini">
+                <span class="step-mini-num">01</span>
+                <span class="step-mini-text"><strong>Denuncia en la Fiscalía</strong> de tu estado o en el C5 (800 DENUNCIA). Puedes hacerlo de forma anónima.</span>
+              </div>
+              <div class="step-mini">
+                <span class="step-mini-num">02</span>
+                <span class="step-mini-text"><strong>Guarda evidencia:</strong> capturas, números, registros de llamadas. Aumentan las probabilidades de que el caso avance.</span>
+              </div>
+              <div class="step-mini">
+                <span class="step-mini-num">03</span>
+                <span class="step-mini-text"><strong>Sé realista:</strong> la mayoría de los casos no llegan a sentencia. Pero cada denuncia construye el registro que evidencia el problema.</span>
+              </div>
+            </div>
+            <a href="https://www.fgr.org.mx/denuncias" target="_blank" rel="noopener" class="btn-accion">Cómo denunciar · FGR →</a>
+          </div>
+          <div class="accion-card">
+            <div class="accion-num">03</div>
+            <div class="accion-card-eyebrow">Exige una respuesta</div>
+            <div class="accion-card-title">Escríbele a tu diputado. El texto ya está listo.</div>
+            <p class="accion-card-body">La cifra negra no bajará sola. Requiere instituciones que funcionen — y eso depende de decisiones políticas. Selecciona tu estado y copia el mensaje.</p>
+            <select class="estado-select" id="estadoSelect_extorsion" onchange="actualizarMensaje('extorsion')">
+              <option value="">— Selecciona tu estado</option>
+              ${ESTADOS.map(e => `<option>${e}</option>`).join('')}
+            </select>
+            <div class="mensaje-preview" id="mensajePreview_extorsion"></div>
+            <button class="btn-accion red" id="btnCopiar_extorsion" onclick="copiarMensaje('extorsion')" style="display:none;">↗ Copiar mensaje</button>
+            <a href="https://web.diputados.gob.mx/inicio/directorio" target="_blank" rel="noopener" class="btn-accion" id="btnDir_extorsion" style="display:none;">Buscar mi diputado →</a>
+          </div>
+        </div>
+        <div class="accion-footnote">
+          <span><span class="footnote-dot"></span>Fuentes: ENVIPE 2024 · INEGI · FGR · Cámara de Diputados</span>
+          <span><span class="footnote-dot"></span>Cifra negra 96.7% · ~4.9M extorsiones estimadas · 2023</span>
+        </div>
+      </div>`,
+  };
+
+  return acciones[ind.id] || '';
+}
+
+// ════════════════════════════════════════
+// ESTADOS — lista compartida
+// ════════════════════════════════════════
+
+const ESTADOS = [
+  'Aguascalientes','Baja California','Baja California Sur','Campeche',
+  'Chiapas','Chihuahua','Ciudad de México','Coahuila','Colima','Durango',
+  'Guanajuato','Guerrero','Hidalgo','Jalisco','Estado de México',
+  'Michoacán','Morelos','Nayarit','Nuevo León','Oaxaca','Puebla',
+  'Querétaro','Quintana Roo','San Luis Potosí','Sinaloa','Sonora',
+  'Tabasco','Tamaulipas','Tlaxcala','Veracruz','Yucatán','Zacatecas'
+];
+
+// ════════════════════════════════════════
+// LÓGICA DEL SELECTOR DE ESTADO
+// ════════════════════════════════════════
+
+function actualizarMensaje(indicadorId) {
+  const estado = document.getElementById(`estadoSelect_${indicadorId}`).value;
+  const preview = document.getElementById(`mensajePreview_${indicadorId}`);
+  const btnCopiar = document.getElementById(`btnCopiar_${indicadorId}`);
+  const btnDir = document.getElementById(`btnDir_${indicadorId}`);
+
+  if (!estado) {
+    preview.classList.remove('visible');
+    if (btnCopiar) btnCopiar.style.display = 'none';
+    if (btnDir) btnDir.style.display = 'none';
+    return;
+  }
+
+  const fn = MENSAJES_DIPUTADO[indicadorId];
+  if (!fn) return;
+
+  const texto = fn(estado);
+  preview.innerHTML = texto
+    .replace(/\n\n/g, '<br><br>')
+    .replace(/\n/g, '<br>')
+    .replace(/\[Tu nombre\]/g, '<strong>[Tu nombre]</strong>');
+  preview.classList.add('visible');
+  if (btnCopiar) btnCopiar.style.display = 'flex';
+  if (btnDir) btnDir.style.display = 'flex';
+}
+
+function copiarMensaje(indicadorId) {
+  const estado = document.getElementById(`estadoSelect_${indicadorId}`).value;
+  if (!estado) return;
+
+  const fn = MENSAJES_DIPUTADO[indicadorId];
+  if (!fn) return;
+
+  const texto = fn(estado);
+  const btn = document.getElementById(`btnCopiar_${indicadorId}`);
+
+  navigator.clipboard.writeText(texto).then(() => {
+    if (btn) { btn.textContent = '✓ Copiado'; setTimeout(() => { btn.textContent = '↗ Copiar mensaje'; }, 2000); }
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = texto;
+    ta.style.cssText = 'position:fixed;opacity:0;';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    if (btn) { btn.textContent = '✓ Copiado'; setTimeout(() => { btn.textContent = '↗ Copiar mensaje'; }, 2000); }
+  });
+}
+
+// Caso único por indicador
+const CASO_DESTACADO = {
+  homicidio: {
+    year: '2019',
+    name: 'El Culiacanazo',
+    desc: 'Tras la captura de Ovidio Guzmán, el Cártel de Sinaloa tomó Culiacán. Retenes, balaceras, soldados rendidos. El gobierno lo liberó horas después para detener la masacre. El Estado cedió ante el crimen organizado en tiempo real — y lo transmitió en vivo.',
+    tag: 'Sinaloa · Fallo del Estado'
+  },
+  feminicidio: {
+    year: '2020',
+    name: 'Ingrid Escamilla',
+    desc: 'Asesinada en febrero de 2020 en su departamento en Ciudad de México. La policía filtró las fotos de su cuerpo a los medios. Varios diarios las publicaron en portada. Las protestas que siguieron no fueron solo por su muerte — fueron por la violencia que el Estado ejerció sobre ella dos veces: al no protegerla, y al exponerla.',
+    tag: 'CDMX · Violencia institucional'
+  },
+  desaparicion: {
+    year: '2014',
+    name: 'Caso Ayotzinapa — 43 normalistas',
+    desc: '43 estudiantes de la Normal Rural de Ayotzinapa fueron desaparecidos en Iguala, Guerrero. La policía municipal los entregó al cartel Guerreros Unidos. Más de una década después, el caso sigue sin resolución definitiva. Se convirtió en símbolo global de la colusión entre Estado y crimen organizado.',
+    tag: 'Guerrero · Estado-Crimen · Sin resolver'
+  },
+  periodistas: {
+    year: '2022',
+    name: '2022 — el año más letal',
+    desc: '12 periodistas asesinados en un solo año — el máximo histórico desde que existen registros. Varios cubrían corrupción y política local en Veracruz, Guerrero y Oaxaca. El Estado mexicano fue señalado como agresor en casi la mitad de los casos. Ninguno de los crímenes ha sido completamente esclarecido.',
+    tag: 'Nacional · Récord histórico · Impunidad'
+  },
+  extorsion: {
+    year: '2023',
+    name: 'Extorsión telefónica',
+    desc: 'Llamadas que amenazan con violencia a cambio de dinero. Las organizaciones criminales operan desde penales con listas de números robadas. Es la forma de extorsión más común en México — y la que más raramente llega a denuncia. La mayoría de las víctimas pagan, callan, y no vuelven a mencionarlo.',
+    tag: 'Nacional · Cifra negra · Penales'
+  },
+};
+
+function renderCases(ind) {
+  const caso = CASO_DESTACADO[ind.id];
+  const casoHTML = caso ? `
+    <div class="cases-list">
+      <div class="case-row">
+        <div class="case-year">${caso.year}</div>
+        <div class="case-info">
+          <h4>${caso.name}</h4>
+          <p>${caso.desc}</p>
+          <span class="case-tag">${caso.tag}</span>
+        </div>
+      </div>
+    </div>` : '';
+
+  // Sharing integrado al final del bloque de acción
   const shareText = ind.shareText || '';
   const twitterUrl = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareText);
   const waUrl = 'https://wa.me/?text=' + encodeURIComponent(shareText);
   const shareId = 'share_' + ind.id;
-
-  // Store shareText in global map to avoid HTML attribute escaping issues
   window._shareTexts = window._shareTexts || {};
   window._shareTexts[ind.id] = shareText;
 
   const shareBlock = `
-    <div class="share-block">
-      <span class="share-label">Comparte esta historia</span>
-      <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-end;">
-        <div class="share-buttons">
-          <button class="share-btn" id="${shareId}_copy" onclick="copyShareText('${shareId}_copy', '${ind.id}')">
-            ↗ Copiar texto
-          </button>
-          <a class="share-btn" href="${twitterUrl}" target="_blank" rel="noopener">
-            𝕏 Twitter
-          </a>
-          <a class="share-btn" href="${waUrl}" target="_blank" rel="noopener">
-            WhatsApp
-          </a>
+    <div style="
+      margin-top: 1px;
+      padding: 24px 32px;
+      background: #1a1208;
+      border: 1px solid rgba(192,57,43,0.2);
+      border-top: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    ">
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--red);text-transform:uppercase;margin-bottom:4px;">La normalización se combate nombrando</div>
+        <div style="font-family:'Spectral',serif;font-size:13px;color:#666;font-weight:300;line-height:1.5;">Comparte lo que acabas de leer.</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end;">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="share-btn" id="${shareId}_copy" onclick="copyShareText('${shareId}_copy', '${ind.id}')">↗ Copiar texto</button>
+          <a class="share-btn" href="${twitterUrl}" target="_blank" rel="noopener">𝕏 Twitter</a>
+          <a class="share-btn" href="${waUrl}" target="_blank" rel="noopener">WhatsApp</a>
         </div>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.08em;color:#aaa;">
-          Para Instagram: copia el texto ↑ y <button onclick="openCardModal('${ind.id}')" style="background:none;border:none;padding:0;color:var(--red);font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.08em;cursor:pointer;text-decoration:underline;">descarga el card visual →</button>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.06em;color:#333;">
+          Instagram: <button onclick="openCardModal('${ind.id}')" style="background:none;border:none;padding:0;color:var(--red);font-family:'IBM Plex Mono',monospace;font-size:9px;cursor:pointer;text-decoration:underline;">descarga el card visual →</button>
         </span>
       </div>
     </div>`;
 
-  return `<div class="cases-list">${rows}</div>${shareBlock}`;
+  return `${casoHTML}${renderAccion(ind)}${shareBlock}`;
 }
 
 function copyShareText(btnId, indicatorId) {
