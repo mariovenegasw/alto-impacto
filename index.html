@@ -739,6 +739,13 @@
     .bump-state-list { display: none; }
     .mobile-only { display: block !important; }
     .site-footer { flex-direction: column; gap: 8px; padding: 16px 20px; }
+    .counter-strip {
+      grid-template-columns: repeat(5, minmax(120px, 1fr));
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .counter-strip::-webkit-scrollbar { display: none; }
 
     /* Feminicidio: apilar números */
     .fem-stats-row { flex-direction: column; gap: 8px; }
