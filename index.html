@@ -1520,7 +1520,7 @@ const INDICATORS = [
       { year:'2019', name:'El Culiacanazo', desc:'Tras la captura de Ovidio Guzmán, el Cártel de Sinaloa tomó Culiacán. El gobierno lo liberó horas después para detener la masacre. El Estado cedió ante el crimen organizado en tiempo real.', tag:'Sinaloa · Fallo del Estado' },
       { year:'2019', name:'Masacre de la familia LeBarón', desc:'Tres madres y seis niños de la familia LeBarón — ciudadanos dual México-EE.UU. — fueron emboscados en Sonora. El ataque desencadenó llamados internacionales de intervención estadounidense.', tag:'Sonora · Ciudadanos EE.UU.' },
     ],
-    shareText: 'En México se registraron 30,060 homicidios dolosos en 2024. 82 personas cada día. La violencia no desaparece — se mueve. mariovenegasw.github.io/alto-impacto',
+    shareText: 'En México se registraron 30,060 homicidios dolosos en 2024. 82 personas cada día. La violencia no desaparece — se mueve.',
   },
   {
     id: 'feminicidio',
@@ -1554,7 +1554,7 @@ const INDICATORS = [
       { year:'2020', name:'Ingrid Escamilla', desc:'El feminicidio de Ingrid Escamilla en febrero de 2020 — y la filtración de sus fotos por parte de medios y policías — desencadenó protestas masivas y exhibió la violencia institucional hacia las víctimas.', tag:'CDMX · Violencia mediática' },
       { year:'2022', name:'Caso Debanhi Escobar', desc:'La desaparición y muerte de Debanhi Escobar en Nuevo León — cuyo cuerpo fue encontrado en una cisterna de hotel tras una búsqueda de 13 días — generó un debate nacional sobre la búsqueda de mujeres desaparecidas.', tag:'Nuevo León · Desaparición' },
     ],
-    shareText: '855 feminicidios registrados en 2024. 360 condenas dictadas. Ninguna del mismo año. mariovenegasw.github.io/alto-impacto',
+    shareText: '855 feminicidios registrados en 2024. 360 condenas dictadas. Ninguna del mismo año.',
   },
   {
     id: 'desaparicion',
@@ -1590,7 +1590,7 @@ const INDICATORS = [
       { year:'2010', name:'Fosas de San Fernando, Tamaulipas', desc:'72 migrantes ejecutados por Los Zetas. Un sobreviviente guió a las autoridades al sitio. Al año siguiente se encontraron fosas adicionales con 193 cuerpos más. La mayoría nunca fueron identificados. Sus familias siguen esperando.', tag:'Tamaulipas · Migrantes · Zetas' },
       { year:'2022', name:'Las Madres Buscadoras', desc:'Ante la inacción del Estado, madres de personas desaparecidas organizaron brigadas de búsqueda en Jalisco, Sonora y Sinaloa. Han encontrado cientos de fosas clandestinas que las autoridades no habían rastreado. No son héroas — son la evidencia de un Estado ausente.', tag:'Nacional · Jalisco · Sonora' },
     ],
-    shareText: '131,999 personas desaparecidas en México. En 2024: 13,627 nuevos casos — un récord. El Estado lleva la cuenta. No las encuentra. mariovenegasw.github.io/alto-impacto',
+    shareText: '131,999 personas desaparecidas en México. En 2024: 13,627 nuevos casos — un récord. El Estado lleva la cuenta. No las encuentra.',
   },
   {
     id: 'periodistas',
@@ -1632,7 +1632,7 @@ const INDICATORS = [
       { year:'2017', name:'Miroslava Breach — El Norte', desc:'Corresponsal asesinada en Chihuahua. Primer caso en México donde se vinculó directamente a un político local con el asesinato de una periodista. Cubría narcopolítica y crimen organizado en la sierra chihuahuense.', tag:'Chihuahua · Estado-Crimen' },
       { year:'2022', name:'2022 — el año más letal', desc:'12 periodistas asesinados en un solo año — el máximo histórico. Varios cubrían corrupción y política local en Veracruz, Guerrero y Oaxaca. El Estado mexicano fue señalado como principal agresor en casi la mitad de los casos.', tag:'Nacional · Récord histórico' },
     ],
-    shareText: 'En México, el principal agresor de la prensa no es el crimen organizado. Es el Estado. 639 agresiones en 2024. mariovenegasw.github.io/alto-impacto',
+    shareText: 'En México, el principal agresor de la prensa no es el crimen organizado. Es el Estado. 639 agresiones en 2024.',
   },
   {
     id: 'extorsion',
@@ -1688,7 +1688,7 @@ const INDICATORS = [
       { year:'2023', name:'Extorsión telefónica', desc:'Llamadas y mensajes que amenazan con violencia a cambio de dinero. Las organizaciones criminales operan desde penales con listas de números robadas. Es la forma de extorsión más común y la que más raramente llega a denuncia.', tag:'Nacional · Telefónica' },
       { year:'2023', name:'Extorsión a migrantes', desc:'Migrantes en tránsito son sistemáticamente extorsionados por grupos criminales y, en muchos casos, por agentes del Estado. La cifra real es incalculable — la mayoría son personas sin documentos que no pueden denunciar aunque quisieran.', tag:'Frontera · Migrantes' },
     ],
-    shareText: 'Se estiman ~4.9 millones de extorsiones en México en 2023. El 96.7% no se denunció. No es apatía — es una conclusión racional. mariovenegasw.github.io/alto-impacto',
+    shareText: 'Se estiman ~4.9 millones de extorsiones en México en 2023. El 96.7% no se denunció. No es apatía — es una conclusión racional.',
   }
 ];
 
@@ -4077,7 +4077,7 @@ function renderCard(indicatorId, format) {
 
   // ── LÍNEA INFERIOR ──
   ctx.fillStyle = '#c0392b';
-  ctx.fillRect(72, H - 74, W - 144, 2);
+  ctx.fillRect(72, H - 70, W - 144, 2);
 
   // ── BRAND ──
   ctx.font = '500 32px "IBM Plex Mono", monospace';
@@ -4177,13 +4177,14 @@ function renderCard(indicatorId, format) {
     if (i === bodyWords.length - 1) ctx.fillText(bodyLine, 72, bodyY);
   });
 
-  // ── FOOTER: URL ──
-  const footerY = H - 100;
-  ctx.font = '400 26px "IBM Plex Mono", monospace';
+  // ── LÍNEA INFERIOR ──
+  // (already drawn above)
+
+  // ── FOOTER: URL — below the red line ──
+  const footerY = H - 40;
+  ctx.font = '400 24px "IBM Plex Mono", monospace';
   ctx.fillStyle = '#c0392b';
   ctx.fillText('mariovenegasw.github.io/alto-impacto', 72, footerY);
-
-  // ── LÍNEA INFERIOR (ya dibujada arriba) ──
 }
 
 function downloadCard() {
