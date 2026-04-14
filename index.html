@@ -4158,23 +4158,24 @@ function renderCard(indicatorId, format) {
 
   // ── SHARETEXT (cuerpo) ──
   const shareT = ind.shareText || '';
-  const bodySize = format === 'feed' ? 34 : 38;
+  const bodySize = format === 'feed' ? 28 : 32;
   ctx.font = `300 ${bodySize}px "Spectral", serif`;
   ctx.fillStyle = '#888';
 
   const bodyWords = shareT.split(' ');
-  let bodyLine = '', bodyY = sepY + bodySize * 1.8;
+  let bodyLine = '', bodyY = sepY + bodySize * 2;
   const bodyMaxW = W - 144;
+  const bodyMaxY = H - (format === 'feed' ? 160 : 180); // stop before footer
   bodyWords.forEach((word, i) => {
     const test = bodyLine + (bodyLine ? ' ' : '') + word;
     if (ctx.measureText(test).width > bodyMaxW && bodyLine) {
-      ctx.fillText(bodyLine, 72, bodyY);
+      if (bodyY < bodyMaxY) ctx.fillText(bodyLine, 72, bodyY);
       bodyLine = word;
-      bodyY += bodySize * 1.5;
+      bodyY += bodySize * 1.6;
     } else {
       bodyLine = test;
     }
-    if (i === bodyWords.length - 1) ctx.fillText(bodyLine, 72, bodyY);
+    if (i === bodyWords.length - 1 && bodyY < bodyMaxY) ctx.fillText(bodyLine, 72, bodyY);
   });
 
   // ── LÍNEA INFERIOR ──
