@@ -4104,7 +4104,7 @@ function renderCard(indicatorId, format) {
 
   // ── HEADLINE ──
   // Extraer texto sin HTML
-  const rawHeadline = (ind.heroHeadline || '').replace(/<[^>]+>/g, '');
+  const rawHeadline = (ind.heroHeadline || '').replace(/<br\s*\/?>/gi, ' ').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
   const headlineSize = format === 'feed' ? 88 : 96;
   const headlineY   = format === 'feed' ? 320 : 420;
   const lineH = headlineSize * 1.15;
@@ -4165,7 +4165,7 @@ function renderCard(indicatorId, format) {
   const bodyWords = shareT.split(' ');
   let bodyLine = '', bodyY = sepY + bodySize * 2;
   const bodyMaxW = W - 144;
-  const bodyMaxY = H - (format === 'feed' ? 160 : 180); // stop before footer
+  const bodyMaxY = H - (format === 'feed' ? 120 : 140); // stop before footer
   bodyWords.forEach((word, i) => {
     const test = bodyLine + (bodyLine ? ' ' : '') + word;
     if (ctx.measureText(test).width > bodyMaxW && bodyLine) {
