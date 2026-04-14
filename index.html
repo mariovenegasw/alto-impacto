@@ -1423,6 +1423,7 @@
   </p>
 
   <p class="hero-cta">¿Sobre qué crimen quieres informarte? ↓</p>
+  <p class="hero-cta" style="font-size:11px;color:#777;letter-spacing:0.12em;margin-top:-20px;">Selecciona un delito para explorar los datos — y descubrir qué puedes hacer como ciudadanx.</p>
 
   <!-- COUNTER STRIP — indicator selector lives inside the hero -->
   <div class="counter-strip" id="counterStrip"></div>
@@ -2515,7 +2516,7 @@ function renderFeminicidioMap(ind) {
         </div>
       </div>
       <p style="font-family:var(--mono);font-size:9px;letter-spacing:0.08em;color:#666;line-height:1.6;margin-bottom:16px;">208 en juicio oral · 152 vía procedimiento abreviado</p>
-      <p style="font-family:'Spectral',serif;font-size:14px;font-style:italic;font-weight:300;color:#888;line-height:1.7;max-width:580px;padding-left:14px;border-left:2px solid var(--red);">Ninguna de esas 360 condenas corresponde a un caso cometido en 2024. Los procesos judiciales tardan años — lo que significa que los registros de víctimas y las condenas nunca corresponden al mismo período.</p>
+      <p style="font-family:'Spectral',serif;font-size:14px;font-style:italic;font-weight:300;color:#888;line-height:1.7;max-width:580px;padding-left:14px;border-left:2px solid var(--red);">Ninguna de esas 360 condenas corresponde a un caso cometido en 2024. Los procesos judiciales tardan años en resolverse — lo que significa que los registros de víctimas y las condenas nunca corresponden al mismo período. Esto no es un error estadístico: es la forma en que funciona el sistema.</p>
     </div>
 
     <div style="padding:20px 24px;background:var(--dark-3);border:1px solid var(--border-dark);border-left:3px solid var(--red);margin-bottom:0;">
@@ -3003,7 +3004,8 @@ function renderMap(ind) {
     return `
       <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;color:var(--red);text-transform:uppercase;margin-bottom:6px;">Tasa por 100,000 hab. · 2015–2024</div>
       <h3 style="font-family:'DM Serif Display',serif;font-size:22px;font-weight:400;color:#f0e8d8;margin-bottom:16px;">Homicidio: La violencia no desaparece — se mueve.</h3>
-      <p style="font-family:'Spectral',serif;font-size:16px;font-style:italic;font-weight:300;color:#888;line-height:1.7;margin-bottom:28px;max-width:600px;padding-left:16px;border-left:2px solid var(--red);">La violencia no es uniforme. Se mueve. Y el Estado la ha dejado moverse.</p>
+      <p style="font-family:'Spectral',serif;font-size:16px;font-style:italic;font-weight:300;color:#888;line-height:1.7;margin-bottom:16px;max-width:600px;padding-left:16px;border-left:2px solid var(--red);">La violencia no es uniforme. Se mueve. Y el Estado la ha dejado moverse.</p>
+      <p style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.15em;color:#666;text-transform:uppercase;margin-bottom:28px;">↑ Cuanto más arriba, más violento · Cada línea es un estado · Pasa el cursor para explorar</p>
       <div class="bump-layout-simple">
         <div class="bump-main">
           <div id="bumpTooltipInline" class="bump-tip"><span style="color:#444;">Pasa el cursor sobre una línea &middot; Click para fijar</span></div>
