@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Alto Impacto — Prototype</title>
+<title>Alto Impacto — Violencia e Impunidad en México</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Spectral:ital,wght@0,300;0,400;0,700;1,300;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <style>
@@ -17,8 +17,8 @@
     --red-dim: rgba(192,57,43,0.12);
     --border-dark:  rgba(255,255,255,0.07);
     --border-light: #ddd5c4;
-    --muted-dark:   #777;
-    --muted-light:  #8a7f6e;
+    --muted-dark:   #888;
+    --muted-light:  #5c5242;
     --serif: 'DM Serif Display', serif;
     --mono:  'IBM Plex Mono', monospace;
     --sans:  'Spectral', serif;
@@ -234,17 +234,18 @@
   .counter-btn {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 24px 16px;
+    align-items: flex-start;
+    justify-content: flex-end;
+    padding: 28px 20px 24px;
     cursor: pointer;
     border: none;
     background: none;
     border-right: 1px solid var(--border-dark);
     border-bottom: 3px solid transparent;
     transition: all 0.35s ease;
-    gap: 6px;
+    gap: 8px;
     position: relative;
+    min-height: 110px;
   }
 
   .counter-btn:last-child { border-right: none; }
@@ -259,44 +260,37 @@
   }
 
   .counter-btn .c-num {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(22px, 3vw, 34px);
-    font-weight: 400;
-    color: #888;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--red);
     line-height: 1;
-    transition: color 0.35s ease;
+    letter-spacing: 0.05em;
+    opacity: 0.55;
+    transition: opacity 0.35s ease;
   }
 
   .counter-btn.active .c-num,
   .counter-btn:hover .c-num {
-    color: var(--red);
+    opacity: 1;
   }
 
   .counter-btn .c-label {
-    font-family: var(--mono);
-    font-size: 8px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #888;
-    line-height: 1.3;
-    text-align: center;
+    font-family: var(--serif);
+    font-size: clamp(13px, 1.5vw, 19px);
+    font-weight: 400;
+    color: #555;
+    line-height: 1.2;
+    text-align: left;
     transition: color 0.35s ease;
+    text-transform: none;
+    letter-spacing: 0;
   }
 
-  .counter-btn.active .c-label { color: #999; }
-  .counter-btn:hover .c-label  { color: #888; }
+  .counter-btn.active .c-label { color: #e8e0d0; }
+  .counter-btn:hover .c-label  { color: #aaa; }
 
-  .counter-btn .c-hint {
-    font-family: var(--mono);
-    font-size: 7.5px;
-    letter-spacing: 0.08em;
-    color: #777;
-    text-transform: uppercase;
-    transition: color 0.35s ease;
-  }
-
-  .counter-btn.active .c-hint { color: #999; }
-  .counter-btn:hover .c-hint  { color: #888; }
+  .counter-btn .c-hint { display: none; }
 
   .hero-scroll {
     font-family: var(--mono);
@@ -623,22 +617,7 @@
   }
 
   /* ── FOOTER ── */
-  .site-footer {
-    background: var(--dark-2);
-    border-top: 1px solid var(--border-dark);
-    padding: 20px 48px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .site-footer span {
-    font-family: var(--mono);
-    font-size: 9px;
-    letter-spacing: 0.1em;
-    color: #333;
-    text-transform: uppercase;
-  }
+  .site-footer { display: none; }
 
   /* ── PROTOTYPE BADGE ── */
   .proto-badge {
@@ -1383,6 +1362,109 @@
     .qph-sharing { flex-direction: column; align-items: flex-start; }
     .qph-ig-note { text-align: left; }
   }
+
+  /* ── NEW FOOTER ── */
+  .site-footer-new {
+    background: var(--dark);
+    border-top: 1px solid var(--border-dark);
+    padding: 52px 48px 40px;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 48px;
+  }
+  .footer-col-title {
+    font-family: var(--serif);
+    font-size: 16px;
+    color: #e8e0d0;
+    margin-bottom: 10px;
+    font-weight: 400;
+  }
+  .footer-col-sub {
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 300;
+    color: #555;
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .footer-link {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 300;
+    color: #555;
+    text-decoration: none;
+    transition: color 0.2s;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    text-align: left;
+  }
+  .footer-link:hover { color: var(--red); }
+  .footer-meta {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-dark);
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-meta span {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: #333;
+    text-transform: uppercase;
+  }
+  .footer-meta a { color: #444; text-decoration: none; }
+  .footer-meta a:hover { color: var(--red); }
+
+  /* ── QUÉ ES ESTO ── */
+  .que-es-esto {
+    background: var(--dark-2);
+    border-top: 1px solid var(--border-dark);
+    padding: 64px 48px;
+  }
+  .que-es-esto-inner { max-width: 640px; }
+  .que-es-esto-eyebrow {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .que-es-esto p {
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 300;
+    color: #888;
+    line-height: 1.9;
+    margin-bottom: 16px;
+  }
+  .que-es-esto p strong { font-weight: 400; color: #bbb; }
+  .que-es-esto p:last-of-type { margin-bottom: 24px; }
+  .que-es-esto-contact {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    color: #444;
+    text-transform: uppercase;
+  }
+  .que-es-esto-contact a { color: var(--red); text-decoration: none; }
+  .que-es-esto-contact a:hover { text-decoration: underline; }
+
+  @media (max-width: 768px) {
+    .site-footer-new { grid-template-columns: 1fr; padding: 40px 20px 32px; gap: 32px; }
+    .footer-meta { grid-column: 1; flex-direction: column; gap: 8px; align-items: flex-start; }
+    .que-es-esto { padding: 48px 20px; }
+  }
 </style>
 </head>
 <body>
@@ -1393,7 +1475,7 @@
 <nav class="indicator-nav" id="indicatorNav">
   <div class="nav-brand">Alto Impacto</div>
   <div style="display:flex;align-items:center;gap:24px;margin-left:24px;">
-    <span id="navActiveLabel" style="font-family:var(--mono);font-size:10px;letter-spacing:0.15em;color:#888;text-transform:uppercase;">— Selecciona un indicador</span>
+    <span id="navActiveLabel" style="font-family:var(--mono);font-size:10px;letter-spacing:0.15em;color:#888;text-transform:uppercase;"></span>
     <button id="navBackBtn" onclick="clearIndicator()" style="display:none;padding:6px 14px;border:1px solid #2a2a2a;background:none;color:#555;font-family:var(--mono);font-size:9px;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;">← Vista general</button>
   </div>
 </nav>
@@ -1414,16 +1496,14 @@
   </h1>
 
   <p class="hero-body">
-    En México, la impunidad no es la excepción — es el sistema.
-    Más de 33 millones de delitos en 2024. Solo el 6.8% derivó en una investigación.
+    No es noticia. La violencia y la impunidad llevan años siendo parte del sistema — y precisamente por eso han dejado de impactarnos.<br><br>
+    En 2024, más de 33 millones de delitos. Solo el 6.8% llegó a una investigación. Son cifras inaceptables que hemos normalizado como país — pero que podemos cambiar.
   </p>
 
   <p class="hero-disclaimer">
-    La información oficial no siempre coincide con la realidad. Estas cifras intentan mostrar lo que los registros capturan — y lo que dejan fuera.
+    La información oficial no siempre coincide con la realidad. Aquí interpretamos lo que los registros capturan — y lo que eligen no capturar — para argumentar por qué no podemos seguir siendo espectadores.
   </p>
 
-  <p class="hero-cta">¿Sobre qué crimen quieres informarte? ↓</p>
-  <p class="hero-cta" style="font-size:11px;color:#777;letter-spacing:0.12em;margin-top:-20px;">Selecciona un delito para explorar los datos — y descubrir qué puedes hacer como ciudadanx.</p>
 
   <!-- COUNTER STRIP — indicator selector lives inside the hero -->
   <div class="counter-strip" id="counterStrip"></div>
@@ -1472,10 +1552,57 @@
 </section>
 
 
-<footer class="site-footer">
-  <span>Alto Impacto · mariovenegasw.github.io/alto-impacto</span>
-  <span>Datos: SESNSP · RNPDNO · Artículo 19 · ENVIPE (INEGI) · Actualizado: marzo 2026</span>
+
+<footer class="site-footer-new">
+  <div>
+    <div class="footer-col-title">Alto Impacto</div>
+    <p class="footer-col-sub">Un proyecto de periodismo de datos sobre violencia e impunidad en México. Construido por una persona, sin presupuesto, porque estas cifras merecen más que un titular.</p>
+    <a class="footer-link" href="#" onclick="document.querySelector('.que-es-esto').scrollIntoView({behavior:'smooth'});return false;">¿Qué es esto? →</a>
+  </div>
+  <div>
+    <div class="footer-col-title">Delitos</div>
+    <div class="footer-links">
+      <button class="footer-link" onclick="setIndicator('homicidio');window.scrollTo({top:0,behavior:'smooth'})">Homicidio doloso</button>
+      <button class="footer-link" onclick="setIndicator('feminicidio');window.scrollTo({top:0,behavior:'smooth'})">Feminicidio</button>
+      <button class="footer-link" onclick="setIndicator('desaparicion');window.scrollTo({top:0,behavior:'smooth'})">Desaparición forzada</button>
+      <button class="footer-link" onclick="setIndicator('periodistas');window.scrollTo({top:0,behavior:'smooth'})">Violencia contra periodistas</button>
+      <button class="footer-link" onclick="setIndicator('extorsion');window.scrollTo({top:0,behavior:'smooth'})">Extorsión</button>
+    </div>
+  </div>
+  <div>
+    <div class="footer-col-title">Contacto</div>
+    <div class="footer-links">
+      <a class="footer-link" href="mailto:mariohvenegasw@gmail.com">mariohvenegasw@gmail.com</a>
+      <a class="footer-link" href="https://linkedin.com/in/mariovenegasw" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+  <div class="footer-meta">
+    <span>Datos: SESNSP · RNPDNO · Artículo 19 · ENVIPE · CONAPO · Actualizado marzo 2026</span>
+    <span><a href="https://altoimpactomx.com">altoimpactomx.com</a></span>
+  </div>
 </footer>
+
+<section class="que-es-esto">
+  <div class="que-es-esto-inner">
+    <div class="que-es-esto-eyebrow">¿Qué es esto?</div>
+    <p>
+      Alto Impacto es un proyecto de periodismo de datos hecho por una persona, sin presupuesto.
+      Para su construcción se utilizaron datos de registros oficiales —
+      <strong>SESNSP, RNPDNO, ENVIPE, Artículo 19</strong>.
+      Estos datos se utilizaron considerando que los registros del Estado no siempre coinciden con la realidad:
+      hay delitos que no se denuncian, casos que no se investigan, víctimas que no se cuentan.
+      Eso también es información.
+    </p>
+    <p>
+      Este sitio no es neutral. Es un argumento: la violencia en México no es inevitable —
+      es el resultado de decisiones que podemos cambiar.
+    </p>
+    <div class="que-es-esto-contact">
+      ¿Errores, comentarios o quieres contribuir? →
+      <a href="mailto:mariohvenegasw@gmail.com">mariohvenegasw@gmail.com</a>
+    </div>
+  </div>
+</section>
 
 
 <div id="mapTooltip" class="map-tooltip"></div>
@@ -1952,7 +2079,7 @@ function clearIndicator() {
   document.getElementById('transitionZone').style.display = 'none';
 
   // Update nav
-  document.getElementById('navActiveLabel').textContent = '— Selecciona un indicador';
+  document.getElementById('navActiveLabel').textContent = '';
   document.getElementById('navBackBtn').style.display = 'none';
 
   // Scroll to hero
