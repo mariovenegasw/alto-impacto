@@ -275,18 +275,18 @@
 
   .counter-btn .c-label {
     font-family: var(--sans);
-    font-size: clamp(13px, 1.4vw, 16px);
-    font-weight: 300;
+    font-size: clamp(14px, 1.5vw, 18px);
+    font-weight: 400;
     letter-spacing: 0;
     text-transform: none;
-    color: #666;
+    color: #aaa;
     line-height: 1.25;
     text-align: left;
     transition: color 0.35s ease;
   }
 
-  .counter-btn.active .c-label { color: #e8e0d0; }
-  .counter-btn:hover .c-label  { color: #bbb; }
+  .counter-btn.active .c-label { color: #f0e8d8; }
+  .counter-btn:hover .c-label  { color: #ddd; }
 
   .counter-btn .c-hint { display: none; }
 
@@ -1381,7 +1381,7 @@
     font-family: var(--sans);
     font-size: 12px;
     font-weight: 300;
-    color: #555;
+    color: #777;
     line-height: 1.7;
     margin-bottom: 16px;
   }
@@ -1390,7 +1390,7 @@
     font-family: var(--sans);
     font-size: 13px;
     font-weight: 300;
-    color: #555;
+    color: #777;
     text-decoration: none;
     transition: color 0.2s;
     cursor: pointer;
@@ -1413,10 +1413,10 @@
     font-family: var(--mono);
     font-size: 9px;
     letter-spacing: 0.1em;
-    color: #333;
+    color: #555;
     text-transform: uppercase;
   }
-  .footer-meta a { color: #444; text-decoration: none; }
+  .footer-meta a { color: #666; text-decoration: none; }
   .footer-meta a:hover { color: var(--red); }
 
   /* ── QUÉ ES ESTO ── */
@@ -1550,7 +1550,7 @@
   <div>
     <div class="footer-col-title">Alto Impacto</div>
     <p class="footer-col-sub">Un proyecto de periodismo de datos sobre violencia e impunidad en México. Construido por una persona, sin presupuesto, porque estas cifras merecen más que un titular.</p>
-    <a class="footer-link" href="#" onclick="document.querySelector('.que-es-esto').scrollIntoView({behavior:'smooth'});return false;">¿Qué es esto? →</a>
+    <a class="footer-link" href="#" onclick="var s=document.getElementById('queEsEsto');s.style.display=s.style.display==='none'?'block':'none';if(s.style.display==='block'){setTimeout(()=>s.scrollIntoView({behavior:'smooth'}),50);}return false;">¿Qué es esto? →</a>
   </div>
   <div>
     <div class="footer-col-title">Delitos</div>
@@ -1575,7 +1575,7 @@
   </div>
 </footer>
 
-<section class="que-es-esto">
+<section class="que-es-esto" id="queEsEsto" style="display:none;">
   <div class="que-es-esto-inner">
     <div class="que-es-esto-eyebrow">¿Qué es esto?</div>
     <p>
@@ -3620,9 +3620,9 @@ const QPH_CONTENT = {
       {
         title: 'Exige una respuesta',
         subtitle: 'Escríbele a tu diputado federal',
-        html: `<p class="qph-block-body">Los diputados federales aprueban el presupuesto de seguridad y justicia. Tienen obligación de responder a sus representados. Selecciona tu estado — el mensaje ya está escrito.</p>
+        html: `<p class="qph-block-body">Los diputados federales aprueban el presupuesto de seguridad y justicia. Su obligación es que este presupuesto responda a las necesidades de las personas que representan. Selecciona tu estado — el mensaje ya está escrito.</p>
         <div class="qph-msg-wrap">${qphSelectHTML("homicidio")}</div>
-        <p class="qph-msg-footnote">También puedes apoyar la documentación ciudadana: <a href="https://causaencomun.org.mx/" target="_blank" rel="noopener">Causa en Común</a></p>`
+        <p class="qph-msg-footnote">También puedes apoyar la documentación ciudadana: <a href="https://causaencomun.org/" target="_blank" rel="noopener">Causa en Común</a></p>`
       }
     ],
     sources: 'Fuentes: SESNSP · Causa en Común · Cámara de Diputados · CONAPO'
@@ -3638,7 +3638,7 @@ const QPH_CONTENT = {
           <div class="qph-case">
             <span class="qph-case-year">2020</span>
             <div><strong>Ingrid Escamilla</strong>
-            <p>Asesinada en febrero de 2020. La policía y los medios filtraron fotos de su cuerpo. Las protestas que siguieron no fueron solo por su muerte — fueron por la violencia institucional que el Estado ejerció sobre ella dos veces.</p></div>
+            <p>Asesinada en febrero de 2020. La policía y los medios filtraron fotos de su cuerpo. Este caso nos recuerda la falta de sensibilidad del Estado frente al feminicidio — uno de los crímenes más violentos. Para que la situación mejore, urge que quienes nos protegen reconozcan la profundidad del problema.</p></div>
           </div>
           <div class="qph-case">
             <span class="qph-case-year">2020</span>
@@ -3648,7 +3648,7 @@ const QPH_CONTENT = {
           <div class="qph-case">
             <span class="qph-case-year">2022</span>
             <div><strong>Debanhi Escobar</strong>
-            <p>Desaparecida en Nuevo León, encontrada 13 días después en una cisterna de hotel. Su caso abrió un debate nacional sobre la búsqueda de mujeres desaparecidas y los límites de la investigación institucional.</p></div>
+            <p>Desaparecida en Nuevo León, encontrada 13 días después en una cisterna de hotel. Su caso dejó una pregunta incómoda: si la presión mediática logró lo que no lograba la institución, ¿qué dice eso de la voluntad de investigar?</p></div>
           </div>
         </div>`
       },
